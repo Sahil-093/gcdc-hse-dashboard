@@ -138,6 +138,52 @@ def generate():
     )
     act_sb_chart_html = to_chart_html(fig_act_sb, "chart_act_sb")
 
+    # --- DEDICATED MAIN PAGE CHARTS (Unique IDs & High Resolution) ---
+    fig_obs_page = go.Figure(go.Bar(
+        x=['Open', 'Closed', 'Overdue'], y=[8, 1242, 8],
+        text=['8', '1,242', '8'], textposition='outside',
+        textfont=dict(size=14, color='#0d2640', weight='bold'),
+        marker=dict(color=['#0284c7', '#16a34a', '#dc2626'], line=dict(color='#0f172a', width=1.5)),
+        width=0.4
+    ))
+    fig_obs_page.update_layout(
+        title=dict(text='<b>Site Observations Visual Distribution & Status Analysis</b>', font=dict(size=17, color='#0d2640'), x=0.5, xanchor='center'),
+        yaxis=dict(range=[0, 1450], tickvals=[0, 300, 600, 900, 1200, 1400], gridcolor='#e2e8f0', title='Observation Count'),
+        xaxis=dict(tickfont=dict(size=13, color='#0d2640', weight='bold')),
+        height=340, margin=dict(l=45, r=25, t=45, b=35), paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)'
+    )
+    obs_page_chart_html = to_chart_html(fig_obs_page, "chart_obs_page")
+
+    fig_ncr_page = go.Figure(go.Bar(
+        x=['Active Open', 'Closed', 'Overdue'], y=[2, 52, 2],
+        text=['2', '52', '2'], textposition='outside',
+        textfont=dict(size=14, color='#0d2640', weight='bold'),
+        marker=dict(color=['#0284c7', '#16a34a', '#dc2626'], line=dict(color='#0f172a', width=1.5)),
+        width=0.4
+    ))
+    fig_ncr_page.update_layout(
+        title=dict(text='<b>NCRs Visual Resolution Trajectory</b>', font=dict(size=17, color='#0d2640'), x=0.5, xanchor='center'),
+        yaxis=dict(title=dict(text='Number of NCRs', font=dict(size=12, color='#0d2640')), range=[0, 65], tickvals=[0, 15, 30, 45, 60], gridcolor='#e2e8f0'),
+        xaxis=dict(tickfont=dict(size=13, color='#0d2640', weight='bold')),
+        height=340, margin=dict(l=45, r=25, t=45, b=35), paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)'
+    )
+    ncr_page_chart_html = to_chart_html(fig_ncr_page, "chart_ncr_page")
+
+    fig_act_page = go.Figure(go.Bar(
+        x=['Toolbox Talks (TBT)', 'Formal Inspections', 'Safety Campaigns'], y=[114, 6, 1],
+        text=['114', '6', '1'], textposition='outside',
+        textfont=dict(size=14, color='#0d2640', weight='bold'),
+        marker=dict(color=['#0284c7', '#16a34a', '#ea580c'], line=dict(color='#0f172a', width=1.5)),
+        width=0.45
+    ))
+    fig_act_page.update_layout(
+        title=dict(text='<b>HSE Activities Volume & Field Engagements</b>', font=dict(size=17, color='#0d2640'), x=0.5, xanchor='center'),
+        yaxis=dict(range=[0, 130], tickvals=[0, 30, 60, 90, 120], gridcolor='#e2e8f0', title='Completed Count'),
+        xaxis=dict(tickfont=dict(size=13, color='#0d2640', weight='bold')),
+        height=340, margin=dict(l=45, r=25, t=45, b=35), paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)'
+    )
+    act_page_chart_html = to_chart_html(fig_act_page, "chart_act_page")
+
     # --- HOME PAGE CHARTS ---
     fig_home_ltifr = go.Figure(go.Indicator(
         mode="gauge+number", value=0.00,
@@ -1627,7 +1673,7 @@ def generate():
 
             <div class="section-card">
                 <div class="section-title">📊 Observations Visual Distribution & Status Analysis</div>
-                {obs_sb_chart_html}
+                {obs_page_chart_html}
             </div>
         </section>
 
@@ -1665,7 +1711,7 @@ def generate():
 
             <div class="section-card">
                 <div class="section-title">📊 NCRs Visual Resolution Trajectory</div>
-                {ncr_sb_chart_html}
+                {ncr_page_chart_html}
             </div>
         </section>
 
@@ -1703,7 +1749,7 @@ def generate():
 
             <div class="section-card">
                 <div class="section-title">📊 Activities Volume Distribution</div>
-                {act_sb_chart_html}
+                {act_page_chart_html}
             </div>
         </section>
 
@@ -2012,12 +2058,20 @@ def generate():
 
             window.scrollTo({{ top: 0, behavior: 'smooth' }});
 
-            // Trigger Plotly redraw on visible charts
+            // Trigger Plotly redraw and relayout on all visible charts
             setTimeout(function() {{
+                var target = document.getElementById('page-' + pageKey);
+                if (target) {{
+                    var plots = target.querySelectorAll('.js-plotly-plot');
+                    plots.forEach(function(plot) {{
+                        Plotly.relayout(plot, {{ autosize: true }});
+                        Plotly.Plots.resize(plot);
+                    }});
+                }}
                 document.querySelectorAll('.js-plotly-plot').forEach(function(el) {{
                     Plotly.Plots.resize(el);
                 }});
-            }}, 60);
+            }}, 50);
         }}
 
         function toggleSidebar() {{
