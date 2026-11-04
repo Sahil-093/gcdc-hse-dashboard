@@ -529,15 +529,19 @@ def generate():
     fig_train = go.Figure()
     fig_train.add_trace(go.Bar(
         x=t_m, y=t_v, text=[str(v) if v > 0 else "" for v in t_v], textposition='outside',
-        textfont=dict(size=12, color="#0d233a", weight="bold"),
-        marker=dict(color="#005a87", line=dict(color="#003853", width=1.5)), width=0.4, name="Conducted"
+        textfont=dict(size=14, color="#0d233a", weight="bold"),
+        marker=dict(color="#005a87", line=dict(color="#003853", width=1.5)), width=0.38, name="Conducted Sessions"
     ))
-    fig_train.add_trace(go.Scatter(x=t_m, y=t_tgt, mode='lines', name="Target", line=dict(color="#ef4444", width=2, dash="dash")))
+    fig_train.add_trace(go.Scatter(
+        x=t_m, y=t_tgt, mode='lines', name="Monthly Target",
+        line=dict(color="#ef4444", width=2, dash="dash")
+    ))
     fig_train.update_layout(
-        title=dict(text="<b>Training Sessions</b>", font=dict(size=18, color="#0d233a"), x=0.5, xanchor="center"),
-        height=280, yaxis=dict(range=[0, 2.5], tickvals=[0, 1, 2], gridcolor="#f1f5f9"),
-        xaxis=dict(tickfont=dict(size=11, color="#0f172a")), margin=dict(l=35, r=25, t=45, b=45),
-        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1, font=dict(size=10)), paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)'
+        title=dict(text="<b>Training</b>", font=dict(size=22, color="#0d233a"), x=0.5, xanchor="center"),
+        height=400, yaxis=dict(range=[0, 2.5], tickvals=[0, 0.5, 1, 1.5, 2], gridcolor="#e2e8f0"),
+        xaxis=dict(tickfont=dict(size=12, color="#0f172a")), margin=dict(l=40, r=40, t=60, b=40),
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1, font=dict(size=11)),
+        paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)'
     )
     train_chart_html = to_chart_html(fig_train, "chart_train_sessions")
 
@@ -581,6 +585,9 @@ def generate():
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>GCDC HSE Performance Executive Dashboard • Abdul Latif</title>
     <link rel="icon" type="image/png" href="https://img.icons8.com/fluency/96/shield.png">
     
