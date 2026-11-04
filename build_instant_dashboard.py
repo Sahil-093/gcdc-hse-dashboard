@@ -141,46 +141,46 @@ def generate():
     # --- DEDICATED MAIN PAGE CHARTS (Unique IDs & High Resolution) ---
     fig_obs_page = go.Figure(go.Bar(
         x=['Open', 'Closed', 'Overdue'], y=[8, 1242, 8],
-        text=['8', '1,242', '8'], textposition='outside',
-        textfont=dict(size=14, color='#0d2640', weight='bold'),
-        marker=dict(color=['#0284c7', '#16a34a', '#dc2626'], line=dict(color='#0f172a', width=1.5)),
-        width=0.4
+        text=['8', '1242', '8'], textposition='outside',
+        textfont=dict(size=15, color='#0d2640', weight='bold'),
+        marker=dict(color='#0e5374', line=dict(color='#09384f', width=2)),
+        width=0.42
     ))
     fig_obs_page.update_layout(
-        title=dict(text='<b>Site Observations Visual Distribution & Status Analysis</b>', font=dict(size=17, color='#0d2640'), x=0.5, xanchor='center'),
-        yaxis=dict(range=[0, 1450], tickvals=[0, 300, 600, 900, 1200, 1400], gridcolor='#e2e8f0', title='Observation Count'),
-        xaxis=dict(tickfont=dict(size=13, color='#0d2640', weight='bold')),
-        height=340, margin=dict(l=45, r=25, t=45, b=35), paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)'
+        title=dict(text='<b>Site Observations</b>', font=dict(size=22, color='#0d2640', family='Segoe UI, Inter, sans-serif'), x=0.5, xanchor='center'),
+        yaxis=dict(range=[0, 1500], tickvals=[0, 200, 400, 600, 800, 1000, 1200, 1400], gridcolor='#e2e8f0', zerolinecolor='#cbd5e1'),
+        xaxis=dict(tickfont=dict(size=14, color='#0d2640', weight='bold')),
+        height=340, margin=dict(l=40, r=20, t=45, b=35), paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)'
     )
     obs_page_chart_html = to_chart_html(fig_obs_page, "chart_obs_page")
 
     fig_ncr_page = go.Figure(go.Bar(
-        x=['Active Open', 'Closed', 'Overdue'], y=[2, 52, 2],
+        x=['Open', 'Closed', 'Overdue'], y=[2, 52, 2],
         text=['2', '52', '2'], textposition='outside',
-        textfont=dict(size=14, color='#0d2640', weight='bold'),
-        marker=dict(color=['#0284c7', '#16a34a', '#dc2626'], line=dict(color='#0f172a', width=1.5)),
-        width=0.4
+        textfont=dict(size=15, color='#0d2640', weight='bold'),
+        marker=dict(color='#0e5374', line=dict(color='#09384f', width=2)),
+        width=0.42
     ))
     fig_ncr_page.update_layout(
-        title=dict(text='<b>NCRs Visual Resolution Trajectory</b>', font=dict(size=17, color='#0d2640'), x=0.5, xanchor='center'),
-        yaxis=dict(title=dict(text='Number of NCRs', font=dict(size=12, color='#0d2640')), range=[0, 65], tickvals=[0, 15, 30, 45, 60], gridcolor='#e2e8f0'),
-        xaxis=dict(tickfont=dict(size=13, color='#0d2640', weight='bold')),
-        height=340, margin=dict(l=45, r=25, t=45, b=35), paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)'
+        title=dict(text='<b>NCRs</b>', font=dict(size=22, color='#0d2640', family='Segoe UI, Inter, sans-serif'), x=0.5, xanchor='center'),
+        yaxis=dict(title=dict(text='Num. of NCRs', font=dict(size=12, color='#0d2640')), range=[0, 65], tickvals=[0, 15, 30, 45, 60], gridcolor='#e2e8f0'),
+        xaxis=dict(tickfont=dict(size=14, color='#0d2640', weight='bold')),
+        height=340, margin=dict(l=40, r=20, t=45, b=35), paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)'
     )
     ncr_page_chart_html = to_chart_html(fig_ncr_page, "chart_ncr_page")
 
     fig_act_page = go.Figure(go.Bar(
-        x=['Toolbox Talks (TBT)', 'Formal Inspections', 'Safety Campaigns'], y=[114, 6, 1],
+        x=['TBT', 'inspections', 'Campaigns'], y=[114, 6, 1],
         text=['114', '6', '1'], textposition='outside',
-        textfont=dict(size=14, color='#0d2640', weight='bold'),
-        marker=dict(color=['#0284c7', '#16a34a', '#ea580c'], line=dict(color='#0f172a', width=1.5)),
-        width=0.45
+        textfont=dict(size=15, color='#0d2640', weight='bold'),
+        marker=dict(color='#0e5374', line=dict(color='#09384f', width=2)),
+        width=0.42
     ))
     fig_act_page.update_layout(
-        title=dict(text='<b>HSE Activities Volume & Field Engagements</b>', font=dict(size=17, color='#0d2640'), x=0.5, xanchor='center'),
-        yaxis=dict(range=[0, 130], tickvals=[0, 30, 60, 90, 120], gridcolor='#e2e8f0', title='Completed Count'),
-        xaxis=dict(tickfont=dict(size=13, color='#0d2640', weight='bold')),
-        height=340, margin=dict(l=45, r=25, t=45, b=35), paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)'
+        title=dict(text='<b>HSE Activities</b>', font=dict(size=22, color='#0d2640', family='Segoe UI, Inter, sans-serif'), x=0.5, xanchor='center'),
+        yaxis=dict(range=[0, 130], tickvals=[0, 30, 60, 90, 120], gridcolor='#e2e8f0'),
+        xaxis=dict(tickfont=dict(size=14, color='#0d2640', weight='bold')),
+        height=340, margin=dict(l=40, r=20, t=45, b=35), paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)'
     )
     act_page_chart_html = to_chart_html(fig_act_page, "chart_act_page")
 
@@ -514,7 +514,7 @@ def generate():
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background: #0284c7;
+            background: #ff4b4b;
             color: white;
             border: none;
             border-radius: 50%;
@@ -578,16 +578,16 @@ def generate():
             margin-bottom: 4px;
         }}
         .nav-btn:hover {{
-            background: #f0f9ff;
-            border-color: #38bdf8;
-            color: #0284c7;
+            background: #fff5f5;
+            border-color: #fca5a5;
+            color: #ef4444;
         }}
         .nav-btn.active {{
-            background: #0284c7;
-            color: #ffffff;
-            border-color: #0284c7;
+            background: #ff4b4b !important;
+            color: #ffffff !important;
+            border-color: #ff4b4b !important;
             font-weight: 700;
-            box-shadow: 0 2px 6px rgba(2, 132, 199, 0.25);
+            box-shadow: 0 3px 10px rgba(255, 75, 75, 0.38) !important;
         }}
 
         .sub-info-badge {{
@@ -907,7 +907,7 @@ def generate():
             max-width: 200px;
         }}
         .mobile-btn {{
-            background: #0284c7;
+            background: #ff4b4b;
             color: white;
             border: none;
             padding: 6px 10px;
@@ -921,7 +921,7 @@ def generate():
             transition: background 0.15s;
         }}
         .mobile-btn:active {{
-            background: #0369a1;
+            background: #dc2626;
         }}
 
         /* SIDEBAR OVERLAY */
@@ -1026,7 +1026,7 @@ def generate():
             transition: border-color 0.15s;
         }}
         .search-input:focus {{
-            border-color: #0284c7;
+            border-color: #ff4b4b;
             box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.15);
         }}
         .filter-chip {{
@@ -1042,9 +1042,9 @@ def generate():
             user-select: none;
         }}
         .filter-chip:hover, .filter-chip.active {{
-            background: #0284c7;
+            background: #ff4b4b;
             color: white;
-            border-color: #0284c7;
+            border-color: #ff4b4b;
         }}
 
         /* HEADER ACTION BUTTONS */
@@ -1239,180 +1239,10 @@ def generate():
 
         <div class="sub-info-badge">
             <span>Current: <strong id="lbl-active-page">Home</strong></span>
-            <button onclick="location.reload()" style="background:#0284c7; color:white; border:none; padding:4px 8px; border-radius:4px; font-size:11px; font-weight:700; cursor:pointer;">🔄 Refresh</button>
+            <button onclick="location.reload()" style="background:#ffffff; color:#334155; border:1px solid #cbd5e1; padding:4px 8px; border-radius:4px; font-size:11px; font-weight:700; cursor:pointer;">🔄 Refresh</button>
         </div>
 
-        <hr style="border:none; border-top:1px solid #cbd5e1; margin:4px 0;">
-
-        <!-- 1. Site Observations Section -->
-        <div style="background-color: #002060; color: #ffffff; padding: 7px 10px; border-radius: 4px; font-weight: 800; font-size: 13px; text-align: center; letter-spacing: 0.5px; border: 1.5px solid #001030;">
-            🔍 SITE OBSERVATION (EXCEL)
-        </div>
-
-        <table style="width: 100%; border-collapse: collapse; border: 1.5px solid #000000; font-size: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
-            <thead>
-                <tr style="background-color: #002060; color: #ffffff; border-bottom: 1.5px solid #000000;">
-                    <th colspan="2" style="padding: 5px; text-align: center; font-size: 13px; font-weight: 800;">Site Observation</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr style="border-bottom: 1px solid #000000;">
-                    <td style="padding: 5px 8px; background-color: #8fa0b5; color: #002060; font-weight: 700; border-right: 1.5px solid #000000; width: 62%;">Open</td>
-                    <td style="padding: 5px 8px; background-color: #ffffff; color: #000000; font-weight: 700; text-align: center;">8</td>
-                </tr>
-                <tr style="border-bottom: 1px solid #000000;">
-                    <td style="padding: 5px 8px; background-color: #8fa0b5; color: #002060; font-weight: 700; border-right: 1.5px solid #000000;">Closed</td>
-                    <td style="padding: 5px 8px; background-color: #ffffff; color: #000000; font-weight: 700; text-align: center;">1242</td>
-                </tr>
-                <tr style="border-bottom: 1px solid #000000;">
-                    <td style="padding: 5px 8px; background-color: #8fa0b5; color: #002060; font-weight: 700; border-right: 1.5px solid #000000;">Overdue</td>
-                    <td style="padding: 5px 8px; background-color: #ffffff; color: #000000; font-weight: 700; text-align: center;">8</td>
-                </tr>
-                <tr>
-                    <td style="padding: 5px 8px; background-color: #8fa0b5; color: #002060; font-weight: 800; border-right: 1.5px solid #000000;">Total</td>
-                    <td style="padding: 5px 8px; background-color: #ffffff; color: #000000; font-weight: 800; text-align: center;">1250</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <table style="width: 100%; border-collapse: collapse; border: 1.5px solid #000000; font-size: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
-            <thead>
-                <tr style="background-color: #002060; color: #ffffff; border-bottom: 1.5px solid #000000;">
-                    <th colspan="2" style="padding: 5px; text-align: center; font-size: 13px; font-weight: 800;">Site Observation</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr style="border-bottom: 1px solid #000000;">
-                    <td style="padding: 5px 8px; background-color: #8fa0b5; color: #002060; font-weight: 700; border-right: 1.5px solid #000000; width: 62%;">Closure Rate</td>
-                    <td style="padding: 5px 8px; background-color: #ffffff; color: #000000; font-weight: 700; text-align: center;">99%</td>
-                </tr>
-                <tr style="border-bottom: 1px solid #000000;">
-                    <td style="padding: 5px 8px; background-color: #8fa0b5; color: #002060; font-weight: 700; border-right: 1.5px solid #000000;">OD Rate</td>
-                    <td style="padding: 5px 8px; background-color: #ffffff; color: #000000; font-weight: 700; text-align: center;">1.4%</td>
-                </tr>
-                <tr style="border-bottom: 1px solid #000000;">
-                    <td style="padding: 5px 8px; background-color: #8fa0b5; color: #002060; font-weight: 700; border-right: 1.5px solid #000000;">OTC Rate</td>
-                    <td style="padding: 5px 8px; background-color: #ffffff; color: #000000; font-weight: 700; text-align: center;">2%</td>
-                </tr>
-                <tr style="border-bottom: 1px solid #000000;">
-                    <td style="padding: 5px 8px; background-color: #8fa0b5; color: #002060; font-weight: 800; border-right: 1.5px solid #000000;">Total OD</td>
-                    <td style="padding: 5px 8px; background-color: #ffffff; color: #000000; font-weight: 800; text-align: center;">17</td>
-                </tr>
-                <tr>
-                    <td style="padding: 5px 8px; background-color: #8fa0b5; color: #002060; font-weight: 700; border-right: 1.5px solid #000000;">Closed On-time</td>
-                    <td style="padding: 5px 8px; background-color: #ffffff; color: #000000; font-weight: 700; text-align: center;">25</td>
-                </tr>
-            </tbody>
-        </table>
-
-        {obs_sb_chart_html}
-
-        <hr style="border:none; border-top:1px solid #cbd5e1; margin:4px 0;">
-
-        <!-- 2. NCRs Section -->
-        <div style="background-color: #002060; color: #ffffff; padding: 7px 10px; border-radius: 4px; font-weight: 800; font-size: 13px; text-align: center; letter-spacing: 0.5px; border: 1.5px solid #001030;">
-            📑 NCRs SECTION (EXCEL)
-        </div>
-
-        <table style="width: 100%; border-collapse: collapse; border: 1.5px solid #000000; font-size: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
-            <thead>
-                <tr style="background-color: #002060; color: #ffffff; border-bottom: 1.5px solid #000000;">
-                    <th colspan="2" style="padding: 5px; text-align: center; font-size: 13px; font-weight: 800;">NCRs</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr style="border-bottom: 1px solid #000000;">
-                    <td style="padding: 5px 8px; background-color: #8fa0b5; color: #002060; font-weight: 700; border-right: 1.5px solid #000000; width: 62%;">Open</td>
-                    <td style="padding: 5px 8px; background-color: #ffffff; color: #000000; font-weight: 700; text-align: center;">2</td>
-                </tr>
-                <tr style="border-bottom: 1px solid #000000;">
-                    <td style="padding: 5px 8px; background-color: #8fa0b5; color: #002060; font-weight: 700; border-right: 1.5px solid #000000;">Closed</td>
-                    <td style="padding: 5px 8px; background-color: #ffffff; color: #000000; font-weight: 700; text-align: center;">52</td>
-                </tr>
-                <tr style="border-bottom: 1px solid #000000;">
-                    <td style="padding: 5px 8px; background-color: #8fa0b5; color: #002060; font-weight: 700; border-right: 1.5px solid #000000;">Overdue</td>
-                    <td style="padding: 5px 8px; background-color: #ffffff; color: #000000; font-weight: 700; text-align: center;">2</td>
-                </tr>
-                <tr>
-                    <td style="padding: 5px 8px; background-color: #8fa0b5; color: #002060; font-weight: 800; border-right: 1.5px solid #000000;">Total</td>
-                    <td style="padding: 5px 8px; background-color: #ffffff; color: #000000; font-weight: 800; text-align: center;">54</td>
-                </tr>
-            </tbody>
-        </table>
-
-        {ncr_sb_chart_html}
-
-        <hr style="border:none; border-top:1px solid #cbd5e1; margin:4px 0;">
-
-        <!-- 3. HSE Activities Section -->
-        <div style="background-color: #002060; color: #ffffff; padding: 7px 10px; border-radius: 4px; font-weight: 800; font-size: 13px; text-align: center; letter-spacing: 0.5px; border: 1.5px solid #001030;">
-            🛠️ HSE ACTIVITIES (EXCEL)
-        </div>
-
-        <table style="width: 100%; border-collapse: collapse; border: 1.5px solid #000000; font-size: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
-            <thead>
-                <tr style="background-color: #002060; color: #ffffff; border-bottom: 1px solid #ffffff;">
-                    <th colspan="2" style="padding: 5px; text-align: center; font-size: 13px; font-weight: 800;">HSE Activities</th>
-                </tr>
-                <tr style="background-color: #002060; color: #ffffff; border-bottom: 1.5px solid #000000;">
-                    <th style="padding: 4px 8px; text-align: center; font-size: 11px; font-weight: 700; border-right: 1.5px solid #ffffff; width: 60%;">Activity</th>
-                    <th style="padding: 4px 8px; text-align: center; font-size: 11px; font-weight: 700; width: 40%;">Quantity</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr style="border-bottom: 1px solid #000000;">
-                    <td style="padding: 5px 8px; background-color: #8fa0b5; color: #002060; font-weight: 700; border-right: 1.5px solid #000000;">TBT</td>
-                    <td style="padding: 5px 8px; background-color: #ffffff; color: #000000; font-weight: 700; text-align: center;">114</td>
-                </tr>
-                <tr style="border-bottom: 1px solid #000000;">
-                    <td style="padding: 5px 8px; background-color: #8fa0b5; color: #002060; font-weight: 700; border-right: 1.5px solid #000000;">inspections</td>
-                    <td style="padding: 5px 8px; background-color: #ffffff; color: #000000; font-weight: 700; text-align: center;">6</td>
-                </tr>
-                <tr style="border-bottom: 1px solid #000000;">
-                    <td style="padding: 5px 8px; background-color: #8fa0b5; color: #002060; font-weight: 700; border-right: 1.5px solid #000000;">Campaigns</td>
-                    <td style="padding: 5px 8px; background-color: #ffffff; color: #000000; font-weight: 700; text-align: center;">1</td>
-                </tr>
-                <tr>
-                    <td style="padding: 5px 8px; background-color: #8fa0b5; color: #002060; font-weight: 800; border-right: 1.5px solid #000000;">Total</td>
-                    <td style="padding: 5px 8px; background-color: #ffffff; color: #000000; font-weight: 800; text-align: center;">121</td>
-                </tr>
-            </tbody>
-        </table>
-
-        {act_sb_chart_html}
-
-        <hr style="border:none; border-top:1px solid #cbd5e1; margin:4px 0;">
-
-        <!-- 4. HSE Staffing Compliance Section -->
-        <div style="background-color: #002060; color: #ffffff; padding: 7px 10px; border-radius: 4px; font-weight: 800; font-size: 13px; text-align: center; letter-spacing: 0.5px; border: 1.5px solid #001030;">
-            👥 HSE STAFFING COMPLIANCE
-        </div>
-
-        <table style="width: 100%; border-collapse: collapse; border: 1.5px solid #000000; font-size: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
-            <thead>
-                <tr style="background-color: #002060; color: #ffffff; border-bottom: 1.5px solid #000000;">
-                    <th colspan="2" style="padding: 5px; text-align: center; font-size: 13px; font-weight: 800;">HSE Staffing Compliance</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr style="border-bottom: 1px solid #000000;">
-                    <td style="padding: 5px 8px; background-color: #8fa0b5; color: #002060; font-weight: 700; border-right: 1.5px solid #000000; width: 62%;">Actual</td>
-                    <td style="padding: 5px 8px; background-color: #ffffff; color: #000000; font-weight: 700; text-align: center;">22</td>
-                </tr>
-                <tr style="border-bottom: 1px solid #000000;">
-                    <td style="padding: 5px 8px; background-color: #8fa0b5; color: #002060; font-weight: 700; border-right: 1.5px solid #000000;">Required</td>
-                    <td style="padding: 5px 8px; background-color: #ffffff; color: #000000; font-weight: 700; text-align: center;">25</td>
-                </tr>
-                <tr style="border-bottom: 1px solid #000000;">
-                    <td style="padding: 5px 8px; background-color: #8fa0b5; color: #002060; font-weight: 700; border-right: 1.5px solid #000000;">Gap</td>
-                    <td style="padding: 5px 8px; background-color: #ffffff; color: #dc2626; font-weight: 800; text-align: center;">3</td>
-                </tr>
-                <tr>
-                    <td style="padding: 5px 8px; background-color: #8fa0b5; color: #002060; font-weight: 800; border-right: 1.5px solid #000000;">Compliance</td>
-                    <td style="padding: 5px 8px; background-color: #ffffff; color: #15803d; font-weight: 800; text-align: center;">88%</td>
-                </tr>
-            </tbody>
-        </table>
+                <hr style="border:none; border-top:1px solid #cbd5e1; margin:4px 0;">
     </aside>
 
     <!-- MAIN AREA -->
@@ -1635,121 +1465,348 @@ def generate():
 
         <!-- PAGE 3: OBSERVATIONS -->
         <section id="page-Observations" class="page-view">
-            <h2 style="font-size:20px; font-weight:800; color:#0f172a; margin-bottom:4px;">🔍 Site Observations Performance & Field Rectification Tracking</h2>
+            <h2 style="font-size:22px; font-weight:800; color:#0f172a; margin-bottom:4px;">🔍 Site Observations Performance & Field Rectification Tracking</h2>
             <p style="font-size:13px; color:#64748b; margin-bottom:18px;">Complete breakdown matching the official Excel Site Observation register, closure analytics, and overdue rates</p>
 
             <div class="kpi-grid">
                 <div class="kpi-card">
-                    <div class="kpi-title">Total Site Observations</div>
+                    <div class="kpi-title">TOTAL SITE OBSERVATIONS</div>
                     <div class="kpi-value">1,250</div>
                     <span class="kpi-badge badge-info">YTD Field Logs</span>
                     <div class="metric-sub">Cumulative Action Items</div>
                 </div>
                 <div class="kpi-card">
-                    <div class="kpi-title">Closed Observations</div>
+                    <div class="kpi-title">CLOSED OBSERVATIONS</div>
                     <div class="kpi-value" style="color:#15803d;">1,242</div>
                     <span class="kpi-badge badge-success">99% Closure Rate</span>
                     <div class="metric-sub">World-Class Resolution Rate</div>
                 </div>
                 <div class="kpi-card">
-                    <div class="kpi-title">Active Open Observations</div>
+                    <div class="kpi-title">ACTIVE OPEN OBSERVATIONS</div>
                     <div class="kpi-value" style="color:#0284c7;">8</div>
                     <span class="kpi-badge badge-info">Under Rectification</span>
                     <div class="metric-sub">Immediate Field Actions</div>
                 </div>
                 <div class="kpi-card">
-                    <div class="kpi-title">Overdue (OD) Observations</div>
+                    <div class="kpi-title">OVERDUE (OD) OBSERVATIONS</div>
                     <div class="kpi-value" style="color:#dc2626;">8</div>
                     <span class="kpi-badge badge-danger">1.4% OD Rate</span>
                     <div class="metric-sub">Target &le; 5% Achieved</div>
                 </div>
                 <div class="kpi-card">
-                    <div class="kpi-title">Closed On-Time (OTC)</div>
+                    <div class="kpi-title">CLOSED ON-TIME (OTC)</div>
                     <div class="kpi-value">25</div>
                     <span class="kpi-badge badge-success">2% OTC Rate</span>
                     <div class="metric-sub">On-Time Closed Logs</div>
                 </div>
             </div>
 
-            <div class="section-card">
-                <div class="section-title">📊 Observations Visual Distribution & Status Analysis</div>
-                {obs_page_chart_html}
+            <div class="grid-2">
+                <div class="section-card">
+                    <div class="section-title">📋 Excel Site Observation Registry Tables</div>
+                    
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;" class="table-responsive">
+                        <div>
+                            <div style="font-size:11.5px; font-weight:700; color:#64748b; margin-bottom:4px; text-transform:uppercase;">STATUS COUNTS (IMAGE 2)</div>
+                            <table style="width: 100%; border-collapse: collapse; border: 2px solid #000000; font-family: 'Segoe UI', Inter, sans-serif; font-size: 13.5px; box-shadow: 0 2px 6px rgba(0,0,0,0.06);">
+                                <thead>
+                                    <tr style="background-color: #002060; color: #ffffff; border-bottom: 2px solid #000000;">
+                                        <th colspan="2" style="padding: 7px; text-align: center; font-size: 15px; font-weight: 800; letter-spacing: 0.5px;">Site Observation</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="border-bottom: 1.5px solid #000000;">
+                                        <td style="padding: 7px 10px; background-color: #8fa0b5; color: #002060; font-weight: 700; border-right: 2px solid #000000; width: 62%;">Open</td>
+                                        <td style="padding: 7px 10px; background-color: #ffffff; color: #000000; font-weight: 700; text-align: center; width: 38%;">8</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1.5px solid #000000;">
+                                        <td style="padding: 7px 10px; background-color: #8fa0b5; color: #002060; font-weight: 700; border-right: 2px solid #000000;">Closed</td>
+                                        <td style="padding: 7px 10px; background-color: #ffffff; color: #000000; font-weight: 700; text-align: center;">1242</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1.5px solid #000000;">
+                                        <td style="padding: 7px 10px; background-color: #8fa0b5; color: #002060; font-weight: 700; border-right: 2px solid #000000;">Overdue</td>
+                                        <td style="padding: 7px 10px; background-color: #ffffff; color: #000000; font-weight: 700; text-align: center;">8</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 7px 10px; background-color: #8fa0b5; color: #002060; font-weight: 800; border-right: 2px solid #000000;">Total</td>
+                                        <td style="padding: 7px 10px; background-color: #ffffff; color: #000000; font-weight: 800; text-align: center;">1250</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div>
+                            <div style="font-size:11.5px; font-weight:700; color:#64748b; margin-bottom:4px; text-transform:uppercase;">PERFORMANCE RATES (IMAGE 1)</div>
+                            <table style="width: 100%; border-collapse: collapse; border: 2px solid #000000; font-family: 'Segoe UI', Inter, sans-serif; font-size: 13.5px; box-shadow: 0 2px 6px rgba(0,0,0,0.06);">
+                                <thead>
+                                    <tr style="background-color: #002060; color: #ffffff; border-bottom: 2px solid #000000;">
+                                        <th colspan="2" style="padding: 7px; text-align: center; font-size: 15px; font-weight: 800; letter-spacing: 0.5px;">Site Observation</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="border-bottom: 1.5px solid #000000;">
+                                        <td style="padding: 6px 9px; background-color: #8fa0b5; color: #002060; font-weight: 700; border-right: 2px solid #000000; width: 62%;">Closure Rate</td>
+                                        <td style="padding: 6px 9px; background-color: #ffffff; color: #000000; font-weight: 700; text-align: center; width: 38%;">99%</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1.5px solid #000000;">
+                                        <td style="padding: 6px 9px; background-color: #8fa0b5; color: #002060; font-weight: 700; border-right: 2px solid #000000;">OD Rate</td>
+                                        <td style="padding: 6px 9px; background-color: #ffffff; color: #000000; font-weight: 700; text-align: center;">1.4%</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1.5px solid #000000;">
+                                        <td style="padding: 6px 9px; background-color: #8fa0b5; color: #002060; font-weight: 700; border-right: 2px solid #000000;">OTC Rate</td>
+                                        <td style="padding: 6px 9px; background-color: #ffffff; color: #000000; font-weight: 700; text-align: center;">2%</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1.5px solid #000000;">
+                                        <td style="padding: 6px 9px; background-color: #8fa0b5; color: #002060; font-weight: 800; border-right: 2px solid #000000;">Total OD</td>
+                                        <td style="padding: 6px 9px; background-color: #ffffff; color: #000000; font-weight: 800; text-align: center;">17</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 6px 9px; background-color: #8fa0b5; color: #002060; font-weight: 700; border-right: 2px solid #000000;">Closed On-time</td>
+                                        <td style="padding: 6px 9px; background-color: #ffffff; color: #000000; font-weight: 700; text-align: center;">25</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 16px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px;">
+                        <div style="font-size: 11px; font-weight: 700; color: #0369a1; text-transform: uppercase;">MATHEMATICAL FORMULATION</div>
+                        <div style="font-size: 12.5px; color: #1e293b; margin-top: 4px; line-height: 1.5;">
+                            • <b>Closure Rate:</b> (1,242 Closed &divide; 1,250 Total) &times; 100 = <b>99.36% (~99%)</b><br>
+                            • <b>OD (Overdue) Rate:</b> (17 Total OD &divide; 1,250 Total) &times; 100 = <b>1.36% (~1.4%)</b><br>
+                            • <b>OTC (On-Time Closure) Rate:</b> (25 &divide; 1,250 Total) &times; 100 = <b>2.0%</b><br>
+                            • <b>Active Outstanding:</b> 8 Open Items currently in field close-out loop.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <div class="section-title">📊 Excel Site Observations Visual Distribution (Image 3)</div>
+                    {obs_page_chart_html}
+                    
+                    <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 12px; margin-top: 14px;">
+                        <span style="color: #166534; font-weight: 700; font-size: 13px;">🏆 Outstanding Proactive Safety:</span>
+                        <span style="color: #15803d; font-size: 12.5px;"> Exceptional field engagement with 1,242 out of 1,250 proactive observations resolved, achieving a stellar 99% closure velocity.</span>
+                    </div>
+                </div>
             </div>
         </section>
 
         <!-- PAGE 4: NCRS -->
         <section id="page-NCRs" class="page-view">
-            <h2 style="font-size:20px; font-weight:800; color:#0f172a; margin-bottom:4px;">📑 Non-Conformance Reports (NCRs) Performance</h2>
+            <h2 style="font-size:22px; font-weight:800; color:#0f172a; margin-bottom:4px;">📑 Non-Conformance Reports (NCRs) Performance</h2>
             <p style="font-size:13px; color:#64748b; margin-bottom:18px;">Engineering, quality, and environmental non-conformance closure compliance</p>
 
             <div class="kpi-grid">
                 <div class="kpi-card">
-                    <div class="kpi-title">Total NCRs Issued</div>
+                    <div class="kpi-title">TOTAL NCRS ISSUED</div>
                     <div class="kpi-value">54</div>
                     <span class="kpi-badge badge-info">YTD Log</span>
                     <div class="metric-sub">Quality & Safety NCRs</div>
                 </div>
                 <div class="kpi-card">
-                    <div class="kpi-title">Closed NCRs</div>
+                    <div class="kpi-title">CLOSED NCRS</div>
                     <div class="kpi-value" style="color:#15803d;">52</div>
                     <span class="kpi-badge badge-success">96% Closure Rate</span>
                     <div class="metric-sub">Target &ge; 90%</div>
                 </div>
                 <div class="kpi-card">
-                    <div class="kpi-title">Active Open NCRs</div>
+                    <div class="kpi-title">ACTIVE OPEN NCRS</div>
                     <div class="kpi-value" style="color:#0284c7;">2</div>
                     <span class="kpi-badge badge-warning">Under Review</span>
                     <div class="metric-sub">Corrective Action Pending</div>
                 </div>
                 <div class="kpi-card">
-                    <div class="kpi-title">Overdue NCRs</div>
+                    <div class="kpi-title">OVERDUE NCRS</div>
                     <div class="kpi-value" style="color:#dc2626;">2</div>
                     <span class="kpi-badge badge-danger">4.0% OD Rate</span>
                     <div class="metric-sub">Low Risk Level</div>
                 </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">CLOSED ON-TIME (OTC)</div>
+                    <div class="kpi-value">0</div>
+                    <span class="kpi-badge badge-warning">0% OTC Rate</span>
+                    <div class="metric-sub">Pending SLA Validation</div>
+                </div>
             </div>
 
-            <div class="section-card">
-                <div class="section-title">📊 NCRs Visual Resolution Trajectory</div>
-                {ncr_page_chart_html}
+            <div class="grid-2">
+                <div class="section-card">
+                    <div class="section-title">📋 Excel NCRs Registry Tables</div>
+                    
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;" class="table-responsive">
+                        <div>
+                            <div style="font-size:11.5px; font-weight:700; color:#64748b; margin-bottom:4px; text-transform:uppercase;">STATUS COUNTS (IMAGE 1)</div>
+                            <table style="width: 100%; border-collapse: collapse; border: 2px solid #000000; font-family: 'Segoe UI', Inter, sans-serif; font-size: 13.5px; box-shadow: 0 2px 6px rgba(0,0,0,0.06);">
+                                <thead>
+                                    <tr style="background-color: #002060; color: #ffffff; border-bottom: 2px solid #000000;">
+                                        <th colspan="2" style="padding: 7px; text-align: center; font-size: 15px; font-weight: 800; letter-spacing: 0.5px;">NCRs</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="border-bottom: 1.5px solid #000000;">
+                                        <td style="padding: 7px 10px; background-color: #8fa0b5; color: #002060; font-weight: 700; border-right: 2px solid #000000; width: 62%;">Open</td>
+                                        <td style="padding: 7px 10px; background-color: #ffffff; color: #000000; font-weight: 700; text-align: center; width: 38%;">2</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1.5px solid #000000;">
+                                        <td style="padding: 7px 10px; background-color: #8fa0b5; color: #002060; font-weight: 700; border-right: 2px solid #000000;">Closed</td>
+                                        <td style="padding: 7px 10px; background-color: #ffffff; color: #000000; font-weight: 700; text-align: center;">52</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1.5px solid #000000;">
+                                        <td style="padding: 7px 10px; background-color: #8fa0b5; color: #002060; font-weight: 700; border-right: 2px solid #000000;">Overdue</td>
+                                        <td style="padding: 7px 10px; background-color: #ffffff; color: #000000; font-weight: 700; text-align: center;">2</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 7px 10px; background-color: #8fa0b5; color: #002060; font-weight: 800; border-right: 2px solid #000000;">Total</td>
+                                        <td style="padding: 7px 10px; background-color: #ffffff; color: #000000; font-weight: 800; text-align: center;">54</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div>
+                            <div style="font-size:11.5px; font-weight:700; color:#64748b; margin-bottom:4px; text-transform:uppercase;">PERFORMANCE RATES (IMAGE 2)</div>
+                            <table style="width: 100%; border-collapse: collapse; border: 2px solid #000000; font-family: 'Segoe UI', Inter, sans-serif; font-size: 13.5px; box-shadow: 0 2px 6px rgba(0,0,0,0.06);">
+                                <thead>
+                                    <tr style="background-color: #002060; color: #ffffff; border-bottom: 2px solid #000000;">
+                                        <th colspan="2" style="padding: 7px; text-align: center; font-size: 15px; font-weight: 800; letter-spacing: 0.5px;">NCRs</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="border-bottom: 1.5px solid #000000;">
+                                        <td style="padding: 6px 9px; background-color: #8fa0b5; color: #002060; font-weight: 700; border-right: 2px solid #000000; width: 62%;">Closure Rate</td>
+                                        <td style="padding: 6px 9px; background-color: #ffffff; color: #000000; font-weight: 700; text-align: center; width: 38%;">96%</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1.5px solid #000000;">
+                                        <td style="padding: 6px 9px; background-color: #8fa0b5; color: #002060; font-weight: 700; border-right: 2px solid #000000;">OD Rate</td>
+                                        <td style="padding: 6px 9px; background-color: #ffffff; color: #000000; font-weight: 700; text-align: center;">4%</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1.5px solid #000000;">
+                                        <td style="padding: 6px 9px; background-color: #8fa0b5; color: #002060; font-weight: 700; border-right: 2px solid #000000;">OTC Rate</td>
+                                        <td style="padding: 6px 9px; background-color: #ffffff; color: #000000; font-weight: 700; text-align: center;">0%</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1.5px solid #000000;">
+                                        <td style="padding: 6px 9px; background-color: #8fa0b5; color: #002060; font-weight: 800; border-right: 2px solid #000000;">Total OD</td>
+                                        <td style="padding: 6px 9px; background-color: #ffffff; color: #000000; font-weight: 800; text-align: center;">2</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 6px 9px; background-color: #8fa0b5; color: #002060; font-weight: 700; border-right: 2px solid #000000;">Closed On-time</td>
+                                        <td style="padding: 6px 9px; background-color: #ffffff; color: #000000; font-weight: 700; text-align: center;">0</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 16px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px;">
+                        <div style="font-size: 11px; font-weight: 700; color: #0369a1; text-transform: uppercase;">MATHEMATICAL FORMULATION</div>
+                        <div style="font-size: 12.5px; color: #1e293b; margin-top: 4px; line-height: 1.5;">
+                            • <b>Closure Rate:</b> (52 Closed &divide; 54 Total) &times; 100 = <b>96.3% (~96%)</b><br>
+                            • <b>OD (Overdue) Rate:</b> (2 Overdue &divide; 54 Total) &times; 100 = <b>3.7% (~4%)</b><br>
+                            • <b>Active NCRs:</b> 2 open non-conformances under formal corrective action plan.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <div class="section-title">📊 Excel NCRs Visual Trajectory</div>
+                    {ncr_page_chart_html}
+                    
+                    <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 12px; margin-top: 14px;">
+                        <span style="color: #166534; font-weight: 700; font-size: 13px;">🏆 High Quality Resolution:</span>
+                        <span style="color: #15803d; font-size: 12.5px;"> Exceptional closure velocity with 52 out of 54 NCRs formally resolved, demonstrating rigorous compliance.</span>
+                    </div>
+                </div>
             </div>
         </section>
 
         <!-- PAGE 5: ACTIVITIES -->
         <section id="page-Activities" class="page-view">
-            <h2 style="font-size:20px; font-weight:800; color:#0f172a; margin-bottom:4px;">🛠️ HSE Completed Activities Register</h2>
+            <h2 style="font-size:22px; font-weight:800; color:#0f172a; margin-bottom:4px;">🛠️ HSE Completed Activities Register</h2>
             <p style="font-size:13px; color:#64748b; margin-bottom:18px;">Field execution tracking across Toolbox Talks, formal inspections, and safety campaigns</p>
 
             <div class="kpi-grid">
                 <div class="kpi-card">
-                    <div class="kpi-title">Total HSE Engagements</div>
+                    <div class="kpi-title">TOTAL HSE ACTIVITIES</div>
                     <div class="kpi-value">121</div>
                     <span class="kpi-badge badge-success">High Engagement</span>
-                    <div class="metric-sub">All Site Activities</div>
+                    <div class="metric-sub">Cumulative Field Sessions</div>
                 </div>
                 <div class="kpi-card">
-                    <div class="kpi-title">Toolbox Talks (TBT)</div>
+                    <div class="kpi-title">TOOLBOX TALKS (TBT)</div>
                     <div class="kpi-value" style="color:#0284c7;">114</div>
                     <span class="kpi-badge badge-info">94.2% of Total</span>
-                    <div class="metric-sub">Daily Shift Briefings</div>
+                    <div class="metric-sub">Daily Frontline Briefings</div>
                 </div>
                 <div class="kpi-card">
-                    <div class="kpi-title">Formal Inspections</div>
+                    <div class="kpi-title">SITE INSPECTIONS</div>
                     <div class="kpi-value" style="color:#15803d;">6</div>
-                    <span class="kpi-badge badge-success">Audits Logged</span>
-                    <div class="metric-sub">Comprehensive Checks</div>
+                    <span class="kpi-badge badge-success">Scheduled Audits</span>
+                    <div class="metric-sub">Rigorous Field Monitoring</div>
                 </div>
                 <div class="kpi-card">
-                    <div class="kpi-title">Safety Campaigns</div>
-                    <div class="kpi-value" style="color:#ea580c;">1</div>
-                    <span class="kpi-badge badge-warning">Drive Complete</span>
-                    <div class="metric-sub">Site Heat Stress Campaign</div>
+                    <div class="kpi-title">SAFETY CAMPAIGNS</div>
+                    <div class="kpi-value" style="color:#d97706;">1</div>
+                    <span class="kpi-badge badge-warning">Targeted Campaign</span>
+                    <div class="metric-sub">Project-Wide Awareness</div>
                 </div>
             </div>
 
-            <div class="section-card">
-                <div class="section-title">📊 Activities Volume Distribution</div>
-                {act_page_chart_html}
+            <div class="grid-2">
+                <div class="section-card">
+                    <div class="section-title">📋 Excel HSE Activities Table</div>
+                    
+                    <div class="table-responsive">
+                        <table style="width: 100%; border-collapse: collapse; border: 2px solid #000000; font-family: 'Segoe UI', Inter, sans-serif; font-size: 14px; box-shadow: 0 2px 6px rgba(0,0,0,0.06);">
+                            <thead>
+                                <tr style="background-color: #002060; color: #ffffff; border-bottom: 1.5px solid #ffffff;">
+                                    <th colspan="2" style="padding: 8px; text-align: center; font-size: 16px; font-weight: 800; letter-spacing: 0.5px;">HSE Activities</th>
+                                </tr>
+                                <tr style="background-color: #002060; color: #ffffff; border-bottom: 2px solid #000000;">
+                                    <th style="padding: 7px 12px; text-align: center; font-size: 13.5px; font-weight: 700; border-right: 2px solid #ffffff; width: 60%;">Activity</th>
+                                    <th style="padding: 7px 12px; text-align: center; font-size: 13.5px; font-weight: 700; width: 40%;">Quantity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1.5px solid #000000;">
+                                    <td style="padding: 8px 12px; background-color: #8fa0b5; color: #002060; font-weight: 700; border-right: 2px solid #000000;">TBT</td>
+                                    <td style="padding: 8px 12px; background-color: #ffffff; color: #000000; font-weight: 700; text-align: center;">114</td>
+                                </tr>
+                                <tr style="border-bottom: 1.5px solid #000000;">
+                                    <td style="padding: 8px 12px; background-color: #8fa0b5; color: #002060; font-weight: 700; border-right: 2px solid #000000;">inspections</td>
+                                    <td style="padding: 8px 12px; background-color: #ffffff; color: #000000; font-weight: 700; text-align: center;">6</td>
+                                </tr>
+                                <tr style="border-bottom: 1.5px solid #000000;">
+                                    <td style="padding: 8px 12px; background-color: #8fa0b5; color: #002060; font-weight: 700; border-right: 2px solid #000000;">Campaigns</td>
+                                    <td style="padding: 8px 12px; background-color: #ffffff; color: #000000; font-weight: 700; text-align: center;">1</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px 12px; background-color: #8fa0b5; color: #002060; font-weight: 800; border-right: 2px solid #000000;">Total</td>
+                                    <td style="padding: 8px 12px; background-color: #ffffff; color: #000000; font-weight: 800; text-align: center;">121</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div style="margin-top: 16px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px;">
+                        <div style="font-size: 11px; font-weight: 700; color: #0369a1; text-transform: uppercase;">ACTIVITY RATIO BREAKDOWN</div>
+                        <div style="font-size: 12.5px; color: #1e293b; margin-top: 4px; line-height: 1.5;">
+                            • <b>TBT Proportion:</b> (114 &divide; 121) &times; 100 = <b>94.2%</b><br>
+                            • <b>Inspection Proportion:</b> (6 &divide; 121) &times; 100 = <b>5.0%</b><br>
+                            • <b>Campaign Proportion:</b> (1 &divide; 121) &times; 100 = <b>0.8%</b>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <div class="section-title">📊 Excel HSE Activities Visual Distribution</div>
+                    {act_page_chart_html}
+                    
+                    <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 12px; margin-top: 14px;">
+                        <span style="color: #166534; font-weight: 700; font-size: 13px;">🏆 Frontline Proactive Presence:</span>
+                        <span style="color: #15803d; font-size: 12.5px;"> 114 Toolbox Talks delivered across shifts with 6 formal audits maintaining zero lost-time standards.</span>
+                    </div>
+                </div>
             </div>
         </section>
 
