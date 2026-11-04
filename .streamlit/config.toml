@@ -1,0 +1,7 @@
+[server]
+port = 8550
+headless = false
+
+[browser]
+serverAddress = "localhost"
+serverPort = 8550
