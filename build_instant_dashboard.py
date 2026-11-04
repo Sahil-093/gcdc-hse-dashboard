@@ -607,20 +607,22 @@ def generate():
 
         .kpi-grid {{
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 14px;
+            grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+            gap: 12px;
             margin-bottom: 22px;
         }}
         .kpi-card {{
             background: #ffffff;
             border: 1px solid #e2e8f0;
             border-radius: 12px;
-            padding: 16px 18px;
+            padding: 14px 16px;
             box-shadow: 0 2px 6px rgba(0,0,0,0.03);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            min-height: 120px;
+            min-height: 115px;
+            min-width: 140px;
+            box-sizing: border-box;
         }}
         .kpi-title {{
             font-size: 11px;
@@ -629,12 +631,18 @@ def generate():
             letter-spacing: 0.05em;
             color: #64748b;
             margin-bottom: 4px;
+            white-space: normal !important;
+            word-break: normal !important;
+            line-height: 1.25;
         }}
         .kpi-value {{
-            font-size: 25px;
+            font-size: 24px;
             font-weight: 800;
             color: #0f172a;
             margin-bottom: 4px;
+            white-space: nowrap !important;
+            word-break: keep-all !important;
+            font-variant-numeric: tabular-nums;
         }}
         .kpi-badge {{
             display: inline-block;
@@ -643,6 +651,7 @@ def generate():
             font-size: 11px;
             font-weight: 700;
             width: fit-content;
+            white-space: nowrap !important;
         }}
         .badge-success {{ background: #dcfce7; color: #15803d; }}
         .badge-info {{ background: #e0f2fe; color: #0369a1; }}
@@ -788,8 +797,8 @@ def generate():
 
         .grid-2 {{
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 18px;
         }}
         .grid-3 {{
             display: grid;

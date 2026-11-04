@@ -56,32 +56,51 @@ st.markdown("""
         font-size: 13px;
     }
 
+    /* Streamlit Responsive Auto-Wrap for Zoom In/Out */
+    div[data-testid="stHorizontalBlock"] {
+        flex-wrap: wrap !important;
+        gap: 12px !important;
+    }
+    
+    div[data-testid="column"] {
+        min-width: 160px !important;
+        flex: 1 1 160px !important;
+    }
+
     .kpi-card {
         background: #ffffff;
         border: 1px solid #e2e8f0;
         border-radius: 12px;
-        padding: 16px 18px;
+        padding: 14px 16px;
         box-shadow: 0 2px 6px rgba(0,0,0,0.03);
         height: 100%;
+        min-width: 140px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        box-sizing: border-box;
     }
     
     .kpi-title {
         font-size: 11px;
-        font-weight: 600;
+        font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.05em;
         color: #64748b;
         margin-bottom: 6px;
+        white-space: normal !important;
+        word-break: normal !important;
+        line-height: 1.25 !important;
     }
     
     .kpi-value {
         font-size: 24px;
-        font-weight: 700;
+        font-weight: 800;
         color: #0f172a;
         margin-bottom: 4px;
+        white-space: nowrap !important;
+        word-break: keep-all !important;
+        font-variant-numeric: tabular-nums;
     }
     
     .kpi-badge {
@@ -91,6 +110,7 @@ st.markdown("""
         font-size: 11px;
         font-weight: 600;
         width: fit-content;
+        white-space: nowrap !important;
     }
     
     .badge-success { background: #dcfce7; color: #15803d; }
@@ -455,8 +475,8 @@ def create_gauge(value: float, title: str, max_val: float, thresholds: list, tar
     fig = go.Figure(go.Indicator(
         mode="gauge+number",
         value=value,
-        title={'text': f"<b>{title}</b><br><span style='font-size:12px;color:#64748b'>{target_text}</span>", 'font': {'size': 15, 'color': '#0f172a'}},
-        number={'font': {'size': 30, 'family': 'Inter, sans-serif', 'color': '#0f172a'}, 'valueformat': '.3f' if value < 1 else '.2f'},
+        title={'text': f"<b>{title}</b>", 'font': {'size': 16, 'color': '#0f172a'}},
+        number={'font': {'size': 26, 'family': 'Inter, sans-serif', 'color': '#0f172a'}, 'valueformat': '.3f' if value < 1 else '.2f'},
         gauge={
             'axis': {'range': [0, max_val], 'tickwidth': 1, 'tickcolor': '#94a3b8'},
             'bar': {'color': '#0284c7', 'thickness': 0.28},
@@ -467,8 +487,8 @@ def create_gauge(value: float, title: str, max_val: float, thresholds: list, tar
         }
     ))
     fig.update_layout(
-        height=220,
-        margin=dict(l=15, r=15, t=45, b=15),
+        height=190,
+        margin=dict(l=15, r=15, t=35, b=10),
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(0,0,0,0)',
     )
