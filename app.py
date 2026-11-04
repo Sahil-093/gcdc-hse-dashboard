@@ -261,6 +261,9 @@ st.markdown("""
 
 # Data Loader
 CSV_PATH = os.path.join(os.path.dirname(__file__), "single_sheet_data.csv")
+if not os.path.exists(CSV_PATH):
+    CSV_PATH = "single_sheet_data.csv"
+
 
 def load_data():
     if not os.path.exists(CSV_PATH):
