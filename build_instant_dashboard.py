@@ -410,6 +410,118 @@ def generate():
     )
     kpis_psi_html = to_chart_html(fig_psi, "chart_kpis_psi")
 
+    # --- SECTION 3: COMPARATIVE INDEX ANALYTICS (EXACT MATCH LOCALHOST) ---
+    fig_dual_comp = go.Figure()
+    fig_dual_comp.add_trace(go.Bar(
+        x=kpi_all_m[:9],
+        y=[s for s in kpi_scores_val if s is not None],
+        name="Monthly KPI Score",
+        marker_color="#005b82",
+        text=[f"{s}%" for s in kpi_scores_val if s is not None],
+        textposition="outside"
+    ))
+    fig_dual_comp.add_trace(go.Bar(
+        x=kpi_all_m[:9],
+        y=[s for s in psi_scores_val if s is not None],
+        name="PSI / PCI Score",
+        marker_color="#8b5cf6",
+        text=[f"{s}%" for s in psi_scores_val if s is not None],
+        textposition="outside"
+    ))
+    fig_dual_comp.add_trace(go.Scatter(
+        x=kpi_all_m[:9],
+        y=[90] * 9,
+        name="Baseline Target (90%)",
+        mode="lines",
+        line=dict(color="#ef4444", width=2, dash="dash")
+    ))
+    fig_dual_comp.update_layout(
+        title=dict(text="<b>Monthly KPI vs PSI/PCI Index Comparison</b>", font=dict(size=18, color="#0d233a"), x=0.5, xanchor="center"),
+        barmode="group",
+        height=340,
+        yaxis=dict(range=[0, 115], title="Score (%)", gridcolor="#e2e8f0"),
+        xaxis=dict(tickfont=dict(size=12, color="#0f172a")),
+        margin=dict(l=45, r=40, t=40, b=35),
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1, font=dict(size=11)),
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)'
+    )
+    kpi_dual_comp_html = to_chart_html(fig_dual_comp, "chart_kpi_dual_comp")
+
+    # Variance Chart 1: KPI Delta vs 90%
+    kpi_active = [s for s in kpi_scores_val if s is not None]
+    kpi_m_active = kpi_all_m[:len(kpi_active)]
+    variances = [s - 90 for s in kpi_active]
+    var_colors = ['#15803d' if v >= 0 else ('#f59e0b' if v >= -10 else '#dc2626') for v in variances]
+
+    fig_var = go.Figure()
+    fig_var.add_trace(go.Bar(
+        x=kpi_m_active,
+        y=variances,
+        text=[f"{v:+.0f}%" for v in variances],
+        textposition='outside',
+        textfont=dict(size=12, weight='bold'),
+        marker=dict(color=var_colors, line=dict(color='#0f172a', width=1)),
+        width=0.55,
+        name="KPI Variance vs 90%",
+        customdata=kpi_active,
+        hovertemplate='<b>%{x}</b><br>KPI Score: <b>%{customdata}%</b><br>Target: <b>90%</b><br>Variance: <b>%{y:+.0f}%</b><extra></extra>'
+    ))
+    fig_var.update_layout(
+        title=dict(text="<b>Monthly KPI Delta vs 90% Target Benchmark</b>", font=dict(size=16, color="#0d233a"), x=0.5, xanchor="center"),
+        height=280,
+        margin=dict(l=45, r=40, t=35, b=30),
+        yaxis=dict(
+            title="Variance (±%)",
+            range=[-28, 10],
+            zeroline=True,
+            zerolinecolor='#0f172a',
+            zerolinewidth=2,
+            gridcolor='#e2e8f0'
+        ),
+        xaxis=dict(tickfont=dict(size=12, color='#0f172a')),
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)'
+    )
+    kpi_var_html = to_chart_html(fig_var, "chart_kpi_variance")
+
+    # Variance Chart 2: PSI Delta vs 90%
+    psi_active = [s for s in psi_scores_val if s is not None]
+    psi_m_active = kpi_all_m[:len(psi_active)]
+    psi_variances = [s - 90 for s in psi_active]
+    psi_var_colors = ['#15803d' if v >= 0 else ('#f59e0b' if v >= -20 else '#dc2626') for v in psi_variances]
+
+    fig_psi_var = go.Figure()
+    fig_psi_var.add_trace(go.Bar(
+        x=psi_m_active,
+        y=psi_variances,
+        text=[f"{v:+.0f}%" for v in psi_variances],
+        textposition='outside',
+        textfont=dict(size=12, weight='bold'),
+        marker=dict(color=psi_var_colors, line=dict(color='#0f172a', width=1)),
+        width=0.55,
+        name="PSI/PCI Variance vs 90%",
+        customdata=psi_active,
+        hovertemplate='<b>%{x}</b><br>PSI/PCI Score: <b>%{customdata}%</b><br>Target: <b>90%</b><br>Variance: <b>%{y:+.0f}%</b><extra></extra>'
+    ))
+    fig_psi_var.update_layout(
+        title=dict(text="<b>Monthly PSI/PCI Delta vs 90% Target Benchmark</b>", font=dict(size=16, color="#0d233a"), x=0.5, xanchor="center"),
+        height=280,
+        margin=dict(l=45, r=40, t=35, b=30),
+        yaxis=dict(
+            title="Variance (±%)",
+            range=[-38, 5],
+            zeroline=True,
+            zerolinecolor='#0f172a',
+            zerolinewidth=2,
+            gridcolor='#e2e8f0'
+        ),
+        xaxis=dict(tickfont=dict(size=12, color='#0f172a')),
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)'
+    )
+    psi_var_html = to_chart_html(fig_psi_var, "chart_psi_variance")
+
     # --- TRAINING & WELFARE ---
     t_m = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov']
     t_v = [2, 0, 0, 0, 0, 0, 2, 0, 1, 0, 0]
@@ -2193,6 +2305,58 @@ def generate():
                     {kpis_psi_html}
                 </div>
             </div>
+
+            <!-- SECTION 3: COMPARATIVE INDEX ANALYTICS (EXACT LOCALHOST IMAGE) -->
+            <div style="margin: 40px 0 24px 0; border-top: 2px dashed #cbd5e1;"></div>
+            <h3 style="font-size:18px; font-weight:800; color:#0f172a; margin-bottom:12px;">⚖️ 3. Comparative Index Analytics & Performance Drivers</h3>
+
+            <!-- Interactive Sub-Tabs for Section 3 -->
+            <div class="filter-bar" style="margin-bottom:16px;">
+                <span id="tab-btn-comp" class="filter-chip active" onclick="switchKpiSubTab('comp')">📊 Dual Comparison: KPI vs PSI/PCI</span>
+                <span id="tab-btn-var" class="filter-chip" onclick="switchKpiSubTab('var')">🎯 Monthly Target Variance (Delta ±%)</span>
+                <span id="tab-btn-insights" class="filter-chip" onclick="switchKpiSubTab('insights')">📑 Executive Observations & Action Plan</span>
+            </div>
+
+            <!-- Sub-Tab 1: Dual Comparison -->
+            <div id="kpi-subtab-comp" class="section-card" style="display:block;">
+                <div class="section-title">Monthly KPI vs PSI/PCI Index Comparison</div>
+                {kpi_dual_comp_html}
+            </div>
+
+            <!-- Sub-Tab 2: Target Variances -->
+            <div id="kpi-subtab-var" class="section-card" style="display:none;">
+                <div class="section-title">Monthly KPI Delta vs 90% Target Benchmark</div>
+                {kpi_var_html}
+                
+                <div style="margin: 28px 0 16px 0; border-top: 1px dashed #cbd5e1;"></div>
+                <div class="section-title">Monthly PSI/PCI Delta vs 90% Target Benchmark</div>
+                {psi_var_html}
+            </div>
+
+            <!-- Sub-Tab 3: Executive Observations & Action Plan -->
+            <div id="kpi-subtab-insights" class="section-card" style="display:none;">
+                <div class="section-title">Executive HSE Observations & Corrective Actions</div>
+                <div class="grid-3" style="gap:16px;">
+                    <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:16px;">
+                        <h4 style="margin:0 0 8px 0; color:#0f172a; font-size:14px;">📈 Upward Process Safety Trend (PSI / PCI)</h4>
+                        <p style="margin:0; font-size:12.5px; color:#475569; line-height:1.5;">
+                            Process Safety Index showed sustained month-on-month improvement, climbing from <b>58% in February</b> to a peak of <b>75% in September (+15% gain)</b>, indicating strengthening process safety controls and barrier health.
+                        </p>
+                    </div>
+                    <div style="background:#fffbeb; border:1px solid #fde68a; border-radius:8px; padding:16px;">
+                        <h4 style="margin:0 0 8px 0; color:#92400e; font-size:14px;">☀️ Summer Protocol Realignment</h4>
+                        <p style="margin:0; font-size:12.5px; color:#475569; line-height:1.5;">
+                            While general HSE KPI dipped during August & September due to heat stress stand-downs, PSI/PCI surged to its highest mark (75%), demonstrating that high-risk process controls remained robust.
+                        </p>
+                    </div>
+                    <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:16px;">
+                        <h4 style="margin:0 0 8px 0; color:#166534; font-size:14px;">🎯 Q4 Target Alignment</h4>
+                        <p style="margin:0; font-size:12.5px; color:#475569; line-height:1.5;">
+                            Current momentum aims to bring both indices above the <b>90% baseline</b> in Q4 through accelerated inspection closures and continued subcontractor safety leadership.
+                        </p>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <!-- PAGE 9: TRAINING -->
@@ -2330,6 +2494,26 @@ def generate():
     </main>
 
     <script>
+                function switchKpiSubTab(tabName) {{
+            var tabs = ['comp', 'var', 'insights'];
+            tabs.forEach(function(t) {{
+                var el = document.getElementById('kpi-subtab-' + t);
+                var btn = document.getElementById('tab-btn-' + t);
+                if (t === tabName) {{
+                    if (el) el.style.display = 'block';
+                    if (btn) btn.classList.add('active');
+                }} else {{
+                    if (el) el.style.display = 'none';
+                    if (btn) btn.classList.remove('active');
+                }}
+            }});
+            setTimeout(function() {{
+                document.querySelectorAll('#kpi-subtab-' + tabName + ' .js-plotly-plot').forEach(function(plot) {{
+                    Plotly.relayout(plot, {{ autosize: true }});
+                    Plotly.Plots.resize(plot);
+                }});
+            }}, 50);
+        }}
         function switchPage(pageKey) {{
             var pages = document.querySelectorAll('.page-view');
             pages.forEach(function(p) {{
