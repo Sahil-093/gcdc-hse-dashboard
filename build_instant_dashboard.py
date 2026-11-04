@@ -363,7 +363,7 @@ def generate():
 
     # --- MONTHLY KPIS & PSI CHARTS ---
     kpi_all_m = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October"]
-    kpi_scores_val = [72, 70, 71, 88, 87, 88, 90, 89, 93, None]
+    kpi_scores_val = [84, 81, 87, 90, 93, 85, 91, 68, 68, None]
     kpi_base_val = [90] * 10
     val_x = [i for i, v in enumerate(kpi_scores_val) if v is not None]
     val_y = [v for v in kpi_scores_val if v is not None]
@@ -371,18 +371,19 @@ def generate():
     kpi_trend_val = [round(slope_k * i + intercept_k, 1) for i in range(len(kpi_all_m))]
 
     fig_kpi = go.Figure()
-    fig_kpi.add_trace(go.Scatter(x=kpi_all_m, y=kpi_base_val, mode='lines', name="Baseline (90%)", line=dict(color="#10b981", width=2, dash="dash")))
-    fig_kpi.add_trace(go.Scatter(x=kpi_all_m, y=kpi_trend_val, mode='lines', name="Linear Trendline", line=dict(color="#ef4444", width=2.5, dash="dot")))
+    fig_kpi.add_trace(go.Scatter(x=kpi_all_m, y=kpi_base_val, mode='lines', name="Baseline (90%)", line=dict(color="#10b981", width=2, dash="dash"), hovertemplate='Baseline: <b>90%</b><extra></extra>'))
+    fig_kpi.add_trace(go.Scatter(x=kpi_all_m, y=kpi_trend_val, mode='lines', name="Linear Trendline", line=dict(color="#ef4444", width=2.5, dash="dot"), hovertemplate='Trendline: <b>%{y:.1f}%</b><extra></extra>'))
     fig_kpi.add_trace(go.Scatter(
-        x=kpi_all_m, y=kpi_scores_val, mode='lines+markers+text', name="KPI Score",
-        line=dict(color="#005b82", width=3.8), marker=dict(size=8, color="#005b82", line=dict(color="#ffffff", width=2)),
-        text=[f"<b>{s:.0f}%</b>" if s is not None else "" for s in kpi_scores_val], textposition="top center", textfont=dict(size=11, color="#0f172a")
+        x=kpi_all_m, y=kpi_scores_val, mode='lines+markers+text', name="Monthly KPI Score",
+        line=dict(color="#005b82", width=3.8), marker=dict(size=9, color="#005b82", line=dict(color="#ffffff", width=2)),
+        text=[f"<b>{s:.0f}%</b>" if s is not None else "" for s in kpi_scores_val], textposition="top center", textfont=dict(size=12, color="#0f172a"),
+        cliponaxis=False, hovertemplate='<b>%{x}</b><br>KPI Score: <b>%{y}%</b><extra></extra>'
     ))
     fig_kpi.update_layout(
-        title=dict(text="<b>KPI</b>", font=dict(size=20, color="#0d233a"), x=0.5, xanchor="center"),
-        height=300, yaxis=dict(range=[0, 105], tickvals=[0, 20, 40, 60, 80, 100], ticktext=['0%', '20%', '40%', '60%', '80%', '100%'], gridcolor="#f1f5f9"),
-        xaxis=dict(tickangle=-45, tickfont=dict(size=11, color="#0f172a")), margin=dict(l=45, r=35, t=45, b=55),
-        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1, font=dict(size=10)), paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)'
+        title=dict(text="<b>KPI</b>", font=dict(size=22, color="#0d233a", family="Segoe UI, Inter, sans-serif"), x=0.5, xanchor="center"),
+        height=435, yaxis=dict(range=[0, 105], tickvals=[0, 20, 40, 60, 80, 100], ticktext=['0%', '20%', '40%', '60%', '80%', '100%'], gridcolor="#e2e8f0"),
+        xaxis=dict(tickangle=-45, tickfont=dict(size=12, color="#0f172a")), margin=dict(l=45, r=35, t=55, b=65),
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1, font=dict(size=11)), paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)'
     )
     kpis_chart_html = to_chart_html(fig_kpi, "chart_kpis_score")
 
@@ -393,18 +394,19 @@ def generate():
     psi_trend_val = [round(slope_p * i + intercept_p, 1) for i in range(len(kpi_all_m))]
 
     fig_psi = go.Figure()
-    fig_psi.add_trace(go.Scatter(x=kpi_all_m, y=kpi_base_val, mode='lines', name="Baseline (90%)", line=dict(color="#10b981", width=2, dash="dash")))
-    fig_psi.add_trace(go.Scatter(x=kpi_all_m, y=psi_trend_val, mode='lines', name="Linear Trendline", line=dict(color="#ef4444", width=2.5, dash="dot")))
+    fig_psi.add_trace(go.Scatter(x=kpi_all_m, y=kpi_base_val, mode='lines', name="Baseline (90%)", line=dict(color="#10b981", width=2, dash="dash"), hovertemplate='Baseline: <b>90%</b><extra></extra>'))
+    fig_psi.add_trace(go.Scatter(x=kpi_all_m, y=psi_trend_val, mode='lines', name="Linear Trendline", line=dict(color="#ef4444", width=2.5, dash="dot"), hovertemplate='Trendline: <b>%{y:.1f}%</b><extra></extra>'))
     fig_psi.add_trace(go.Scatter(
         x=kpi_all_m, y=psi_scores_val, mode='lines+markers+text', name="PSI/PCI Score",
-        line=dict(color="#005b82", width=3.8), marker=dict(size=8, color="#005b82", line=dict(color="#ffffff", width=2)),
-        text=[f"<b>{s:.0f}%</b>" if s is not None else "" for s in psi_scores_val], textposition="top center", textfont=dict(size=11, color="#0f172a")
+        line=dict(color="#005b82", width=3.8), marker=dict(size=9, color="#005b82", line=dict(color="#ffffff", width=2)),
+        text=[f"<b>{s:.0f}%</b>" if s is not None else "" for s in psi_scores_val], textposition="top center", textfont=dict(size=12, color="#0f172a"),
+        cliponaxis=False, hovertemplate='<b>%{x}</b><br>PSI/PCI Score: <b>%{y}%</b><extra></extra>'
     ))
     fig_psi.update_layout(
-        title=dict(text="<b>PSI/PCI</b>", font=dict(size=20, color="#0d233a"), x=0.5, xanchor="center"),
-        height=300, yaxis=dict(range=[0, 95], tickvals=[0, 20, 40, 60, 80], ticktext=['0%', '20%', '40%', '60%', '80%'], gridcolor="#f1f5f9"),
-        xaxis=dict(tickangle=-45, tickfont=dict(size=11, color="#0f172a")), margin=dict(l=45, r=35, t=45, b=55),
-        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1, font=dict(size=10)), paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)'
+        title=dict(text="<b>PSI/PCI</b>", font=dict(size=22, color="#0d233a", family="Segoe UI, Inter, sans-serif"), x=0.5, xanchor="center"),
+        height=435, yaxis=dict(range=[0, 95], tickvals=[0, 20, 40, 60, 80], ticktext=['0%', '20%', '40%', '60%', '80%'], gridcolor="#e2e8f0"),
+        xaxis=dict(tickangle=-45, tickfont=dict(size=12, color="#0f172a")), margin=dict(l=45, r=35, t=55, b=65),
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1, font=dict(size=11)), paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)'
     )
     kpis_psi_html = to_chart_html(fig_psi, "chart_kpis_psi")
 
@@ -1927,16 +1929,267 @@ def generate():
 
         <!-- PAGE 8: KPIS -->
         <section id="page-KPIs" class="page-view">
-            <h2 style="font-size:20px; font-weight:800; color:#0f172a; margin-bottom:4px;">📈 Monthly KPI & PSI Score Trends</h2>
-            <p style="font-size:13px; color:#64748b; margin-bottom:18px;">Proactive safety performance index and project safety implementation trends</p>
+            <h2 style="font-size:22px; font-weight:800; color:#0f172a; margin-bottom:4px;">📈 HSE Monthly KPI Performance & Trends</h2>
+            <p style="font-size:13px; color:#64748b; margin-bottom:18px;">Month-by-month KPI and performance index analysis against the 90% project baseline</p>
+
+            <!-- 1. TOP 6 EXECUTIVE METRIC CARDS -->
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-title">Overall KPI Avg</div>
+                    <div class="kpi-value">83%</div>
+                    <span class="kpi-badge badge-warning">Target: 90%</span>
+                    <div class="metric-sub">Variance: -7.0%</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">Overall PSI/PCI Avg</div>
+                    <div class="kpi-value" style="color:#8b5cf6;">65.4%</div>
+                    <span class="kpi-badge badge-info">Target: 90%</span>
+                    <div class="metric-sub">Process Safety</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">Baseline Benchmark</div>
+                    <div class="kpi-value" style="color:#0284c7;">90%</div>
+                    <span class="kpi-badge badge-info">Standard Target</span>
+                    <div class="metric-sub">Fixed Contract KPI</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">Peak KPI Month</div>
+                    <div class="kpi-value" style="color:#15803d;">93%</div>
+                    <span class="kpi-badge badge-success">May 2026</span>
+                    <div class="metric-sub">+3.0% Above Target</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">Peak PSI/PCI Month</div>
+                    <div class="kpi-value" style="color:#15803d;">75%</div>
+                    <span class="kpi-badge badge-success">Sep 2026</span>
+                    <div class="metric-sub">Record Process High</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">PSI/PCI Trend</div>
+                    <div class="kpi-value" style="color:#059669;">+15%</div>
+                    <span class="kpi-badge badge-success">58% &rarr; 75%</span>
+                    <div class="metric-sub">+1.8% Monthly Gain</div>
+                </div>
+            </div>
+
+            <!-- SECTION 1: HSE MONTHLY OVERALL KPI -->
+            <div class="grid-2">
+                <div class="section-card">
+                    <div class="section-title">📋 HSE Monthly KPI Registry (Excel Format)</div>
+                    
+                    <div class="table-responsive">
+                        <table style="width:100%; border-collapse:collapse; font-family:'Segoe UI', Inter, -apple-system, sans-serif; border: 2px solid #002060; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08);">
+                            <thead>
+                                <tr style="background-color: #002060; color: #ffffff;">
+                                    <th colspan="3" style="padding: 10px 14px; font-size: 16px; font-weight: 700; text-align: center; letter-spacing: 0.5px;">
+                                        HSE Monthly KPI
+                                    </th>
+                                </tr>
+                                <tr style="background-color: #b4c6e7; color: #000000; border-top: 1px solid #8ea9db; border-bottom: 2px solid #002060;">
+                                    <th style="padding: 8px 12px; font-size: 14px; font-weight: 600; text-align: center; border-right: 1px solid #8ea9db; width: 44%;">Month</th>
+                                    <th style="padding: 8px 12px; font-size: 14px; font-weight: 600; text-align: center; border-right: 1px solid #8ea9db; width: 28%;">Score</th>
+                                    <th style="padding: 8px 12px; font-size: 14px; font-weight: 600; text-align: center; width: 28%;">baseline</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid #8ea9db;">
+                                    <td style="padding: 7px 14px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">January</td>
+                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">84%</td>
+                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #8ea9db;">
+                                    <td style="padding: 7px 14px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">February</td>
+                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">81%</td>
+                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #8ea9db;">
+                                    <td style="padding: 7px 14px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">March</td>
+                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">87%</td>
+                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #8ea9db;">
+                                    <td style="padding: 7px 14px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">April</td>
+                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">90%</td>
+                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #8ea9db;">
+                                    <td style="padding: 7px 14px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">May</td>
+                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">93%</td>
+                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #8ea9db;">
+                                    <td style="padding: 7px 14px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">June</td>
+                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">85%</td>
+                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #8ea9db;">
+                                    <td style="padding: 7px 14px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">July</td>
+                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">91%</td>
+                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #8ea9db;">
+                                    <td style="padding: 7px 14px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">August</td>
+                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">68%</td>
+                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #8ea9db;">
+                                    <td style="padding: 7px 14px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">September</td>
+                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">68%</td>
+                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #8ea9db;">
+                                    <td style="padding: 7px 14px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">October</td>
+                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;"></td>
+                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr style="background-color: #002060; color: #ffffff; border-top: 2px solid #002060;">
+                                    <td style="padding: 10px 12px; text-align: center; border-right: 1px solid #203764; font-weight: 700; font-size: 14px; line-height: 1.2;">
+                                        Overall Average<br>Score
+                                    </td>
+                                    <td style="padding: 10px 12px; text-align: center; border-right: 1px solid #203764; font-size: 16px; font-weight: 800; color: #ffffff;">
+                                        83%
+                                    </td>
+                                    <td style="padding: 10px 12px; text-align: center; font-size: 16px; font-weight: 800; color: #ffffff;">
+                                        90%
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                    <div style="display:flex; justify-content:space-between; margin-top:14px; gap:8px;">
+                        <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:6px; padding:8px; text-align:center; flex:1;">
+                            <div style="font-size:10px; font-weight:600; color:#166534; text-transform:uppercase;">Above Target</div>
+                            <div style="font-size:15px; font-weight:800; color:#15803d;">3 Months</div>
+                        </div>
+                        <div style="background:#fffbeb; border:1px solid #fde68a; border-radius:6px; padding:8px; text-align:center; flex:1;">
+                            <div style="font-size:10px; font-weight:600; color:#92400e; text-transform:uppercase;">Near Target</div>
+                            <div style="font-size:15px; font-weight:800; color:#b45309;">4 Months</div>
+                        </div>
+                        <div style="background:#fef2f2; border:1px solid #fecaca; border-radius:6px; padding:8px; text-align:center; flex:1;">
+                            <div style="font-size:10px; font-weight:600; color:#991b1b; text-transform:uppercase;">Under Target</div>
+                            <div style="font-size:15px; font-weight:800; color:#dc2626;">2 Months</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <div class="section-title">📈 KPI Performance Line Chart & Linear Trendline</div>
+                    {kpis_chart_html}
+                </div>
+            </div>
+
+            <!-- SECTION 2: HSE MONTHLY PSI/PCI -->
+            <div style="margin: 36px 0 24px 0; border-top: 2px dashed #cbd5e1;"></div>
+            <h3 style="font-size:18px; font-weight:800; color:#0f172a; margin-bottom:4px;">🎯 2. HSE Monthly Process Safety Index (PSI / PCI)</h3>
+            <p style="font-size:13px; color:#64748b; margin-bottom:18px;">Month-by-month Process Safety Index performance and positive upward trajectory vs 90% target</p>
 
             <div class="grid-2">
                 <div class="section-card">
-                    <div class="section-title">📈 Monthly KPI Performance vs 90% Target</div>
-                    {kpis_chart_html}
+                    <div class="section-title">📋 HSE Monthly PSI/PCI Registry (Excel Format)</div>
+                    
+                    <div class="table-responsive">
+                        <table style="width:100%; border-collapse:collapse; font-family:'Segoe UI', Inter, -apple-system, sans-serif; border: 2px solid #002060; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08);">
+                            <thead>
+                                <tr style="background-color: #002060; color: #ffffff;">
+                                    <th colspan="3" style="padding: 10px 14px; font-size: 16px; font-weight: 700; text-align: center; letter-spacing: 0.5px;">
+                                        HSE Monthly PSI/PCI
+                                    </th>
+                                </tr>
+                                <tr style="background-color: #b4c6e7; color: #000000; border-top: 1px solid #8ea9db; border-bottom: 2px solid #002060;">
+                                    <th style="padding: 8px 12px; font-size: 14px; font-weight: 600; text-align: center; border-right: 1px solid #8ea9db; width: 44%;">Month</th>
+                                    <th style="padding: 8px 12px; font-size: 14px; font-weight: 600; text-align: center; border-right: 1px solid #8ea9db; width: 28%;">Score</th>
+                                    <th style="padding: 8px 12px; font-size: 14px; font-weight: 600; text-align: center; width: 28%;">baseline</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid #8ea9db;">
+                                    <td style="padding: 7px 14px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">January</td>
+                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">60%</td>
+                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #8ea9db;">
+                                    <td style="padding: 7px 14px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">February</td>
+                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">58%</td>
+                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #8ea9db;">
+                                    <td style="padding: 7px 14px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">March</td>
+                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">59%</td>
+                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #8ea9db;">
+                                    <td style="padding: 7px 14px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">April</td>
+                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">67%</td>
+                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #8ea9db;">
+                                    <td style="padding: 7px 14px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">May</td>
+                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">66%</td>
+                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #8ea9db;">
+                                    <td style="padding: 7px 14px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">June</td>
+                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">67%</td>
+                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #8ea9db;">
+                                    <td style="padding: 7px 14px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">July</td>
+                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">69%</td>
+                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #8ea9db;">
+                                    <td style="padding: 7px 14px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">August</td>
+                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">68%</td>
+                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #8ea9db;">
+                                    <td style="padding: 7px 14px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">September</td>
+                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">75%</td>
+                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #8ea9db;">
+                                    <td style="padding: 7px 14px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">October</td>
+                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;"></td>
+                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr style="background-color: #002060; color: #ffffff; border-top: 2px solid #002060;">
+                                    <td style="padding: 10px 12px; text-align: center; border-right: 1px solid #203764; font-weight: 700; font-size: 14px; line-height: 1.2;">
+                                        Overall Average<br>Score
+                                    </td>
+                                    <td style="padding: 10px 12px; text-align: center; border-right: 1px solid #203764; font-size: 16px; font-weight: 800; color: #ffffff;">
+                                        65%
+                                    </td>
+                                    <td style="padding: 10px 12px; text-align: center; font-size: 16px; font-weight: 800; color: #ffffff;">
+                                        90%
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                    <div style="display:flex; justify-content:space-between; margin-top:14px; gap:8px;">
+                        <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:6px; padding:8px; text-align:center; flex:1;">
+                            <div style="font-size:10px; font-weight:600; color:#166534; text-transform:uppercase;">Peak Month</div>
+                            <div style="font-size:15px; font-weight:800; color:#15803d;">75% (Sep)</div>
+                        </div>
+                        <div style="background:#f0f9ff; border:1px solid #bae6fd; border-radius:6px; padding:8px; text-align:center; flex:1;">
+                            <div style="font-size:10px; font-weight:600; color:#0369a1; text-transform:uppercase;">Average Score</div>
+                            <div style="font-size:15px; font-weight:800; color:#0284c7;">65.4%</div>
+                        </div>
+                        <div style="background:#ecfdf5; border:1px solid #a7f3d0; border-radius:6px; padding:8px; text-align:center; flex:1;">
+                            <div style="font-size:10px; font-weight:600; color:#047857; text-transform:uppercase;">Positive Trend</div>
+                            <div style="font-size:15px; font-weight:800; color:#059669;">+15% Growth</div>
+                        </div>
+                    </div>
                 </div>
+
                 <div class="section-card">
-                    <div class="section-title">📈 Monthly PSI/PCI Safety Index</div>
+                    <div class="section-title">📈 PSI/PCI Performance Line Chart & Linear Trendline</div>
                     {kpis_psi_html}
                 </div>
             </div>
