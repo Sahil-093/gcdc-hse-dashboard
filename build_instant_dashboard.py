@@ -545,6 +545,69 @@ def generate():
     )
     train_chart_html = to_chart_html(fig_train, "chart_train_sessions")
 
+    # Training Attendance Breakdown Chart
+    active_t_m = ["Jan", "Jul", "Sep"]
+    active_t_att = [15, 30, 17]
+    active_t_ses = [2, 2, 1]
+
+    fig_att = go.Figure()
+    fig_att.add_trace(go.Bar(
+        x=active_t_m,
+        y=active_t_att,
+        text=[f"<b>{a} workers</b><br>({s} sessions)" for a, s in zip(active_t_att, active_t_ses)],
+        textposition='outside',
+        textfont=dict(size=12, family='Inter, sans-serif'),
+        marker_color="#0284c7",
+        width=0.45,
+        name="Attendees"
+    ))
+    fig_att.update_layout(
+        height=280,
+        yaxis=dict(range=[0, 38], title="Workers Attended", gridcolor="#e2e8f0"),
+        xaxis=dict(tickfont=dict(size=13, color="#0f172a")),
+        margin=dict(l=40, r=40, t=25, b=25),
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)'
+    )
+    train_att_chart_html = to_chart_html(fig_att, "chart_train_att")
+
+    # Training Gap & Deficit Cumulative Chart
+    cum_targets = []
+    cum_actuals = []
+    tot_tgt = 0
+    tot_act = 0
+    for m, t, a in zip(t_m, t_tgt, t_v):
+        tot_tgt += t
+        tot_act += a
+        cum_targets.append(tot_tgt)
+        cum_actuals.append(tot_act)
+
+    fig_gap = go.Figure()
+    fig_gap.add_trace(go.Scatter(
+        x=t_m,
+        y=cum_targets,
+        mode='lines+markers',
+        name="Target Cumulative (17)",
+        line=dict(color="#ef4444", width=3, dash="dash")
+    ))
+    fig_gap.add_trace(go.Scatter(
+        x=t_m,
+        y=cum_actuals,
+        mode='lines+markers',
+        name="Actual Cumulative (5)",
+        line=dict(color="#10b981", width=3)
+    ))
+    fig_gap.update_layout(
+        height=280,
+        yaxis=dict(title="Sessions", gridcolor="#e2e8f0"),
+        xaxis=dict(tickfont=dict(size=12, color="#0f172a")),
+        margin=dict(l=40, r=40, t=25, b=25),
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)'
+    )
+    train_gap_chart_html = to_chart_html(fig_gap, "chart_train_gap")
+
     df_w = pd.DataFrame(data['welfare']['weekly'])
     fig_w = go.Figure()
     fig_w.add_trace(go.Scatter(
@@ -975,6 +1038,18 @@ def generate():
         }}
         @media (max-width: 1024px) {{
             .grid-kpi-layout {{
+                grid-template-columns: 1fr;
+            }}
+        }}
+        .grid-training-layout {{
+            display: grid;
+            grid-template-columns: 370px 1fr;
+            gap: 20px;
+            align-items: start;
+            margin-top: 20px;
+        }}
+        @media (max-width: 1024px) {{
+            .grid-training-layout {{
                 grid-template-columns: 1fr;
             }}
         }}
@@ -2446,7 +2521,7 @@ def generate():
                 </div>
             </div>
 
-            <div class="grid-2" style="margin-top:20px;">
+            <div class="grid-training-layout">
                 <div class="section-card">
                     <div class="section-title">📋 Training Rate Registry (Excel Format)</div>
                     <table style="width:100%; border-collapse:collapse; font-family:'Segoe UI', Inter, -apple-system, sans-serif; border: 2px solid #002060; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08);">
@@ -2576,6 +2651,52 @@ def generate():
                 <div class="section-card">
                     <div class="section-title">📊 Training Execution Bar Chart (Image Format)</div>
                     {train_chart_html}
+                </div>
+            </div>
+
+            <!-- SECONDARY ANALYTICS: ATTENDEES & GAP RECOVERY TABS -->
+            <div class="section-card" style="margin-top:24px;">
+                <div class="tab-header-bar">
+                    <button type="button" id="train-btn-att" class="tab-link" onclick="switchTrainSubTab('att')">👥 Workforce Attendance Breakdown (62 Attendees)</button>
+                    <button type="button" id="train-btn-gap" class="tab-link active" onclick="switchTrainSubTab('gap')">⚠️ Training Gap & Deficit Analysis</button>
+                    <button type="button" id="train-btn-plan" class="tab-link" onclick="switchTrainSubTab('plan')">🚀 Q4 Accelerated Training Schedule</button>
+                </div>
+
+                <!-- Tab 1: Attendance Breakdown -->
+                <div id="train-subtab-att" class="train-tab-content" style="display:none;">
+                    <div class="section-title">Attendees Breakdown by Session</div>
+                    {train_att_chart_html}
+                </div>
+
+                <!-- Tab 2: Gap & Deficit Analysis (Default Active matching user screenshot) -->
+                <div id="train-subtab-gap" class="train-tab-content" style="display:block;">
+                    <div class="section-title">Cumulative Target vs Actual Sessions</div>
+                    {train_gap_chart_html}
+                </div>
+
+                <!-- Tab 3: Q4 Accelerated Roadmap -->
+                <div id="train-subtab-plan" class="train-tab-content" style="display:none;">
+                    <div class="section-title">HSE Training Recovery Roadmap (Target: 100% Compliance)</div>
+                    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:16px; margin-top:14px;">
+                        <div style="background:#fef2f2; border:1px solid #fecaca; border-radius:8px; padding:16px;">
+                            <h4 style="margin:0 0 8px 0; color:#991b1b; font-size:14px;">⚠️ Current Execution Status (29%)</h4>
+                            <p style="margin:0; font-size:12.5px; color:#475569; line-height:1.5;">
+                                Only <b>5 out of 17 planned training sessions</b> have been executed YTD, leaving a backlog of <b>12 sessions</b> across working at heights, confined space, and electrical safety.
+                            </p>
+                        </div>
+                        <div style="background:#fffbeb; border:1px solid #fde68a; border-radius:8px; padding:16px;">
+                            <h4 style="margin:0 0 8px 0; color:#92400e; font-size:14px;">📅 Q4 Acceleration Schedule</h4>
+                            <p style="margin:0; font-size:12.5px; color:#475569; line-height:1.5;">
+                                Scheduled 6 intensive weekend & batch training modules in October and November to cover high-risk operational competencies before project commissioning phases.
+                            </p>
+                        </div>
+                        <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:16px;">
+                            <h4 style="margin:0 0 8px 0; color:#166534; font-size:14px;">🎯 Subcontractor Mandate</h4>
+                            <p style="margin:0; font-size:12.5px; color:#475569; line-height:1.5;">
+                                All subcontractor foremen and frontline supervisors must produce valid training passports and attendance slips before PTW authorization.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -2722,7 +2843,28 @@ def generate():
     </main>
 
     <script>
-                function switchRatesSubTab(tabName) {{
+                function switchTrainSubTab(tabName) {{
+            var tabs = ['att', 'gap', 'plan'];
+            tabs.forEach(function(t) {{
+                var el = document.getElementById('train-subtab-' + t);
+                var btn = document.getElementById('train-btn-' + t);
+                if (t === tabName) {{
+                    if (el) el.style.display = 'block';
+                    if (btn) btn.classList.add('active');
+                }} else {{
+                    if (el) el.style.display = 'none';
+                    if (btn) btn.classList.remove('active');
+                }}
+            }});
+            setTimeout(function() {{
+                document.querySelectorAll('#train-subtab-' + tabName + ' .js-plotly-plot').forEach(function(plot) {{
+                    Plotly.relayout(plot, {{ autosize: true }});
+                    Plotly.Plots.resize(plot);
+                }});
+            }}, 50);
+        }}
+
+        function switchRatesSubTab(tabName) {{
             var tabs = ['bench', 'safemh', 'rec'];
             tabs.forEach(function(t) {{
                 var el = document.getElementById('rates-subtab-' + t);
