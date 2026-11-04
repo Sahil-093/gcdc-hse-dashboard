@@ -279,10 +279,51 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Data Loader
+# Data Loader & Excel Auto-Sync
+EXCEL_DIR = r"D:\Kharafi\SBARC\DASHBOARDS - REGISTERS & LOGS\GCDC HSE Dashboard"
 CSV_PATH = os.path.join(os.path.dirname(__file__), "single_sheet_data.csv")
 if not os.path.exists(CSV_PATH):
     CSV_PATH = "single_sheet_data.csv"
+
+def sync_excel_to_csv():
+    """Reads latest Excel file from D: drive and syncs to single_sheet_data.csv"""
+    if not os.path.exists(EXCEL_DIR):
+        return False, "Excel directory not found on D: drive."
+    
+    files = [f for f in glob.glob(os.path.join(EXCEL_DIR, "*.xlsx")) if not os.path.basename(f).startswith("~$")]
+    if not files:
+        return False, "No valid .xlsx files found in Excel directory."
+        
+    newest = max(files, key=os.path.getmtime)
+    try:
+        import openpyxl
+        wb = openpyxl.load_workbook(newest, data_only=True)
+        if "DASHBOARD" not in wb.sheetnames or "DATA" not in wb.sheetnames:
+            return False, f"Expected sheets 'DASHBOARD' and 'DATA' not in {os.path.basename(newest)}"
+            
+        ws_dash = wb["DASHBOARD"]
+        ws_data = wb["DATA"]
+        
+        # 33 rows of DASHBOARD + all rows of DATA
+        dash_rows = [[cell.value if cell.value is not None else "" for cell in row] for row in ws_dash.iter_rows(max_row=33, max_col=24)]
+        data_rows = [[cell.value if cell.value is not None else "" for cell in row] for row in ws_data.iter_rows(max_col=24)]
+        all_rows = dash_rows + data_rows
+        
+        target_csv = os.path.join(os.path.dirname(__file__), "single_sheet_data.csv")
+        with open(target_csv, "w", newline="", encoding="utf-8") as f:
+            writer = csv.writer(f)
+            writer.writerows(all_rows)
+            
+        # Also rebuild instant dashboard index.html
+        try:
+            import subprocess
+            subprocess.Popen([sys.executable, os.path.join(os.path.dirname(__file__), "build_instant_dashboard.py")])
+        except Exception:
+            pass
+            
+        return True, f"Synced with Excel: {os.path.basename(newest)}"
+    except Exception as e:
+        return False, f"Excel read error: {str(e)}"
 
 
 def load_data():
@@ -606,6 +647,13 @@ with st.sidebar:
     st.markdown("---")
     st.markdown(f"**Current Page:** `{st.session_state.active_page}`")
     if st.button("🔄 Refresh Data", use_container_width=True):
+        ok, msg = sync_excel_to_csv()
+        if ok:
+            st.toast(msg, icon="✅")
+            st.success(msg)
+        else:
+            st.warning(msg)
+        st.cache_data.clear()
         st.rerun()
 
     # Dedicated Site Observations Section in Left Side Panel (Matching User's New Excel Images)
