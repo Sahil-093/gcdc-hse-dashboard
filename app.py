@@ -561,13 +561,13 @@ with st.sidebar:
     for label, key in pages:
         is_active = (st.session_state.active_page == key)
         btn_type = "primary" if is_active else "secondary"
-        if st.button(label, key=f"nav_{key}", width="stretch", type=btn_type):
+        if st.button(label, key=f"nav_{key}", use_container_width=True, type=btn_type):
             set_page(key)
             st.rerun()
 
     st.markdown("---")
     st.markdown(f"**Current Page:** `{st.session_state.active_page}`")
-    if st.button("🔄 Refresh Data", width="stretch"):
+    if st.button("🔄 Refresh Data", use_container_width=True):
         st.rerun()
 
     # Dedicated Site Observations Section in Left Side Panel (Matching User's New Excel Images)
@@ -672,7 +672,7 @@ with st.sidebar:
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(0,0,0,0)'
     )
-    st.plotly_chart(fig_obs_sb, width="stretch")
+    st.plotly_chart(fig_obs_sb, use_container_width=True)
 
     # Dedicated NCRs Section in Left Side Panel (Matching User's Excel Images)
     st.markdown("---")
@@ -777,7 +777,7 @@ with st.sidebar:
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(0,0,0,0)'
     )
-    st.plotly_chart(fig_ncr_sb, width="stretch")
+    st.plotly_chart(fig_ncr_sb, use_container_width=True)
 
     # Dedicated HSE Activities Section in Left Side Panel (Matching User's New Excel Images)
     st.markdown("---")
@@ -851,7 +851,7 @@ with st.sidebar:
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(0,0,0,0)'
     )
-    st.plotly_chart(fig_act_sb, width="stretch")
+    st.plotly_chart(fig_act_sb, use_container_width=True)
 
     # Dedicated HSE Staffing Compliance Section in Left Side Panel (Matching User's Excel Image)
     st.markdown("---")
@@ -1064,7 +1064,7 @@ if st.session_state.active_page == "Incidents":
             paper_bgcolor='rgba(0,0,0,0)',
             plot_bgcolor='rgba(0,0,0,0)',
         )
-        st.plotly_chart(fig_inc_bar, width="stretch")
+        st.plotly_chart(fig_inc_bar, use_container_width=True)
 
     # Secondary Row: Safety Pyramid & Proactive Interpretation
     r2_col1, r2_col2 = st.columns([1.1, 0.9])
@@ -1106,7 +1106,7 @@ if st.session_state.active_page == "Incidents":
                 tickfont=dict(size=12, color='#0f172a', family='Inter, sans-serif')
             )
         )
-        st.plotly_chart(fig_pyr, width="stretch")
+        st.plotly_chart(fig_pyr, use_container_width=True)
         st.markdown('</div>', unsafe_allow_html=True)
 
     with r2_col2:
@@ -1179,7 +1179,7 @@ elif st.session_state.active_page == "Compliance":
             }
         ))
         fig_comp_gauge.update_layout(height=180, margin=dict(l=20, r=20, t=20, b=10), paper_bgcolor='rgba(0,0,0,0)')
-        st.plotly_chart(fig_comp_gauge, width="stretch")
+        st.plotly_chart(fig_comp_gauge, use_container_width=True)
         st.markdown('</div>', unsafe_allow_html=True)
 
     # Categorical Inspection Breakdown
@@ -1249,7 +1249,7 @@ elif st.session_state.active_page == "Compliance":
         {"Inspections": "Other Inspections including Audits", "Open": aud['open'], "Close": str(aud['closed']), "Total": str(aud['total']), "Closure Rate": f"{aud['rate']*100:.0f}% (Action Required)"},
         {"Inspections": "Grand total", "Open": grand['open'], "Close": f"{grand['closed']:,}", "Total": f"{grand['total']:,}", "Closure Rate": f"{grand['rate']*100:.0f}%"}
     ])
-    st.dataframe(table_data, width="stretch", hide_index=True)
+    st.dataframe(table_data, use_container_width=True, hide_index=True)
 
     # Yellow Note Box
     st.markdown("""
@@ -1433,7 +1433,7 @@ elif st.session_state.active_page == "Observations":
             paper_bgcolor='rgba(0,0,0,0)',
             plot_bgcolor='rgba(0,0,0,0)'
         )
-        st.plotly_chart(fig_obs_main, width="stretch")
+        st.plotly_chart(fig_obs_main, use_container_width=True)
 
         st.markdown("""
         <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 12px; margin-top: 10px;">
@@ -1617,7 +1617,7 @@ elif st.session_state.active_page == "NCRs":
             paper_bgcolor='rgba(0,0,0,0)',
             plot_bgcolor='rgba(0,0,0,0)'
         )
-        st.plotly_chart(fig_ncr_main, width="stretch")
+        st.plotly_chart(fig_ncr_main, use_container_width=True)
 
         st.markdown("""
         <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 12px; margin-top: 10px;">
@@ -1756,7 +1756,7 @@ elif st.session_state.active_page == "Activities":
             paper_bgcolor='rgba(0,0,0,0)',
             plot_bgcolor='rgba(0,0,0,0)'
         )
-        st.plotly_chart(fig_act_main, width="stretch")
+        st.plotly_chart(fig_act_main, use_container_width=True)
 
         st.markdown("""
         <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 12px; margin-top: 10px;">
@@ -1860,7 +1860,7 @@ elif st.session_state.active_page == "Home":
                 ],
                 target_text="Lost Time Injury Rate (Zero Target)"
             )
-            st.plotly_chart(fig_ltifr, width="stretch")
+            st.plotly_chart(fig_ltifr, use_container_width=True)
         with g2:
             fig_trir = create_gauge(
                 value=data['rates']['trir'],
@@ -1874,7 +1874,7 @@ elif st.session_state.active_page == "Home":
                 ],
                 target_text="Total Recordable Rate (&le;0.50 Good)"
             )
-            st.plotly_chart(fig_trir, width="stretch")
+            st.plotly_chart(fig_trir, use_container_width=True)
         st.markdown('</div>', unsafe_allow_html=True)
 
     with row1_right:
@@ -1906,7 +1906,7 @@ elif st.session_state.active_page == "Home":
             showlegend=False,
             paper_bgcolor='rgba(0,0,0,0)'
         )
-        st.plotly_chart(fig_donut, width="stretch")
+        st.plotly_chart(fig_donut, use_container_width=True)
         st.markdown('</div>', unsafe_allow_html=True)
 
     # 3. SAFE MAN-HOURS & DAILY MANPOWER
@@ -1945,7 +1945,7 @@ elif st.session_state.active_page == "Home":
         plot_bgcolor='rgba(0,0,0,0)',
         hovermode="x unified"
     )
-    st.plotly_chart(fig_dual, width="stretch")
+    st.plotly_chart(fig_dual, use_container_width=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
     # 4. HSE Staffing Compliance & Proactive Engagements (Exact Excel Visuals)
@@ -2010,7 +2010,7 @@ elif st.session_state.active_page == "Home":
             }
         ))
         fig_staff_gauge.update_layout(height=230, margin=dict(l=20, r=20, t=35, b=15), paper_bgcolor='rgba(0,0,0,0)')
-        st.plotly_chart(fig_staff_gauge, width="stretch")
+        st.plotly_chart(fig_staff_gauge, use_container_width=True)
 
     with col_st_b:
         st.markdown('<div style="font-size:12px; font-weight:700; color:#64748b; margin-bottom:6px; text-transform:uppercase;">Headcount Distribution</div>', unsafe_allow_html=True)
@@ -2041,7 +2041,7 @@ elif st.session_state.active_page == "Home":
             paper_bgcolor='rgba(0,0,0,0)',
             plot_bgcolor='rgba(0,0,0,0)'
         )
-        st.plotly_chart(fig_staff_bar, width="stretch")
+        st.plotly_chart(fig_staff_bar, use_container_width=True)
 
     # 4 Quick Metric Pills for Proactive Overview
     st.markdown("<hr style='margin: 15px 0 10px 0; border: none; border-top: 1px dashed #e2e8f0;'>", unsafe_allow_html=True)
@@ -2257,7 +2257,7 @@ elif st.session_state.active_page == "Workforce":
                 paper_bgcolor='rgba(0,0,0,0)',
                 plot_bgcolor='rgba(0,0,0,0)',
             )
-            st.plotly_chart(fig_hours_bar, width="stretch")
+            st.plotly_chart(fig_hours_bar, use_container_width=True)
 
         with tab_chart_cumul:
             # Cumulative safe hours progression
@@ -2313,7 +2313,7 @@ elif st.session_state.active_page == "Workforce":
                 paper_bgcolor='rgba(0,0,0,0)',
                 plot_bgcolor='rgba(0,0,0,0)',
             )
-            st.plotly_chart(fig_cumul, width="stretch")
+            st.plotly_chart(fig_cumul, use_container_width=True)
 
     # Secondary Row: Safe Man-hours vs Daily Manpower Dynamics
     st.markdown('<div class="section-card"><div class="section-title">⏱️ Safe Man-Hours vs Average Daily Workforce Trend</div>', unsafe_allow_html=True)
@@ -2350,7 +2350,7 @@ elif st.session_state.active_page == "Workforce":
         plot_bgcolor='rgba(0,0,0,0)',
         hovermode="x unified"
     )
-    st.plotly_chart(fig_dual_wf, width="stretch")
+    st.plotly_chart(fig_dual_wf, use_container_width=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
 
@@ -2592,7 +2592,7 @@ elif st.session_state.active_page == "KPIs":
             paper_bgcolor='rgba(0,0,0,0)',
             plot_bgcolor='rgba(0,0,0,0)',
         )
-        st.plotly_chart(fig_kpi_chart, width="stretch")
+        st.plotly_chart(fig_kpi_chart, use_container_width=True)
 
     # =========================================================================
     # 🎯 SECTION 2: HSE MONTHLY PSI/PCI (MATCHING USER'S NEW IMAGES)
@@ -2772,7 +2772,7 @@ elif st.session_state.active_page == "KPIs":
             paper_bgcolor='rgba(0,0,0,0)',
             plot_bgcolor='rgba(0,0,0,0)',
         )
-        st.plotly_chart(fig_psi_chart, width="stretch")
+        st.plotly_chart(fig_psi_chart, use_container_width=True)
 
     # =========================================================================
     # ⚖️ SECTION 3: COMPARATIVE ANALYTICS & INSIGHTS
@@ -2823,7 +2823,7 @@ elif st.session_state.active_page == "KPIs":
             paper_bgcolor='rgba(0,0,0,0)',
             plot_bgcolor='rgba(0,0,0,0)'
         )
-        st.plotly_chart(fig_dual_comp, width="stretch")
+        st.plotly_chart(fig_dual_comp, use_container_width=True)
 
     with tab_var:
         st.markdown('<div class="section-title">Monthly KPI Delta vs 90% Target Benchmark</div>', unsafe_allow_html=True)
@@ -2861,7 +2861,7 @@ elif st.session_state.active_page == "KPIs":
             paper_bgcolor='rgba(0,0,0,0)',
             plot_bgcolor='rgba(0,0,0,0)'
         )
-        st.plotly_chart(fig_var, width="stretch")
+        st.plotly_chart(fig_var, use_container_width=True)
 
         # Second Diverging Variance Chart: PSI/PCI Delta vs 90% Target
         st.markdown("<div style='margin: 28px 0 16px 0; border-top: 1px dashed #cbd5e1;'></div>", unsafe_allow_html=True)
@@ -2900,7 +2900,7 @@ elif st.session_state.active_page == "KPIs":
             paper_bgcolor='rgba(0,0,0,0)',
             plot_bgcolor='rgba(0,0,0,0)'
         )
-        st.plotly_chart(fig_psi_var, width="stretch")
+        st.plotly_chart(fig_psi_var, use_container_width=True)
 
     with tab_insights:
         st.markdown('<div class="section-title">Executive HSE Observations & Corrective Actions</div>', unsafe_allow_html=True)
@@ -3157,7 +3157,7 @@ elif st.session_state.active_page == "Training":
             paper_bgcolor='rgba(0,0,0,0)',
             plot_bgcolor='rgba(0,0,0,0)',
         )
-        st.plotly_chart(fig_train_bar, width="stretch")
+        st.plotly_chart(fig_train_bar, use_container_width=True)
 
     # 3. SECONDARY ANALYTICS: ATTENDEES & GAP RECOVERY
     st.markdown("<br>", unsafe_allow_html=True)
@@ -3192,7 +3192,7 @@ elif st.session_state.active_page == "Training":
             paper_bgcolor='rgba(0,0,0,0)',
             plot_bgcolor='rgba(0,0,0,0)'
         )
-        st.plotly_chart(fig_att, width="stretch")
+        st.plotly_chart(fig_att, use_container_width=True)
 
     with tab_gap:
         st.markdown('<div class="section-title">Cumulative Target vs Actual Sessions</div>', unsafe_allow_html=True)
@@ -3230,7 +3230,7 @@ elif st.session_state.active_page == "Training":
             paper_bgcolor='rgba(0,0,0,0)',
             plot_bgcolor='rgba(0,0,0,0)'
         )
-        st.plotly_chart(fig_gap, width="stretch")
+        st.plotly_chart(fig_gap, use_container_width=True)
 
     with tab_plan:
         st.markdown('<div class="section-title">HSE Training Recovery Roadmap (Target: 100% Compliance)</div>', unsafe_allow_html=True)
@@ -3368,7 +3368,7 @@ elif st.session_state.active_page == "Rates":
                 slice_colors=['#196b24', '#4ea72e', '#ffc000', '#ff0000'],
                 needle_frac=0.01
             )
-            st.plotly_chart(fig_speedo_lti, width="stretch")
+            st.plotly_chart(fig_speedo_lti, use_container_width=True)
             st.markdown("""
             <div style="text-align: center; margin-top: -15px;">
                 <span style="background: #dcfce7; color: #166534; font-weight: 700; font-size: 12px; padding: 4px 12px; border-radius: 9999px; border: 1px solid #bbf7d0;">
@@ -3384,7 +3384,7 @@ elif st.session_state.active_page == "Rates":
                 slice_colors=['#196b24', '#4ea72e', '#ffff00', '#e97132', '#ff0000'],
                 needle_frac=0.18
             )
-            st.plotly_chart(fig_speedo_tri, width="stretch")
+            st.plotly_chart(fig_speedo_tri, use_container_width=True)
             st.markdown("""
             <div style="text-align: center; margin-top: -15px;">
                 <span style="background: #e0f2fe; color: #0369a1; font-weight: 700; font-size: 12px; padding: 4px 12px; border-radius: 9999px; border: 1px solid #bae6fd;">
@@ -3425,7 +3425,7 @@ elif st.session_state.active_page == "Rates":
             paper_bgcolor='rgba(0,0,0,0)',
             plot_bgcolor='rgba(0,0,0,0)'
         )
-        st.plotly_chart(fig_bench, width="stretch")
+        st.plotly_chart(fig_bench, use_container_width=True)
 
     with tab_safemh:
         st.markdown('<div class="section-title">Safe Man-Hours Milestone Trajectory</div>', unsafe_allow_html=True)
@@ -3492,7 +3492,7 @@ elif st.session_state.active_page == "Welfare":
                 line=dict(color="#ef4444", width=2, dash="dot")
             ))
             fig_w.update_layout(height=300, yaxis=dict(range=[40, 105], title="Score (%)"), margin=dict(l=20, r=20, t=15, b=20), paper_bgcolor='rgba(0,0,0,0)')
-            st.plotly_chart(fig_w, width="stretch")
+            st.plotly_chart(fig_w, use_container_width=True)
         st.markdown('</div>', unsafe_allow_html=True)
 
     with w_right:
