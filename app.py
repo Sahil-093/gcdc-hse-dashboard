@@ -2459,7 +2459,7 @@ elif st.session_state.active_page == "KPIs":
     st.markdown("<br>", unsafe_allow_html=True)
 
     # 2. MAIN SECTION: EXACT EXCEL TABLE (IMAGE 1) & EXACT LINE CHART (IMAGE 2)
-    col_kpi_t, col_kpi_c = st.columns([1, 1.45])
+    col_kpi_t, col_kpi_c = st.columns([1, 1.75])
 
     # Left Column: Exact HSE Monthly KPI Table
     with col_kpi_t:
@@ -2639,7 +2639,7 @@ elif st.session_state.active_page == "KPIs":
     st.markdown("### 🎯 2. HSE Monthly Process Safety Index (PSI / PCI)")
     st.caption("Month-by-month Process Safety Index performance and positive upward trajectory vs 90% target")
 
-    col_psi_t, col_psi_c = st.columns([1, 1.45])
+    col_psi_t, col_psi_c = st.columns([1, 1.75])
 
     # Left Column: Exact HSE Monthly PSI/PCI Table (Image 1)
     with col_psi_t:

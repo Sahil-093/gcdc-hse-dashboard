@@ -960,6 +960,17 @@ def generate():
             grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
             gap: 18px;
         }}
+        .grid-kpi-layout {{
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 20px;
+            align-items: start;
+        }}
+        @media (max-width: 1024px) {{
+            .grid-kpi-layout {{
+                grid-template-columns: 1fr;
+            }}
+        }}
         .grid-3 {{
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -2085,7 +2096,7 @@ def generate():
             </div>
 
             <!-- SECTION 1: HSE MONTHLY OVERALL KPI -->
-            <div class="grid-2">
+            <div class="grid-kpi-layout">
                 <div class="section-card">
                     <div class="section-title">📋 HSE Monthly KPI Registry (Excel Format)</div>
                     
@@ -2093,7 +2104,7 @@ def generate():
                         <table style="width:100%; border-collapse:collapse; font-family:'Segoe UI', Inter, -apple-system, sans-serif; border: 2px solid #002060; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08);">
                             <thead>
                                 <tr style="background-color: #002060; color: #ffffff;">
-                                    <th colspan="3" style="padding: 10px 14px; font-size: 16px; font-weight: 700; text-align: center; letter-spacing: 0.5px;">
+                                    <th colspan="3" style="padding: 8px 12px; font-size: 16px; font-weight: 700; text-align: center; letter-spacing: 0.5px;">
                                         HSE Monthly KPI
                                     </th>
                                 </tr>
@@ -2105,54 +2116,54 @@ def generate():
                             </thead>
                             <tbody>
                                 <tr style="border-bottom: 1px solid #8ea9db;">
-                                    <td style="padding: 7px 14px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">January</td>
-                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">84%</td>
-                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
+                                    <td style="padding: 6px 10px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">January</td>
+                                    <td style="padding: 6px 10px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">84%</td>
+                                    <td style="padding: 6px 10px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid #8ea9db;">
-                                    <td style="padding: 7px 14px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">February</td>
-                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">81%</td>
-                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
+                                    <td style="padding: 6px 10px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">February</td>
+                                    <td style="padding: 6px 10px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">81%</td>
+                                    <td style="padding: 6px 10px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid #8ea9db;">
-                                    <td style="padding: 7px 14px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">March</td>
-                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">87%</td>
-                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
+                                    <td style="padding: 6px 10px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">March</td>
+                                    <td style="padding: 6px 10px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">87%</td>
+                                    <td style="padding: 6px 10px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid #8ea9db;">
-                                    <td style="padding: 7px 14px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">April</td>
-                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">90%</td>
-                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
+                                    <td style="padding: 6px 10px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">April</td>
+                                    <td style="padding: 6px 10px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">90%</td>
+                                    <td style="padding: 6px 10px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid #8ea9db;">
-                                    <td style="padding: 7px 14px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">May</td>
-                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">93%</td>
-                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
+                                    <td style="padding: 6px 10px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">May</td>
+                                    <td style="padding: 6px 10px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">93%</td>
+                                    <td style="padding: 6px 10px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid #8ea9db;">
-                                    <td style="padding: 7px 14px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">June</td>
-                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">85%</td>
-                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
+                                    <td style="padding: 6px 10px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">June</td>
+                                    <td style="padding: 6px 10px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">85%</td>
+                                    <td style="padding: 6px 10px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid #8ea9db;">
-                                    <td style="padding: 7px 14px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">July</td>
-                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">91%</td>
-                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
+                                    <td style="padding: 6px 10px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">July</td>
+                                    <td style="padding: 6px 10px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">91%</td>
+                                    <td style="padding: 6px 10px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid #8ea9db;">
-                                    <td style="padding: 7px 14px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">August</td>
-                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">68%</td>
-                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
+                                    <td style="padding: 6px 10px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">August</td>
+                                    <td style="padding: 6px 10px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">68%</td>
+                                    <td style="padding: 6px 10px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid #8ea9db;">
-                                    <td style="padding: 7px 14px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">September</td>
-                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">68%</td>
-                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
+                                    <td style="padding: 6px 10px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">September</td>
+                                    <td style="padding: 6px 10px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">68%</td>
+                                    <td style="padding: 6px 10px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid #8ea9db;">
-                                    <td style="padding: 7px 14px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">October</td>
-                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;"></td>
-                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
+                                    <td style="padding: 6px 10px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">October</td>
+                                    <td style="padding: 6px 10px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;"></td>
+                                    <td style="padding: 6px 10px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
                                 </tr>
                             </tbody>
                             <tfoot>
@@ -2198,7 +2209,7 @@ def generate():
             <h3 style="font-size:18px; font-weight:800; color:#0f172a; margin-bottom:4px;">🎯 2. HSE Monthly Process Safety Index (PSI / PCI)</h3>
             <p style="font-size:13px; color:#64748b; margin-bottom:18px;">Month-by-month Process Safety Index performance and positive upward trajectory vs 90% target</p>
 
-            <div class="grid-2">
+            <div class="grid-kpi-layout">
                 <div class="section-card">
                     <div class="section-title">📋 HSE Monthly PSI/PCI Registry (Excel Format)</div>
                     
@@ -2206,7 +2217,7 @@ def generate():
                         <table style="width:100%; border-collapse:collapse; font-family:'Segoe UI', Inter, -apple-system, sans-serif; border: 2px solid #002060; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08);">
                             <thead>
                                 <tr style="background-color: #002060; color: #ffffff;">
-                                    <th colspan="3" style="padding: 10px 14px; font-size: 16px; font-weight: 700; text-align: center; letter-spacing: 0.5px;">
+                                    <th colspan="3" style="padding: 8px 12px; font-size: 16px; font-weight: 700; text-align: center; letter-spacing: 0.5px;">
                                         HSE Monthly PSI/PCI
                                     </th>
                                 </tr>
@@ -2218,54 +2229,54 @@ def generate():
                             </thead>
                             <tbody>
                                 <tr style="border-bottom: 1px solid #8ea9db;">
-                                    <td style="padding: 7px 14px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">January</td>
-                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">60%</td>
-                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
+                                    <td style="padding: 6px 10px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">January</td>
+                                    <td style="padding: 6px 10px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">60%</td>
+                                    <td style="padding: 6px 10px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid #8ea9db;">
-                                    <td style="padding: 7px 14px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">February</td>
-                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">58%</td>
-                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
+                                    <td style="padding: 6px 10px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">February</td>
+                                    <td style="padding: 6px 10px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">58%</td>
+                                    <td style="padding: 6px 10px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid #8ea9db;">
-                                    <td style="padding: 7px 14px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">March</td>
-                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">59%</td>
-                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
+                                    <td style="padding: 6px 10px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">March</td>
+                                    <td style="padding: 6px 10px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">59%</td>
+                                    <td style="padding: 6px 10px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid #8ea9db;">
-                                    <td style="padding: 7px 14px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">April</td>
-                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">67%</td>
-                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
+                                    <td style="padding: 6px 10px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">April</td>
+                                    <td style="padding: 6px 10px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">67%</td>
+                                    <td style="padding: 6px 10px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid #8ea9db;">
-                                    <td style="padding: 7px 14px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">May</td>
-                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">66%</td>
-                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
+                                    <td style="padding: 6px 10px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">May</td>
+                                    <td style="padding: 6px 10px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">66%</td>
+                                    <td style="padding: 6px 10px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid #8ea9db;">
-                                    <td style="padding: 7px 14px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">June</td>
-                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">67%</td>
-                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
+                                    <td style="padding: 6px 10px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">June</td>
+                                    <td style="padding: 6px 10px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">67%</td>
+                                    <td style="padding: 6px 10px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid #8ea9db;">
-                                    <td style="padding: 7px 14px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">July</td>
-                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">69%</td>
-                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
+                                    <td style="padding: 6px 10px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">July</td>
+                                    <td style="padding: 6px 10px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">69%</td>
+                                    <td style="padding: 6px 10px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid #8ea9db;">
-                                    <td style="padding: 7px 14px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">August</td>
-                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">68%</td>
-                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
+                                    <td style="padding: 6px 10px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">August</td>
+                                    <td style="padding: 6px 10px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">68%</td>
+                                    <td style="padding: 6px 10px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid #8ea9db;">
-                                    <td style="padding: 7px 14px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">September</td>
-                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">75%</td>
-                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
+                                    <td style="padding: 6px 10px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">September</td>
+                                    <td style="padding: 6px 10px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;">75%</td>
+                                    <td style="padding: 6px 10px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid #8ea9db;">
-                                    <td style="padding: 7px 14px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">October</td>
-                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;"></td>
-                                    <td style="padding: 7px 14px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
+                                    <td style="padding: 6px 10px; background-color: #cfdbee; color: #0d233a; font-weight: 500; font-size: 13.5px; border-right: 1px solid #8ea9db;">October</td>
+                                    <td style="padding: 6px 10px; background-color: #ffffff; color: #0d233a; font-weight: 600; font-size: 13.5px; border-right: 1px solid #8ea9db; text-align: center;"></td>
+                                    <td style="padding: 6px 10px; background-color: #ffffff; color: #0d233a; font-weight: 500; font-size: 13.5px; text-align: center;">90%</td>
                                 </tr>
                             </tbody>
                             <tfoot>
