@@ -594,6 +594,37 @@
             border-color: #ff4b4b;
         }
 
+        /* STREAMLIT STYLE TABS */
+        .tab-header-bar {
+            display: flex;
+            border-bottom: 2px solid #e2e8f0;
+            margin-bottom: 18px;
+            gap: 8px;
+            overflow-x: auto;
+        }
+        .tab-link {
+            background: none;
+            border: none;
+            border-bottom: 2.5px solid transparent;
+            margin-bottom: -2px;
+            padding: 9px 14px;
+            font-size: 13.5px;
+            font-weight: 600;
+            color: #475569;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            font-family: inherit;
+        }
+        .tab-link:hover {
+            color: #ff4b4b;
+        }
+        .tab-link.active {
+            color: #ff4b4b;
+            border-bottom: 2.5px solid #ff4b4b;
+            font-weight: 700;
+        }
+
         /* HEADER ACTION BUTTONS */
         .header-actions {
             display: flex;
@@ -2198,9 +2229,16 @@
                 </div>
             </div>
 
-            <div class="section-card">
-                <div class="section-title">⚖️ International Industry Benchmarking</div>
-                
+            <div class="section-card" style="margin-top:20px;">
+                <div class="tab-header-bar">
+                    <button type="button" id="rates-btn-bench" class="tab-link active" onclick="switchRatesSubTab('bench')">⚖️ International Industry Benchmarking</button>
+                    <button type="button" id="rates-btn-safemh" class="tab-link" onclick="switchRatesSubTab('safemh')">⏱️ Zero-LTI Man-Hours Progression (6.2M hrs)</button>
+                    <button type="button" id="rates-btn-rec" class="tab-link" onclick="switchRatesSubTab('rec')">📋 Recordable Cases Case Analysis (8 MTC)</button>
+                </div>
+
+                <div id="rates-subtab-bench" class="rates-tab-content" style="display:block;">
+                    <div class="section-title">GCDC Project vs Global Construction Safety Standards</div>
+                    
         <div id="chart_rates_bench" class="chart-container" style="width: 100%; min-height: 260px;"></div>
         <script>
             (function() {
@@ -2215,6 +2253,38 @@
             })();
         </script>
         
+                </div>
+
+                <div id="rates-subtab-safemh" class="rates-tab-content" style="display:none;">
+                    <div class="section-title">Safe Man-Hours Milestone Trajectory</div>
+                    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:16px; margin-top:14px;">
+                        <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:16px;">
+                            <div style="font-size:11px; font-weight:700; color:#166534; text-transform:uppercase;">Historical Safe Hours (Prior)</div>
+                            <div style="font-size:26px; font-weight:800; color:#15803d; margin:6px 0;">2,916,176 hrs</div>
+                            <div style="font-size:12px; color:#475569;">Recorded up to December 2025</div>
+                        </div>
+                        <div style="background:#f0f9ff; border:1px solid #bae6fd; border-radius:8px; padding:16px;">
+                            <div style="font-size:11px; font-weight:700; color:#0369a1; text-transform:uppercase;">YTD 2026 Safe Hours</div>
+                            <div style="font-size:26px; font-weight:800; color:#0284c7; margin:6px 0;">3,284,962 hrs</div>
+                            <div style="font-size:12px; color:#475569;">Jan to Sep 2026 Total</div>
+                        </div>
+                        <div style="background:#f8fafc; border:2px solid #002060; border-radius:8px; padding:16px;">
+                            <div style="font-size:11px; font-weight:700; color:#002060; text-transform:uppercase;">Grand Cumulative Total</div>
+                            <div style="font-size:26px; font-weight:800; color:#002060; margin:6px 0;">6,201,138 hrs</div>
+                            <div style="font-size:12px; color:#15803d; font-weight:600;">Zero Lost Time Injuries (0 LTI)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="rates-subtab-rec" class="rates-tab-content" style="display:none;">
+                    <div class="section-title">Recordable Case Details (8 MTC Incidents)</div>
+                    <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; padding:16px; margin-top:14px;">
+                        <div style="font-size:13.5px; color:#334155; line-height:1.7;">
+                            The <b>TRIR of 0.26</b> is driven by <b>8 Medical Treatment Cases (MTC)</b> recorded out of 102 total project incidents. 
+                            All 8 cases involved minor lacerations or sprains treated by the site medical clinic with immediate return to normal duties, resulting in <b>Zero Lost Days</b> and <b>Zero Restricted Work Cases (RWC)</b>.
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -2251,7 +2321,30 @@
     </main>
 
     <script>
-                function switchKpiSubTab(tabName) {
+                function switchRatesSubTab(tabName) {
+            var tabs = ['bench', 'safemh', 'rec'];
+            tabs.forEach(function(t) {
+                var el = document.getElementById('rates-subtab-' + t);
+                var btn = document.getElementById('rates-btn-' + t);
+                if (t === tabName) {
+                    if (el) el.style.display = 'block';
+                    if (btn) btn.classList.add('active');
+                } else {
+                    if (el) el.style.display = 'none';
+                    if (btn) btn.classList.remove('active');
+                }
+            });
+            if (tabName === 'bench') {
+                setTimeout(function() {
+                    document.querySelectorAll('#rates-subtab-bench .js-plotly-plot').forEach(function(plot) {
+                        Plotly.relayout(plot, { autosize: true });
+                        Plotly.Plots.resize(plot);
+                    });
+                }, 50);
+            }
+        }
+
+        function switchKpiSubTab(tabName) {
             var tabs = ['comp', 'var', 'insights'];
             tabs.forEach(function(t) {
                 var el = document.getElementById('kpi-subtab-' + t);
