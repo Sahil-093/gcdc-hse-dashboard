@@ -474,52 +474,70 @@ def create_gauge(value: float, title: str, max_val: float, thresholds: list, tar
     )
     return fig
 
-def make_speedometer(title, slice_vals, slice_colors, needle_frac):
-    """Create a semicircular speedometer gauge with needle matching Excel Image 2."""
+def render_speedometer(title, slice_vals, slice_colors, needle_frac, badge_text, badge_color, badge_bg, badge_border):
+    """
+    Renders a mathematically exact, non-distorting SVG Semicircular Speedometer Gauge.
+    Locked to 1:1 aspect ratio inside viewBox="0 0 320 165".
+    Never separates, stretches, or warps regardless of screen width.
+    """
     total_top = sum(slice_vals)
-    pie_vals = list(slice_vals) + [total_top]
-    pie_colors = list(slice_colors) + ['rgba(0,0,0,0)']
+    cx, cy = 160, 142
+    r_out = 100
+    r_in = 68
     
-    theta = np.pi * (1.0 - needle_frac)
+    curr_angle = 180.0
+    paths_svg = []
+    for val, color in zip(slice_vals, slice_colors):
+        span = 180.0 * (val / total_top)
+        next_angle = max(0.0, curr_angle - span)
+        
+        a_rad = np.radians(curr_angle)
+        b_rad = np.radians(next_angle)
+        
+        x1 = cx + r_out * np.cos(a_rad)
+        y1 = cy - r_out * np.sin(a_rad)
+        x2 = cx + r_out * np.cos(b_rad)
+        y2 = cy - r_out * np.sin(b_rad)
+        
+        x3 = cx + r_in * np.cos(b_rad)
+        y3 = cy - r_in * np.sin(b_rad)
+        x4 = cx + r_in * np.cos(a_rad)
+        y4 = cy - r_in * np.sin(a_rad)
+        
+        d = f"M {x1:.2f} {y1:.2f} A {r_out} {r_out} 0 0 1 {x2:.2f} {y2:.2f} L {x3:.2f} {y3:.2f} A {r_in} {r_in} 0 0 0 {x4:.2f} {y4:.2f} Z"
+        paths_svg.append(f'<path d="{d}" fill="{color}" stroke="#ffffff" stroke-width="2"/>')
+        curr_angle = next_angle
+        
+    paths_str = "".join(paths_svg)
     
-    # Needle line from center (0.5, 0.5) to arc inner edge
-    x_head = 0.5 + 0.38 * np.cos(theta)
-    y_head = 0.5 + 0.38 * np.sin(theta)
+    needle_deg = 180.0 - (180.0 * needle_frac)
+    n_rad = np.radians(needle_deg)
     
-    # Outer black band marker on arc (matching Excel needle style)
-    x_band_in = 0.5 + 0.32 * np.cos(theta)
-    y_band_in = 0.5 + 0.32 * np.sin(theta)
-    x_band_out = 0.5 + 0.47 * np.cos(theta)
-    y_band_out = 0.5 + 0.47 * np.sin(theta)
+    nx_tip = cx + (r_in - 2) * np.cos(n_rad)
+    ny_tip = cy - (r_in - 2) * np.sin(n_rad)
     
-    fig = go.Figure()
-    fig.add_trace(go.Pie(
-        values=pie_vals,
-        rotation=-90,
-        direction='clockwise',
-        sort=False,
-        hole=0.68,
-        marker=dict(colors=pie_colors, line=dict(color='white', width=2)),
-        textinfo='none',
-        hoverinfo='none',
-        showlegend=False
-    ))
+    bx_in = cx + (r_in - 4) * np.cos(n_rad)
+    by_in = cy - (r_in - 4) * np.sin(n_rad)
+    bx_out = cx + (r_out + 5) * np.cos(n_rad)
+    by_out = cy - (r_out + 5) * np.sin(n_rad)
     
-    # Needle line
-    fig.add_shape(type='line', x0=0.5, y0=0.5, x1=x_head, y1=y_head, line=dict(color='#000000', width=2.5))
-    # Black band marker on arc
-    fig.add_shape(type='line', x0=x_band_in, y0=y_band_in, x1=x_band_out, y1=y_band_out, line=dict(color='#000000', width=7))
-    
-    fig.update_layout(
-        title=dict(text=f'<b>{title}</b>', font=dict(size=24, color='#0d2640', family='Segoe UI, Inter, sans-serif'), x=0.5, xanchor='center'),
-        height=260,
-        margin=dict(l=15, r=15, t=55, b=10),
-        xaxis=dict(range=[0, 1], visible=False),
-        yaxis=dict(range=[0.38, 1.08], visible=False),
-        paper_bgcolor='rgba(0,0,0,0)',
-        plot_bgcolor='rgba(0,0,0,0)'
-    )
-    return fig
+    svg = f"""
+    <div style="display:flex; flex-direction:column; align-items:center; width:100%; max-width:320px; margin:0 auto 10px auto;">
+        <svg viewBox="0 0 320 165" width="100%" height="auto" style="overflow:visible; display:block;">
+            <text x="160" y="24" text-anchor="middle" font-family="'Segoe UI', Inter, sans-serif" font-size="22" font-weight="800" fill="#0d2640">{title}</text>
+            <g>{paths_str}</g>
+            <line x1="{cx}" y1="{cy}" x2="{nx_tip:.2f}" y2="{ny_tip:.2f}" stroke="#000000" stroke-width="3" stroke-linecap="round"/>
+            <line x1="{bx_in:.2f}" y1="{by_in:.2f}" x2="{bx_out:.2f}" y2="{by_out:.2f}" stroke="#000000" stroke-width="8" stroke-linecap="square"/>
+            <circle cx="{cx}" cy="{cy}" r="5" fill="#000000"/>
+        </svg>
+        <div style="margin-top: 6px; text-align: center;">
+            <span style="display:inline-block; background:{badge_bg}; color:{badge_color}; font-size:12px; font-weight:700; padding:4px 14px; border-radius:9999px; border:1px solid {badge_border}; font-family:'Segoe UI', Inter, sans-serif;">
+                {badge_text}
+            </span>
+        </div>
+    </div>
+    """
+    return svg
 
 def render_html(html_str: str):
     """Strip all leading/trailing whitespace per line to prevent markdown code block triggers."""
@@ -3362,36 +3380,30 @@ elif st.session_state.active_page == "Rates":
 
         sg1, sg2 = st.columns(2)
         with sg1:
-            fig_speedo_lti = make_speedometer(
+            svg_ltifr = render_speedometer(
                 title="LTIFR",
                 slice_vals=[0.05, 0.45, 0.50, 1.00],
                 slice_colors=['#196b24', '#4ea72e', '#ffc000', '#ff0000'],
-                needle_frac=0.01
+                needle_frac=0.01,
+                badge_text="Target: 0.00 (Zero LTI)",
+                badge_color="#166534",
+                badge_bg="#dcfce7",
+                badge_border="#bbf7d0"
             )
-            st.plotly_chart(fig_speedo_lti, use_container_width=True)
-            st.markdown("""
-            <div style="text-align: center; margin-top: -15px;">
-                <span style="background: #dcfce7; color: #166534; font-weight: 700; font-size: 12px; padding: 4px 12px; border-radius: 9999px; border: 1px solid #bbf7d0;">
-                    Target: 0.00 (Zero LTI)
-                </span>
-            </div>
-            """, unsafe_allow_html=True)
+            render_html(svg_ltifr)
 
         with sg2:
-            fig_speedo_tri = make_speedometer(
+            svg_trir = render_speedometer(
                 title="TRIR",
                 slice_vals=[0.06, 0.16, 0.18, 0.40, 0.40],
                 slice_colors=['#196b24', '#4ea72e', '#ffff00', '#e97132', '#ff0000'],
-                needle_frac=0.18
+                needle_frac=0.18,
+                badge_text="Benchmark: ≤ 0.50 (Good)",
+                badge_color="#0369a1",
+                badge_bg="#e0f2fe",
+                badge_border="#bae6fd"
             )
-            st.plotly_chart(fig_speedo_tri, use_container_width=True)
-            st.markdown("""
-            <div style="text-align: center; margin-top: -15px;">
-                <span style="background: #e0f2fe; color: #0369a1; font-weight: 700; font-size: 12px; padding: 4px 12px; border-radius: 9999px; border: 1px solid #bae6fd;">
-                    Benchmark: &le; 0.50 (Good)
-                </span>
-            </div>
-            """, unsafe_allow_html=True)
+            render_html(svg_trir)
 
     # 3. SECONDARY BENCHMARK & SEVERITY TABS
     st.markdown("<br><br>", unsafe_allow_html=True)
