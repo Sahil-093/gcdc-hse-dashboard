@@ -20,11 +20,17 @@ def generate():
         fig_json = fig.to_json()
         h = fig.layout.height or 280
         return f"""
-        <div id="{div_id}" style="width: 100%; height: {h}px;"></div>
+        <div id="{div_id}" class="chart-container" style="width: 100%; min-height: {h}px;"></div>
         <script>
             (function() {{
                 var spec = {fig_json};
-                Plotly.newPlot('{div_id}', spec.data, spec.layout, {{responsive: true, displayModeBar: false}});
+                var config = {{
+                    responsive: true,
+                    displayModeBar: 'hover',
+                    displaylogo: false,
+                    modeBarButtonsToRemove: ['lasso2d', 'select2d']
+                }};
+                Plotly.newPlot('{div_id}', spec.data, spec.layout, config);
             }})();
         </script>
         """
@@ -801,32 +807,353 @@ def generate():
             font-weight: 500;
         }}
 
-        @media (max-width: 992px) {{
+        /* MOBILE & TABLET STICKY TOPBAR */
+        #mobile-topbar {{
+            display: none;
+            position: sticky;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #0f172a;
+            color: white;
+            padding: 10px 14px;
+            z-index: 500;
+            border-bottom: 1px solid #334155;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }}
+        .mobile-brand {{
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            color: #f8fafc;
+            text-decoration: none;
+            white-space: nowrap;
+        }}
+        .mobile-brand img {{
+            width: 26px;
+            height: 26px;
+        }}
+        .mobile-nav-select {{
+            background: #1e293b;
+            color: #f8fafc;
+            border: 1px solid #475569;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            outline: none;
+            cursor: pointer;
+            flex: 1;
+            max-width: 200px;
+        }}
+        .mobile-btn {{
+            background: #0284c7;
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: background 0.15s;
+        }}
+        .mobile-btn:active {{
+            background: #0369a1;
+        }}
+
+        /* SIDEBAR OVERLAY */
+        #sidebar-overlay {{
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            z-index: 998;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }}
+        #sidebar-overlay.active {{
+            display: block;
+            opacity: 1;
+        }}
+
+        /* SIDEBAR CLOSE BUTTON */
+        .sidebar-close-btn {{
+            display: none;
+            background: #e2e8f0;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            font-size: 15px;
+            font-weight: 700;
+            color: #334155;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            margin-left: auto;
+        }}
+
+        /* RESPONSIVE TABLE WRAPPER */
+        .table-responsive {{
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin-bottom: 14px;
+            border-radius: 8px;
+        }}
+        .table-responsive::-webkit-scrollbar {{
+            height: 6px;
+        }}
+        .table-responsive::-webkit-scrollbar-thumb {{
+            background: #cbd5e1;
+            border-radius: 4px;
+        }}
+
+        /* GAUGE DUO GRID */
+        .gauge-duo {{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+            align-items: center;
+            justify-content: center;
+        }}
+
+        /* INTERACTIVE KPI CARDS */
+        .interactive-card {{
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s, border-color 0.2s;
+        }}
+        .interactive-card:hover {{
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px -3px rgba(2, 132, 199, 0.15), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-color: #38bdf8;
+        }}
+        .interactive-card:active {{
+            transform: scale(0.98);
+        }}
+        .kpi-tap-hint {{
+            font-size: 10px;
+            color: #0284c7;
+            font-weight: 600;
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }}
+
+        /* INTERACTIVE TABLE SEARCH & CHIPS */
+        .filter-bar {{
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
+            align-items: center;
+        }}
+        .search-input {{
+            padding: 8px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 12.5px;
+            outline: none;
+            flex: 1;
+            min-width: 180px;
+            transition: border-color 0.15s;
+        }}
+        .search-input:focus {{
+            border-color: #0284c7;
+            box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.15);
+        }}
+        .filter-chip {{
+            background: #f1f5f9;
+            color: #334155;
+            border: 1px solid #cbd5e1;
+            padding: 4px 10px;
+            border-radius: 9999px;
+            font-size: 11.5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s;
+            user-select: none;
+        }}
+        .filter-chip:hover, .filter-chip.active {{
+            background: #0284c7;
+            color: white;
+            border-color: #0284c7;
+        }}
+
+        /* HEADER ACTION BUTTONS */
+        .header-actions {{
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }}
+        .action-btn {{
+            background: rgba(255, 255, 255, 0.1);
+            color: #f8fafc;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: background 0.15s;
+        }}
+        .action-btn:hover {{
+            background: rgba(255, 255, 255, 0.2);
+        }}
+
+        /* MEDIA QUERIES FOR TABLET & MOBILE */
+        @media (max-width: 1024px) {{
+            #mobile-topbar {{
+                display: flex;
+            }}
             #sidebar {{
                 position: fixed;
                 left: -350px;
-                transition: left 0.3s ease;
-                box-shadow: 4px 0 16px rgba(0,0,0,0.15);
+                top: 0;
+                bottom: 0;
+                width: 320px;
+                height: 100vh;
+                z-index: 1000;
+                transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: 6px 0 24px rgba(0,0,0,0.2);
             }}
             #sidebar.open {{
                 left: 0;
             }}
-            #mobile-toggle {{
+            .sidebar-close-btn {{
                 display: flex;
+            }}
+            #mobile-toggle {{
+                display: none;
             }}
             #main-area {{
                 max-width: 100vw;
-                padding: 16px;
+                width: 100vw;
+                padding: 16px 16px 60px 16px;
             }}
             .grid-2 {{
                 grid-template-columns: 1fr;
+                gap: 16px;
+            }}
+            .kpi-grid {{
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+            }}
+        }}
+
+        @media (max-width: 768px) {{
+            #main-area {{
+                padding: 12px 12px 60px 12px;
+            }}
+            .main-header {{
+                padding: 16px;
+                border-radius: 10px;
+            }}
+            .main-header h1 {{
+                font-size: 18px;
+            }}
+            .kpi-grid {{
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }}
+            .kpi-card {{
+                padding: 12px 14px;
+                min-height: 105px;
+            }}
+            .kpi-value {{
+                font-size: 20px;
+            }}
+            .section-card {{
+                padding: 14px;
+                border-radius: 10px;
+                margin-bottom: 14px;
+            }}
+            .section-title {{
+                font-size: 14.5px;
+            }}
+            .grid-3 {{
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }}
+        }}
+
+        @media (max-width: 480px) {{
+            .mobile-brand span {{
+                display: none;
+            }}
+            .kpi-grid {{
+                grid-template-columns: repeat(2, 1fr);
+            }}
+            .kpi-card {{
+                padding: 10px 12px;
+            }}
+            .kpi-value {{
+                font-size: 18px;
+            }}
+            .kpi-title {{
+                font-size: 10px;
+            }}
+        }}
+
+        @media print {{
+            #sidebar, #mobile-topbar, .header-actions, .filter-bar, .sub-info-badge {{
+                display: none !important;
+            }}
+            #main-area {{
+                max-width: 100% !important;
+                padding: 0 !important;
+            }}
+            .page-view {{
+                display: block !important;
             }}
         }}
     </style>
 </head>
 <body>
 
-    <button id="mobile-toggle" onclick="toggleSidebar()">☰</button>
+    <!-- MOBILE & TABLET STICKY TOPBAR -->
+    <div id="mobile-topbar">
+        <button class="mobile-btn" onclick="toggleSidebar()" aria-label="Toggle Navigation Menu">
+            <span>☰</span> <span>Menu</span>
+        </button>
+        <div class="mobile-brand">
+            <img src="https://img.icons8.com/fluency/96/shield.png" alt="Shield Logo">
+            <span>GCDC HSE Hub</span>
+        </div>
+        <select id="mobile-nav-select" class="mobile-nav-select" onchange="switchPage(this.value)">
+            <option value="Home">🏠 Main Home</option>
+            <option value="Compliance">📋 Compliance Rate</option>
+            <option value="Observations">🔍 Site Observations</option>
+            <option value="NCRs">📑 NCRs Performance</option>
+            <option value="Activities">🛠️ HSE Activities</option>
+            <option value="Incidents">⚠️ Total Incidents</option>
+            <option value="Workforce">⏱️ Safe Man-Hours</option>
+            <option value="KPIs">📈 Monthly KPI</option>
+            <option value="Training">🎓 HSE Training</option>
+            <option value="Rates">🎯 Safety Rates</option>
+            <option value="Welfare">🤝 Welfare Safety</option>
+        </select>
+        <button class="mobile-btn" onclick="toggleFullScreen()" title="Fullscreen" style="padding:6px 8px;">⛶</button>
+    </div>
+
+    <!-- BACKDROP OVERLAY FOR SIDEBAR ON MOBILE/TABLET -->
+    <div id="sidebar-overlay" onclick="closeSidebar()"></div>
 
     <!-- SIDEBAR -->
     <aside id="sidebar">
@@ -836,6 +1163,7 @@ def generate():
                 <h3>GCDC HSE Hub</h3>
                 <p>Kharafi National / SBARC</p>
             </div>
+            <button class="sidebar-close-btn" onclick="closeSidebar()" aria-label="Close Sidebar">✕</button>
         </div>
 
         <div class="nav-section-title">📌 Navigation Pages</div>
@@ -1040,8 +1368,10 @@ def generate():
                 <h1>🛡️ GCDC HSE Performance Executive Dashboard</h1>
                 <p>Comprehensive Safety, Health & Environmental Metrics • Single Consolidated Sheet View</p>
             </div>
-            <div>
-                <span class="live-badge">🟢 Live Fast CDN Active</span>
+            <div class="header-actions">
+                <button class="action-btn" onclick="toggleFullScreen()" title="Toggle Fullscreen Mode">⛶ Fullscreen</button>
+                <button class="action-btn" onclick="window.print()" title="Print / Save PDF Report">🖨️ Print / PDF</button>
+                <span class="live-badge">🟢 Instant Live CDN</span>
             </div>
         </header>
 
@@ -1051,48 +1381,54 @@ def generate():
             <p style="font-size:13px; color:#64748b; margin-bottom:18px;">Consolidated project safety dashboard across all functional HSE domains</p>
 
             <div class="kpi-grid">
-                <div class="kpi-card">
+                <div class="kpi-card interactive-card" onclick="switchPage('Compliance')" title="Click to view detailed Compliance Analysis">
                     <div class="kpi-title">Compliance Rate</div>
                     <div class="kpi-value" style="color:#15803d;">99.2%</div>
                     <span class="kpi-badge badge-success">Target &ge; 95%</span>
                     <div class="metric-sub">1,416 / 1,427 Closed</div>
+                    <div class="kpi-tap-hint">Tap to explore ↗</div>
                 </div>
-                <div class="kpi-card">
+                <div class="kpi-card interactive-card" onclick="switchPage('Incidents')" title="Click to view Incidents Breakdown">
                     <div class="kpi-title">Total Incidents</div>
                     <div class="kpi-value" style="color:#0284c7;">102</div>
                     <span class="kpi-badge badge-info">81% Near Misses</span>
                     <div class="metric-sub">Zero Fatalities / Zero LTI</div>
+                    <div class="kpi-tap-hint">Tap to explore ↗</div>
                 </div>
-                <div class="kpi-card">
+                <div class="kpi-card interactive-card" onclick="switchPage('Workforce')" title="Click to view Safe Man-Hours & Workforce">
                     <div class="kpi-title">Safe Man-Hours</div>
                     <div class="kpi-value">6,201,138</div>
                     <span class="kpi-badge badge-success">Cumulative</span>
                     <div class="metric-sub">Prior: 2,916,176 hrs</div>
+                    <div class="kpi-tap-hint">Tap to explore ↗</div>
                 </div>
-                <div class="kpi-card">
+                <div class="kpi-card interactive-card" onclick="switchPage('Training')" title="Click to view Training Rate & Sessions">
                     <div class="kpi-title">Training Execution</div>
                     <div class="kpi-value" style="color:#b45309;">97.4%</div>
                     <span class="kpi-badge badge-warning">5 of 17 Sessions</span>
                     <div class="metric-sub">62 Attendees Logged</div>
+                    <div class="kpi-tap-hint">Tap to explore ↗</div>
                 </div>
-                <div class="kpi-card">
+                <div class="kpi-card interactive-card" onclick="switchPage('Rates')" title="Click to view Safety Frequency Rates (LTIFR / TRIR)">
                     <div class="kpi-title">LTIFR</div>
                     <div class="kpi-value" style="color:#15803d;">0.00</div>
                     <span class="kpi-badge badge-success">Excellent</span>
                     <div class="metric-sub">Target: 0.00</div>
+                    <div class="kpi-tap-hint">Tap to explore ↗</div>
                 </div>
-                <div class="kpi-card">
+                <div class="kpi-card interactive-card" onclick="switchPage('Rates')" title="Click to view Safety Frequency Rates (LTIFR / TRIR)">
                     <div class="kpi-title">TRIR</div>
                     <div class="kpi-value" style="color:#0284c7;">0.26</div>
                     <span class="kpi-badge badge-info">Good (&le;0.50)</span>
                     <div class="metric-sub">Industry Benchmark</div>
+                    <div class="kpi-tap-hint">Tap to explore ↗</div>
                 </div>
             </div>
 
             <div class="grid-2">
                 <div class="section-card">
                     <div class="section-title">🎯 Safety Frequency Rates (Gauges)</div>
-                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                    <div class="gauge-duo">
                         <div>{home_ltifr_html}</div>
                         <div>{home_trir_html}</div>
                     </div>
@@ -1402,18 +1738,29 @@ def generate():
 
             <div class="grid-2">
                 <div class="section-card">
-                    <div class="section-title">📋 Total Incidents Registry (Excel Format)</div>
+                    <div class="section-title">📋 Total Incidents Registry (Interactive & Excel Format)</div>
+                    <div class="filter-bar">
+                        <input type="text" id="incident-search" class="search-input" placeholder="🔍 Search Incident (e.g. Near Miss, MTC, FAC, LTI)..." onkeyup="filterIncidents()">
+                        <span class="filter-chip active" data-val="" onclick="filterIncidents('')">All (102)</span>
+                        <span class="filter-chip" data-val="nm" onclick="filterIncidents('nm')">Near Miss (83)</span>
+                        <span class="filter-chip" data-val="mtc" onclick="filterIncidents('mtc')">MTC (8)</span>
+                        <span class="filter-chip" data-val="mva" onclick="filterIncidents('mva')">MVA (5)</span>
+                        <span class="filter-chip" data-val="pd" onclick="filterIncidents('pd')">PD (4)</span>
+                        <span class="filter-chip" data-val="fac" onclick="filterIncidents('fac')">FAC (2)</span>
+                        <span class="filter-chip" data-val="zero" onclick="filterIncidents('zero')">Zero LTI (0)</span>
+                    </div>
+                    <div id="incident-filter-count" style="font-size:11.5px; color:#64748b; margin-bottom:8px; font-weight:600;">Showing all 102 incidents</div>
                     <div class="excel-table-box">
-                        <div class="excel-table-header">Total Incidents</div>
-                        <div class="excel-table-row"><div class="excel-col-label">NM</div><div class="excel-col-value">83</div></div>
-                        <div class="excel-table-row"><div class="excel-col-label">MTC</div><div class="excel-col-value">8</div></div>
-                        <div class="excel-table-row"><div class="excel-col-label">MVA</div><div class="excel-col-value">5</div></div>
-                        <div class="excel-table-row"><div class="excel-col-label">FAC</div><div class="excel-col-value">2</div></div>
-                        <div class="excel-table-row"><div class="excel-col-label">PD</div><div class="excel-col-value">4</div></div>
-                        <div class="excel-table-row"><div class="excel-col-label">FAT</div><div class="excel-col-value" style="color:#16a34a;">0</div></div>
-                        <div class="excel-table-row"><div class="excel-col-label">RWC</div><div class="excel-col-value" style="color:#16a34a;">0</div></div>
-                        <div class="excel-table-row"><div class="excel-col-label">LTI</div><div class="excel-col-value" style="color:#16a34a;">0</div></div>
-                        <div class="excel-table-row"><div class="excel-col-label excel-total-label">Total</div><div class="excel-col-value excel-total-value">102</div></div>
+                        <div class="excel-table-header">Total Incidents Registry</div>
+                        <div class="excel-table-row incident-row" data-cat="nm near miss"><div class="excel-col-label">NM (Near Miss)</div><div class="excel-col-value">83</div></div>
+                        <div class="excel-table-row incident-row" data-cat="mtc medical treatment"><div class="excel-col-label">MTC (Medical Treatment)</div><div class="excel-col-value">8</div></div>
+                        <div class="excel-table-row incident-row" data-cat="mva motor vehicle accident"><div class="excel-col-label">MVA (Motor Vehicle Accident)</div><div class="excel-col-value">5</div></div>
+                        <div class="excel-table-row incident-row" data-cat="fac first aid case"><div class="excel-col-label">FAC (First Aid Case)</div><div class="excel-col-value">2</div></div>
+                        <div class="excel-table-row incident-row" data-cat="pd property damage"><div class="excel-col-label">PD (Property Damage)</div><div class="excel-col-value">4</div></div>
+                        <div class="excel-table-row incident-row" data-cat="fat fatality zero"><div class="excel-col-label">FAT (Fatality)</div><div class="excel-col-value" style="color:#16a34a;">0</div></div>
+                        <div class="excel-table-row incident-row" data-cat="rwc restricted work zero"><div class="excel-col-label">RWC (Restricted Work Case)</div><div class="excel-col-value" style="color:#16a34a;">0</div></div>
+                        <div class="excel-table-row incident-row" data-cat="lti lost time injury zero"><div class="excel-col-label">LTI (Lost Time Injury)</div><div class="excel-col-value" style="color:#16a34a;">0</div></div>
+                        <div class="excel-table-row"><div class="excel-col-label excel-total-label">Total Recorded</div><div class="excel-col-value excel-total-value">102</div></div>
                     </div>
                 </div>
                 <div class="section-card">
@@ -1586,7 +1933,7 @@ def generate():
 
                 <div class="section-card">
                     <div class="section-title">📊 Safety Rate Speedometer Gauges (Left ➔ Right: Green ➔ Red)</div>
-                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+                    <div class="gauge-duo">
                         <div>{rates_lti_speedo_html}</div>
                         <div>{rates_tri_speedo_html}</div>
                     </div>
@@ -1643,23 +1990,114 @@ def generate():
                 lbl.innerText = pageKey;
             }}
 
+            var mobileSelect = document.getElementById('mobile-nav-select');
+            if (mobileSelect) {{
+                mobileSelect.value = pageKey;
+            }}
+
             if (history.pushState) {{
                 history.pushState(null, null, '#' + pageKey.toLowerCase());
             }}
 
-            window.dispatchEvent(new Event('resize'));
-
-            if (window.innerWidth <= 992) {{
-                document.getElementById('sidebar').classList.remove('open');
-            }}
+            closeSidebar();
 
             window.scrollTo({{ top: 0, behavior: 'smooth' }});
+
+            // Trigger Plotly redraw on visible charts
+            setTimeout(function() {{
+                document.querySelectorAll('.js-plotly-plot').forEach(function(el) {{
+                    Plotly.Plots.resize(el);
+                }});
+            }}, 60);
         }}
 
         function toggleSidebar() {{
             var sb = document.getElementById('sidebar');
+            var ov = document.getElementById('sidebar-overlay');
             sb.classList.toggle('open');
+            if (sb.classList.contains('open')) {{
+                ov.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }} else {{
+                ov.classList.remove('active');
+                document.body.style.overflow = '';
+            }}
         }}
+
+        function closeSidebar() {{
+            var sb = document.getElementById('sidebar');
+            var ov = document.getElementById('sidebar-overlay');
+            if (sb) sb.classList.remove('open');
+            if (ov) ov.classList.remove('active');
+            document.body.style.overflow = '';
+        }}
+
+        function toggleFullScreen() {{
+            if (!document.fullscreenElement) {{
+                if (document.documentElement.requestFullscreen) {{
+                    document.documentElement.requestFullscreen();
+                }} else if (document.documentElement.webkitRequestFullscreen) {{
+                    document.documentElement.webkitRequestFullscreen();
+                }}
+            }} else {{
+                if (document.exitFullscreen) {{
+                    document.exitFullscreen();
+                }}
+            }}
+        }}
+
+        // Live search filter for incidents table
+        function filterIncidents(term) {{
+            var input = document.getElementById('incident-search');
+            var filter = (term !== undefined ? term : (input ? input.value : '')).toLowerCase().trim();
+            var rows = document.querySelectorAll('.incident-row');
+            var visibleCount = 0;
+            rows.forEach(function(r) {{
+                var text = (r.innerText + ' ' + (r.getAttribute('data-cat') || '')).toLowerCase();
+                if (filter === '' || text.indexOf(filter) !== -1) {{
+                    r.style.display = '';
+                    visibleCount++;
+                }} else {{
+                    r.style.display = 'none';
+                }}
+            }});
+            var countEl = document.getElementById('incident-filter-count');
+            if (countEl) {{
+                countEl.innerText = filter === '' ? 'Showing all 102 incidents' : 'Filtered: ' + visibleCount + ' matching categories';
+            }}
+            // Update chip active states
+            var chips = document.querySelectorAll('.filter-chip');
+            chips.forEach(function(c) {{
+                if (c.getAttribute('data-val') === term) {{
+                    c.classList.add('active');
+                }} else {{
+                    c.classList.remove('active');
+                }}
+            }});
+            if (input && term !== undefined) {{
+                input.value = term;
+            }}
+        }}
+
+        window.addEventListener('resize', function() {{
+            document.querySelectorAll('.js-plotly-plot').forEach(function(el) {{
+                Plotly.Plots.resize(el);
+            }});
+        }});
+
+        window.addEventListener('orientationchange', function() {{
+            setTimeout(function() {{
+                document.querySelectorAll('.js-plotly-plot').forEach(function(el) {{
+                    Plotly.Plots.resize(el);
+                }});
+            }}, 200);
+        }});
+
+        document.addEventListener('keydown', function(e) {{
+            if (e.key === 'Escape') {{
+                closeSidebar();
+            }}
+        }});
 
         window.addEventListener('DOMContentLoaded', function() {{
             var hash = window.location.hash.replace('#', '').toLowerCase();
