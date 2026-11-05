@@ -620,10 +620,13 @@ def generate():
         mode="lines", line=dict(color="#ef4444", width=2, dash="dot")
     ))
     fig_w.update_layout(
-        title=dict(text="<b>Weekly Welfare Score Evolution vs 90% Target</b>", font=dict(size=18, color="#0d233a"), x=0.5, xanchor="center"),
-        height=380, yaxis=dict(range=[40, 105], title="Score (%)", gridcolor="#f1f5f9"),
-        margin=dict(l=40, r=30, t=45, b=25), legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
-        paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)'
+        height=340,
+        yaxis=dict(range=[40, 105], title="Score (%)", gridcolor="#f1f5f9", ticksuffix="%"),
+        xaxis=dict(title="Weekly Audit Cycles", gridcolor="#f1f5f9"),
+        margin=dict(l=40, r=30, t=35, b=30),
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1, font=dict(size=12, color="#0f172a")),
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)'
     )
     welfare_chart_html = to_chart_html(fig_w, "chart_welfare_weekly")
 
@@ -2989,109 +2992,106 @@ def generate():
                 </div>
             </div>
 
-            <!-- 2. MAIN 2-COLUMN SECTION (EXCEL TABLE + LINE GRAPH) -->
-            <div class="grid-2" style="align-items:start;">
-                <!-- Left Column: Weekly Registry Table (Excel Format) -->
-                <div class="section-card">
-                    <div class="section-title">📋 Weekly Welfare Audit Registry (Excel Format)</div>
-                    <div class="table-responsive" style="margin-top:10px;">
-                        <table style="width:100%; border-collapse:collapse; font-family:'Segoe UI', Inter, -apple-system, sans-serif; font-size:12.5px; border:1px solid #e2e8f0; border-radius:6px; overflow:hidden;">
-                            <thead>
-                                <tr style="background:#002060; color:#ffffff;">
-                                    <th style="padding:9px 12px; text-align:center;">Audit Week</th>
-                                    <th style="padding:9px 12px; text-align:center;">Score</th>
-                                    <th style="padding:9px 12px; text-align:center;">Target</th>
-                                    <th style="padding:9px 12px; text-align:center;">Variance</th>
-                                    <th style="padding:9px 12px; text-align:center;">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr style="border-bottom:1px solid #f1f5f9;">
-                                    <td style="padding:7px 12px; text-align:center; font-weight:700;">W-7</td>
-                                    <td style="padding:7px 12px; text-align:center; font-weight:800; color:#dc2626;">53%</td>
-                                    <td style="padding:7px 12px; text-align:center;">90%</td>
-                                    <td style="padding:7px 12px; text-align:center; color:#dc2626; font-weight:600;">-37%</td>
-                                    <td style="padding:7px 12px; text-align:center;"><span class="kpi-badge badge-danger">Under Target</span></td>
-                                </tr>
-                                <tr style="border-bottom:1px solid #f1f5f9;">
-                                    <td style="padding:7px 12px; text-align:center; font-weight:700;">W-16</td>
-                                    <td style="padding:7px 12px; text-align:center; font-weight:800; color:#15803d;">81%</td>
-                                    <td style="padding:7px 12px; text-align:center;">90%</td>
-                                    <td style="padding:7px 12px; text-align:center; color:#15803d; font-weight:600;">-9%</td>
-                                    <td style="padding:7px 12px; text-align:center;"><span class="kpi-badge badge-warning">Near Target</span></td>
-                                </tr>
-                                <tr style="border-bottom:1px solid #f1f5f9;">
-                                    <td style="padding:7px 12px; text-align:center; font-weight:700;">W-32</td>
-                                    <td style="padding:7px 12px; text-align:center; font-weight:800; color:#b45309;">75%</td>
-                                    <td style="padding:7px 12px; text-align:center;">90%</td>
-                                    <td style="padding:7px 12px; text-align:center; color:#b45309; font-weight:600;">-15%</td>
-                                    <td style="padding:7px 12px; text-align:center;"><span class="kpi-badge badge-warning">Near Target</span></td>
-                                </tr>
-                                <tr style="border-bottom:1px solid #f1f5f9;">
-                                    <td style="padding:7px 12px; text-align:center; font-weight:700;">W-34</td>
-                                    <td style="padding:7px 12px; text-align:center; font-weight:800; color:#dc2626;">59%</td>
-                                    <td style="padding:7px 12px; text-align:center;">90%</td>
-                                    <td style="padding:7px 12px; text-align:center; color:#dc2626; font-weight:600;">-31%</td>
-                                    <td style="padding:7px 12px; text-align:center;"><span class="kpi-badge badge-danger">Under Target</span></td>
-                                </tr>
-                                <tr style="border-bottom:1px solid #f1f5f9;">
-                                    <td style="padding:7px 12px; text-align:center; font-weight:700;">W-35</td>
-                                    <td style="padding:7px 12px; text-align:center; font-weight:800; color:#b45309;">66%</td>
-                                    <td style="padding:7px 12px; text-align:center;">90%</td>
-                                    <td style="padding:7px 12px; text-align:center; color:#b45309; font-weight:600;">-24%</td>
-                                    <td style="padding:7px 12px; text-align:center;"><span class="kpi-badge badge-danger">Under Target</span></td>
-                                </tr>
-                                <tr style="border-bottom:1px solid #f1f5f9;">
-                                    <td style="padding:7px 12px; text-align:center; font-weight:700;">W-36</td>
-                                    <td style="padding:7px 12px; text-align:center; font-weight:800; color:#b45309;">64%</td>
-                                    <td style="padding:7px 12px; text-align:center;">90%</td>
-                                    <td style="padding:7px 12px; text-align:center; color:#b45309; font-weight:600;">-26%</td>
-                                    <td style="padding:7px 12px; text-align:center;"><span class="kpi-badge badge-danger">Under Target</span></td>
-                                </tr>
-                                <tr style="border-bottom:2px solid #002060; background:#f0f9ff;">
-                                    <td style="padding:7px 12px; text-align:center; font-weight:800; color:#0369a1;">W-37</td>
-                                    <td style="padding:7px 12px; text-align:center; font-weight:900; color:#0369a1;">64%</td>
-                                    <td style="padding:7px 12px; text-align:center; font-weight:700;">90%</td>
-                                    <td style="padding:7px 12px; text-align:center; color:#dc2626; font-weight:700;">-26%</td>
-                                    <td style="padding:7px 12px; text-align:center;"><span class="kpi-badge badge-warning">Active Audit</span></td>
-                                </tr>
-                            </tbody>
-                            <tfoot>
-                                <tr style="background:#002060; color:#ffffff; font-weight:700;">
-                                    <td style="padding:8px 12px; text-align:center;">Overall Average Score</td>
-                                    <td style="padding:8px 12px; text-align:center; font-size:14px; font-weight:900; color:#fbbf24;">66%</td>
-                                    <td style="padding:8px 12px; text-align:center;">90%</td>
-                                    <td style="padding:8px 12px; text-align:center; color:#fca5a5;">-24%</td>
-                                    <td style="padding:8px 12px; text-align:center;"><span class="kpi-badge" style="background:#b45309; color:white;">Action Required</span></td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
+            <!-- 2. GRAPH ON TOP (FULL WIDTH, CLEAN NO OVERLAP) -->
+            <div class="section-card" style="margin-bottom:20px;">
+                <div class="section-title">📈 Weekly Welfare Score Evolution vs 90% Target Benchmark</div>
+                {welfare_chart_html}
+            </div>
 
-                    <!-- Bottom mini summary cards -->
-                    <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:10px; margin-top:14px;">
-                        <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px; text-align:center;">
-                            <div style="font-size:10px; font-weight:700; color:#166534; text-transform:uppercase;">Peak Score</div>
-                            <div style="font-size:16px; font-weight:800; color:#15803d; margin:2px 0;">81% (W-16)</div>
-                            <div style="font-size:10.5px; color:#475569;">Highest Logged</div>
-                        </div>
-                        <div style="background:#fef2f2; border:1px solid #fecaca; border-radius:8px; padding:10px; text-align:center;">
-                            <div style="font-size:10px; font-weight:700; color:#991b1b; text-transform:uppercase;">Lowest Score</div>
-                            <div style="font-size:16px; font-weight:800; color:#dc2626; margin:2px 0;">53% (W-7)</div>
-                            <div style="font-size:10.5px; color:#475569;">Initial Baseline</div>
-                        </div>
-                        <div style="background:#fffbeb; border:1px solid #fde68a; border-radius:8px; padding:10px; text-align:center;">
-                            <div style="font-size:10px; font-weight:700; color:#92400e; text-transform:uppercase;">Average Deficit</div>
-                            <div style="font-size:16px; font-weight:800; color:#b45309; margin:2px 0;">-24% Gap</div>
-                            <div style="font-size:10.5px; color:#475569;">vs 90% Target</div>
-                        </div>
-                    </div>
+            <!-- 3. TABLE BELOW GRAPH (EXCEL FORMAT REGISTRY) -->
+            <div class="section-card">
+                <div class="section-title">📋 Weekly Welfare Audit Registry Log (Excel Format)</div>
+                <div class="table-responsive" style="margin-top:12px;">
+                    <table style="width:100%; border-collapse:collapse; font-family:'Segoe UI', Inter, -apple-system, sans-serif; font-size:13px; border:1px solid #e2e8f0; border-radius:6px; overflow:hidden;">
+                        <thead>
+                            <tr style="background:#002060; color:#ffffff;">
+                                <th style="padding:10px 14px; text-align:center;">Audit Week</th>
+                                <th style="padding:10px 14px; text-align:center;">Welfare Score</th>
+                                <th style="padding:10px 14px; text-align:center;">Target Benchmark</th>
+                                <th style="padding:10px 14px; text-align:center;">Variance</th>
+                                <th style="padding:10px 14px; text-align:center;">Compliance Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-bottom:1px solid #f1f5f9;">
+                                <td style="padding:8px 14px; text-align:center; font-weight:700;">W-7</td>
+                                <td style="padding:8px 14px; text-align:center; font-weight:800; color:#dc2626;">53.0%</td>
+                                <td style="padding:8px 14px; text-align:center;">90.0%</td>
+                                <td style="padding:8px 14px; text-align:center; color:#dc2626; font-weight:600;">-37.0%</td>
+                                <td style="padding:8px 14px; text-align:center;"><span class="kpi-badge badge-danger">Under Target</span></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid #f1f5f9;">
+                                <td style="padding:8px 14px; text-align:center; font-weight:700;">W-16</td>
+                                <td style="padding:8px 14px; text-align:center; font-weight:800; color:#15803d;">81.0%</td>
+                                <td style="padding:8px 14px; text-align:center;">90.0%</td>
+                                <td style="padding:8px 14px; text-align:center; color:#15803d; font-weight:600;">-9.0%</td>
+                                <td style="padding:8px 14px; text-align:center;"><span class="kpi-badge badge-warning">Near Target</span></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid #f1f5f9;">
+                                <td style="padding:8px 14px; text-align:center; font-weight:700;">W-32</td>
+                                <td style="padding:8px 14px; text-align:center; font-weight:800; color:#b45309;">75.0%</td>
+                                <td style="padding:8px 14px; text-align:center;">90.0%</td>
+                                <td style="padding:8px 14px; text-align:center; color:#b45309; font-weight:600;">-15.0%</td>
+                                <td style="padding:8px 14px; text-align:center;"><span class="kpi-badge badge-warning">Near Target</span></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid #f1f5f9;">
+                                <td style="padding:8px 14px; text-align:center; font-weight:700;">W-34</td>
+                                <td style="padding:8px 14px; text-align:center; font-weight:800; color:#dc2626;">59.0%</td>
+                                <td style="padding:8px 14px; text-align:center;">90.0%</td>
+                                <td style="padding:8px 14px; text-align:center; color:#dc2626; font-weight:600;">-31.0%</td>
+                                <td style="padding:8px 14px; text-align:center;"><span class="kpi-badge badge-danger">Under Target</span></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid #f1f5f9;">
+                                <td style="padding:8px 14px; text-align:center; font-weight:700;">W-35</td>
+                                <td style="padding:8px 14px; text-align:center; font-weight:800; color:#b45309;">66.0%</td>
+                                <td style="padding:8px 14px; text-align:center;">90.0%</td>
+                                <td style="padding:8px 14px; text-align:center; color:#b45309; font-weight:600;">-24.0%</td>
+                                <td style="padding:8px 14px; text-align:center;"><span class="kpi-badge badge-danger">Under Target</span></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid #f1f5f9;">
+                                <td style="padding:8px 14px; text-align:center; font-weight:700;">W-36</td>
+                                <td style="padding:8px 14px; text-align:center; font-weight:800; color:#b45309;">64.0%</td>
+                                <td style="padding:8px 14px; text-align:center;">90.0%</td>
+                                <td style="padding:8px 14px; text-align:center; color:#b45309; font-weight:600;">-26.0%</td>
+                                <td style="padding:8px 14px; text-align:center;"><span class="kpi-badge badge-danger">Under Target</span></td>
+                            </tr>
+                            <tr style="border-bottom:2px solid #002060; background:#f0f9ff;">
+                                <td style="padding:8px 14px; text-align:center; font-weight:800; color:#0369a1;">W-37</td>
+                                <td style="padding:8px 14px; text-align:center; font-weight:900; color:#0369a1;">64.0%</td>
+                                <td style="padding:8px 14px; text-align:center; font-weight:700;">90.0%</td>
+                                <td style="padding:8px 14px; text-align:center; color:#dc2626; font-weight:700;">-26.0%</td>
+                                <td style="padding:8px 14px; text-align:center;"><span class="kpi-badge badge-warning">Active Audit</span></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr style="background:#002060; color:#ffffff; font-weight:700;">
+                                <td style="padding:9px 14px; text-align:center;">Overall Average Score</td>
+                                <td style="padding:9px 14px; text-align:center; font-size:14px; font-weight:900; color:#fbbf24;">66.0%</td>
+                                <td style="padding:9px 14px; text-align:center;">90.0%</td>
+                                <td style="padding:9px 14px; text-align:center; color:#fca5a5;">-24.0%</td>
+                                <td style="padding:9px 14px; text-align:center;"><span class="kpi-badge" style="background:#b45309; color:white;">Action Required</span></td>
+                            </tr>
+                        </tfoot>
+                    </table>
                 </div>
 
-                <!-- Right Column: Line Chart -->
-                <div class="section-card">
-                    <div class="section-title">📈 Weekly Welfare Score Evolution & Trendline</div>
-                    {welfare_chart_html}
+                <!-- Bottom 3 summary cards -->
+                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:12px; margin-top:16px;">
+                    <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:12px; text-align:center;">
+                        <div style="font-size:11px; font-weight:700; color:#166534; text-transform:uppercase;">Peak Score</div>
+                        <div style="font-size:18px; font-weight:800; color:#15803d; margin:2px 0;">81.0% (W-16)</div>
+                        <div style="font-size:11px; color:#475569;">Highest Logged Performance</div>
+                    </div>
+                    <div style="background:#fef2f2; border:1px solid #fecaca; border-radius:8px; padding:12px; text-align:center;">
+                        <div style="font-size:11px; font-weight:700; color:#991b1b; text-transform:uppercase;">Lowest Score</div>
+                        <div style="font-size:18px; font-weight:800; color:#dc2626; margin:2px 0;">53.0% (W-7)</div>
+                        <div style="font-size:11px; color:#475569;">Initial Audit Baseline</div>
+                    </div>
+                    <div style="background:#fffbeb; border:1px solid #fde68a; border-radius:8px; padding:12px; text-align:center;">
+                        <div style="font-size:11px; font-weight:700; color:#92400e; text-transform:uppercase;">Average Deficit</div>
+                        <div style="font-size:18px; font-weight:800; color:#b45309; margin:2px 0;">-24.0% Gap</div>
+                        <div style="font-size:11px; color:#475569;">vs 90.0% Project Target</div>
+                    </div>
                 </div>
             </div>
         </section>

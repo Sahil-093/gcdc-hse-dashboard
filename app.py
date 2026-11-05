@@ -3598,75 +3598,82 @@ elif st.session_state.active_page == "Welfare":
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    # 2. Main 2-Column Section (Excel Table on Left, Line Chart on Right)
-    col_w1, col_w2 = st.columns([1, 1.1])
-    with col_w1:
-        st.markdown('<div class="section-card"><div class="section-title">📋 Weekly Welfare Audit Registry (Excel Format)</div>', unsafe_allow_html=True)
-        st.markdown('''
-        <table style="width:100%; border-collapse:collapse; font-size:12.5px; border:1px solid #e2e8f0; border-radius:6px; overflow:hidden;">
-            <thead>
-                <tr style="background:#002060; color:#ffffff;">
-                    <th style="padding:7px 10px; text-align:center;">Audit Week</th>
-                    <th style="padding:7px 10px; text-align:center;">Score</th>
-                    <th style="padding:7px 10px; text-align:center;">Target</th>
-                    <th style="padding:7px 10px; text-align:center;">Variance</th>
-                    <th style="padding:7px 10px; text-align:center;">Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:6px 10px; text-align:center; font-weight:700;">W-7</td><td style="padding:6px 10px; text-align:center; font-weight:800; color:#dc2626;">53%</td><td style="padding:6px 10px; text-align:center;">90%</td><td style="padding:6px 10px; text-align:center; color:#dc2626;">-37%</td><td style="padding:6px 10px; text-align:center;"><span class="kpi-badge badge-danger">Under Target</span></td></tr>
-                <tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:6px 10px; text-align:center; font-weight:700;">W-16</td><td style="padding:6px 10px; text-align:center; font-weight:800; color:#15803d;">81%</td><td style="padding:6px 10px; text-align:center;">90%</td><td style="padding:6px 10px; text-align:center; color:#15803d;">-9%</td><td style="padding:6px 10px; text-align:center;"><span class="kpi-badge badge-warning">Near Target</span></td></tr>
-                <tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:6px 10px; text-align:center; font-weight:700;">W-32</td><td style="padding:6px 10px; text-align:center; font-weight:800; color:#b45309;">75%</td><td style="padding:6px 10px; text-align:center;">90%</td><td style="padding:6px 10px; text-align:center; color:#b45309;">-15%</td><td style="padding:6px 10px; text-align:center;"><span class="kpi-badge badge-warning">Near Target</span></td></tr>
-                <tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:6px 10px; text-align:center; font-weight:700;">W-34</td><td style="padding:6px 10px; text-align:center; font-weight:800; color:#dc2626;">59%</td><td style="padding:6px 10px; text-align:center;">90%</td><td style="padding:6px 10px; text-align:center; color:#dc2626;">-31%</td><td style="padding:6px 10px; text-align:center;"><span class="kpi-badge badge-danger">Under Target</span></td></tr>
-                <tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:6px 10px; text-align:center; font-weight:700;">W-35</td><td style="padding:6px 10px; text-align:center; font-weight:800; color:#b45309;">66%</td><td style="padding:6px 10px; text-align:center;">90%</td><td style="padding:6px 10px; text-align:center; color:#b45309;">-24%</td><td style="padding:6px 10px; text-align:center;"><span class="kpi-badge badge-danger">Under Target</span></td></tr>
-                <tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:6px 10px; text-align:center; font-weight:700;">W-36</td><td style="padding:6px 10px; text-align:center; font-weight:800; color:#b45309;">64%</td><td style="padding:6px 10px; text-align:center;">90%</td><td style="padding:6px 10px; text-align:center; color:#b45309;">-26%</td><td style="padding:6px 10px; text-align:center;"><span class="kpi-badge badge-danger">Under Target</span></td></tr>
-                <tr style="background:#f0f9ff;"><td style="padding:6px 10px; text-align:center; font-weight:800; color:#0369a1;">W-37</td><td style="padding:6px 10px; text-align:center; font-weight:900; color:#0369a1;">64%</td><td style="padding:6px 10px; text-align:center;">90%</td><td style="padding:6px 10px; text-align:center; color:#dc2626;">-26%</td><td style="padding:6px 10px; text-align:center;"><span class="kpi-badge badge-warning">Active Audit</span></td></tr>
-            </tbody>
-            <tfoot>
-                <tr style="background:#002060; color:#ffffff; font-weight:700;"><td style="padding:7px 10px; text-align:center;">Overall Average</td><td style="padding:7px 10px; text-align:center; font-size:13.5px; font-weight:900; color:#fbbf24;">66%</td><td style="padding:7px 10px; text-align:center;">90%</td><td style="padding:7px 10px; text-align:center; color:#fca5a5;">-24%</td><td style="padding:7px 10px; text-align:center;"><span class="kpi-badge" style="background:#b45309; color:white;">Action Required</span></td></tr>
-            </tfoot>
-        </table>
-        <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:8px; margin-top:12px;">
-            <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:6px; padding:8px; text-align:center;">
-                <div style="font-size:10px; font-weight:700; color:#166534;">PEAK SCORE</div>
-                <div style="font-size:14px; font-weight:800; color:#15803d;">81% (W-16)</div>
-            </div>
-            <div style="background:#fef2f2; border:1px solid #fecaca; border-radius:6px; padding:8px; text-align:center;">
-                <div style="font-size:10px; font-weight:700; color:#991b1b;">LOWEST SCORE</div>
-                <div style="font-size:14px; font-weight:800; color:#dc2626;">53% (W-7)</div>
-            </div>
-            <div style="background:#fffbeb; border:1px solid #fde68a; border-radius:6px; padding:8px; text-align:center;">
-                <div style="font-size:10px; font-weight:700; color:#92400e;">DEFICIT</div>
-                <div style="font-size:14px; font-weight:800; color:#b45309;">-24% Gap</div>
-            </div>
-        </div>
-        ''', unsafe_allow_html=True)
-        st.markdown('</div>', unsafe_allow_html=True)
+    # 2. Graph ON TOP (Full Width, No Overlap)
+    st.markdown('<div class="section-card"><div class="section-title">📈 Weekly Welfare Score Evolution vs 90% Target Benchmark</div>', unsafe_allow_html=True)
+    df_w = pd.DataFrame(data['welfare']['weekly'])
+    if not df_w.empty:
+        fig_w = go.Figure()
+        fig_w.add_trace(go.Scatter(
+            x=df_w['week'],
+            y=df_w['score'] * 100,
+            name="Welfare Score",
+            mode="lines+markers",
+            line=dict(color="#06b6d4", width=3),
+            marker=dict(size=8, color="#0891b2"),
+            text=[f"{s*100:.0f}%" for s in df_w['score']],
+            textposition='top center'
+        ))
+        fig_w.add_trace(go.Scatter(
+            x=df_w['week'],
+            y=df_w['target'] * 100,
+            name="Target Benchmark (90%)",
+            mode="lines",
+            line=dict(color="#ef4444", width=2, dash="dot")
+        ))
+        fig_w.update_layout(
+            height=340,
+            yaxis=dict(range=[40, 105], title="Score (%)", ticksuffix="%"),
+            xaxis=dict(title="Weekly Audit Cycles"),
+            margin=dict(l=20, r=20, t=30, b=25),
+            paper_bgcolor='rgba(0,0,0,0)',
+            legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+        )
+        st.plotly_chart(fig_w, use_container_width=True)
+    st.markdown('</div>', unsafe_allow_html=True)
 
-    with col_w2:
-        st.markdown(f'<div class="section-card"><div class="section-title">📈 Weekly Welfare Score Evolution vs 90% Target</div>', unsafe_allow_html=True)
-        df_w = pd.DataFrame(data['welfare']['weekly'])
-        if not df_w.empty:
-            fig_w = go.Figure()
-            fig_w.add_trace(go.Scatter(
-                x=df_w['week'],
-                y=df_w['score'] * 100,
-                name="Welfare Score",
-                mode="lines+markers",
-                line=dict(color="#06b6d4", width=3),
-                marker=dict(size=8, color="#0891b2"),
-                text=[f"{s*100:.0f}%" for s in df_w['score']],
-                textposition='top center'
-            ))
-            fig_w.add_trace(go.Scatter(
-                x=df_w['week'],
-                y=df_w['target'] * 100,
-                name="Target Benchmark (90%)",
-                mode="lines",
-                line=dict(color="#ef4444", width=2, dash="dot")
-            ))
-            fig_w.update_layout(height=380, yaxis=dict(range=[40, 105], title="Score (%)"), margin=dict(l=20, r=20, t=25, b=20), paper_bgcolor='rgba(0,0,0,0)', legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1))
-            st.plotly_chart(fig_w, use_container_width=True)
-        st.markdown('</div>', unsafe_allow_html=True)
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    # 3. Table BELOW GRAPH (Full Width Excel Format)
+    st.markdown('<div class="section-card"><div class="section-title">📋 Weekly Welfare Audit Registry Log (Excel Format)</div>', unsafe_allow_html=True)
+    st.markdown('''
+    <table style="width:100%; border-collapse:collapse; font-size:13px; border:1px solid #e2e8f0; border-radius:6px; overflow:hidden;">
+        <thead>
+            <tr style="background:#002060; color:#ffffff;">
+                <th style="padding:9px 12px; text-align:center;">Audit Week</th>
+                <th style="padding:9px 12px; text-align:center;">Score</th>
+                <th style="padding:9px 12px; text-align:center;">Target Benchmark</th>
+                <th style="padding:9px 12px; text-align:center;">Variance</th>
+                <th style="padding:9px 12px; text-align:center;">Compliance Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:7px 12px; text-align:center; font-weight:700;">W-7</td><td style="padding:7px 12px; text-align:center; font-weight:800; color:#dc2626;">53.0%</td><td style="padding:7px 12px; text-align:center;">90.0%</td><td style="padding:7px 12px; text-align:center; color:#dc2626;">-37.0%</td><td style="padding:7px 12px; text-align:center;"><span class="kpi-badge badge-danger">Under Target</span></td></tr>
+            <tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:7px 12px; text-align:center; font-weight:700;">W-16</td><td style="padding:7px 12px; text-align:center; font-weight:800; color:#15803d;">81.0%</td><td style="padding:7px 12px; text-align:center;">90.0%</td><td style="padding:7px 12px; text-align:center; color:#15803d;">-9.0%</td><td style="padding:7px 12px; text-align:center;"><span class="kpi-badge badge-warning">Near Target</span></td></tr>
+            <tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:7px 12px; text-align:center; font-weight:700;">W-32</td><td style="padding:7px 12px; text-align:center; font-weight:800; color:#b45309;">75.0%</td><td style="padding:7px 12px; text-align:center;">90.0%</td><td style="padding:7px 12px; text-align:center; color:#b45309;">-15.0%</td><td style="padding:7px 12px; text-align:center;"><span class="kpi-badge badge-warning">Near Target</span></td></tr>
+            <tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:7px 12px; text-align:center; font-weight:700;">W-34</td><td style="padding:7px 12px; text-align:center; font-weight:800; color:#dc2626;">59.0%</td><td style="padding:7px 12px; text-align:center;">90.0%</td><td style="padding:7px 12px; text-align:center; color:#dc2626;">-31.0%</td><td style="padding:7px 12px; text-align:center;"><span class="kpi-badge badge-danger">Under Target</span></td></tr>
+            <tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:7px 12px; text-align:center; font-weight:700;">W-35</td><td style="padding:7px 12px; text-align:center; font-weight:800; color:#b45309;">66.0%</td><td style="padding:7px 12px; text-align:center;">90.0%</td><td style="padding:7px 12px; text-align:center; color:#b45309;">-24.0%</td><td style="padding:7px 12px; text-align:center;"><span class="kpi-badge badge-danger">Under Target</span></td></tr>
+            <tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:7px 12px; text-align:center; font-weight:700;">W-36</td><td style="padding:7px 12px; text-align:center; font-weight:800; color:#b45309;">64.0%</td><td style="padding:7px 12px; text-align:center;">90.0%</td><td style="padding:7px 12px; text-align:center; color:#b45309;">-26.0%</td><td style="padding:7px 12px; text-align:center;"><span class="kpi-badge badge-danger">Under Target</span></td></tr>
+            <tr style="background:#f0f9ff;"><td style="padding:7px 12px; text-align:center; font-weight:800; color:#0369a1;">W-37</td><td style="padding:7px 12px; text-align:center; font-weight:900; color:#0369a1;">64.0%</td><td style="padding:7px 12px; text-align:center;">90.0%</td><td style="padding:7px 12px; text-align:center; color:#dc2626;">-26.0%</td><td style="padding:7px 12px; text-align:center;"><span class="kpi-badge badge-warning">Active Audit</span></td></tr>
+        </tbody>
+        <tfoot>
+            <tr style="background:#002060; color:#ffffff; font-weight:700;"><td style="padding:8px 12px; text-align:center;">Overall Average Score</td><td style="padding:8px 12px; text-align:center; font-size:14px; font-weight:900; color:#fbbf24;">66.0%</td><td style="padding:8px 12px; text-align:center;">90.0%</td><td style="padding:8px 12px; text-align:center; color:#fca5a5;">-24.0%</td><td style="padding:8px 12px; text-align:center;"><span class="kpi-badge" style="background:#b45309; color:white;">Action Required</span></td></tr>
+        </tfoot>
+    </table>
+    <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:12px; margin-top:14px;">
+        <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:6px; padding:10px; text-align:center;">
+            <div style="font-size:10px; font-weight:700; color:#166534;">PEAK SCORE</div>
+            <div style="font-size:16px; font-weight:800; color:#15803d;">81.0% (W-16)</div>
+        </div>
+        <div style="background:#fef2f2; border:1px solid #fecaca; border-radius:6px; padding:10px; text-align:center;">
+            <div style="font-size:10px; font-weight:700; color:#991b1b;">LOWEST SCORE</div>
+            <div style="font-size:16px; font-weight:800; color:#dc2626;">53.0% (W-7)</div>
+        </div>
+        <div style="background:#fffbeb; border:1px solid #fde68a; border-radius:6px; padding:10px; text-align:center;">
+            <div style="font-size:10px; font-weight:700; color:#92400e;">AVERAGE DEFICIT</div>
+            <div style="font-size:16px; font-weight:800; color:#b45309;">-24.0% Gap</div>
+        </div>
+    </div>
+    ''', unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
 
 
