@@ -616,7 +616,10 @@ def set_page(page_name):
 # 🧭 LEFT SIDE PANEL: NAVIGATION BUTTONS
 # =========================================================================
 with st.sidebar:
-    st.image("https://img.icons8.com/fluency/96/shield.png", width=52)
+    if os.path.exists("gcdc_logo.jpg"):
+        st.image("gcdc_logo.jpg", use_container_width=True)
+    else:
+        st.image("https://img.icons8.com/fluency/96/shield.png", width=52)
     st.markdown("### GCDC HSE Hub")
     st.caption("Kharafi National / SBARC")
     st.markdown("---")
@@ -977,11 +980,21 @@ with st.sidebar:
     render_html(staff_sidebar_tbl)
 
 # Top Executive Banner (Always present)
-st.markdown("""
-<div class="main-header">
-    <div>
-        <h1>🛡️ GCDC HSE Performance Executive Dashboard</h1>
-        <p>Comprehensive Safety, Health & Environmental Metrics • Single Consolidated Sheet View</p>
+banner_logo_html = ""
+if os.path.exists("gcdc_logo.jpg"):
+    import base64
+    with open("gcdc_logo.jpg", "rb") as f_img:
+        b64_str = base64.b64encode(f_img.read()).decode("utf-8")
+        banner_logo_html = f'<div style="background: #ffffff; padding: 4px 12px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(0,0,0,0.25);"><img src="data:image/jpeg;base64,{b64_str}" alt="GCDC Logo" style="height: 38px; width: auto; object-fit: contain; display: block;"></div>'
+
+st.markdown(f"""
+<div class="main-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;">
+    <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
+        {banner_logo_html}
+        <div>
+            <h1 style="margin:0; font-size:22px; font-weight:800; color:#f8fafc;">GCDC HSE Performance Executive Dashboard</h1>
+            <p style="margin:2px 0 0 0; color:#94a3b8; font-size:12.5px;">Comprehensive Safety, Health & Environmental Metrics • Single Consolidated Sheet View</p>
+        </div>
     </div>
     <div style="text-align: right;">
         <span style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 4px 12px; border-radius: 9999px; font-size: 12px; font-weight: 600; border: 1px solid rgba(56, 189, 248, 0.3);">

@@ -6,6 +6,7 @@ Zero loading bars, zero WebAssembly overhead, opens instantly on all devices.
 
 import os
 import json
+import base64
 import plotly.graph_objects as go
 import plotly.express as px
 import pandas as pd
@@ -766,6 +767,13 @@ def generate():
     )
     workforce_bar_html = to_chart_html(fig_hours_bar, "chart_workforce_bar")
 
+    # Load GCDC Official Corporate Logo as Base64 data URI
+    gcdc_logo_b64 = "https://img.icons8.com/fluency/96/shield.png"
+    logo_file_path = os.path.join(os.path.dirname(__file__), "gcdc_logo.jpg")
+    if os.path.exists(logo_file_path):
+        with open(logo_file_path, "rb") as f_logo:
+            gcdc_logo_b64 = f"data:image/jpeg;base64,{base64.b64encode(f_logo.read()).decode('utf-8')}"
+
     # Complete Self-Contained HTML
     html = f"""<!DOCTYPE html>
 <html lang="en">
@@ -776,7 +784,7 @@ def generate():
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <title>GCDC HSE Performance Executive Dashboard • Abdul Latif</title>
-    <link rel="icon" type="image/png" href="https://img.icons8.com/fluency/96/shield.png">
+    <link rel="icon" type="image/jpeg" href="{gcdc_logo_b64}">
     
     <!-- Instant Plotly Library from CDN -->
     <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
@@ -838,17 +846,32 @@ def generate():
 
         .sidebar-brand {{
             display: flex;
-            align-items: center;
-            gap: 12px;
-            padding-bottom: 12px;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 10px;
+            padding-bottom: 14px;
             border-bottom: 1px solid #cbd5e1;
+            position: relative;
         }}
-        .sidebar-brand img {{
-            width: 44px;
-            height: 44px;
+        .sidebar-logo-card {{
+            background: #ffffff;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+        }}
+        .sidebar-logo-card img {{
+            max-width: 100%;
+            height: auto;
+            max-height: 54px;
+            object-fit: contain;
+            display: block;
         }}
         .sidebar-brand h3 {{
-            font-size: 17px;
+            font-size: 16px;
             font-weight: 800;
             color: #0f2438;
             line-height: 1.2;
@@ -1630,7 +1653,9 @@ def generate():
             <span>☰</span> <span>Menu</span>
         </button>
         <div class="mobile-brand">
-            <img src="https://img.icons8.com/fluency/96/shield.png" alt="Shield Logo">
+            <div style="background:#ffffff; border-radius:5px; padding:2px 6px; display:inline-flex; align-items:center;">
+                <img src="{gcdc_logo_b64}" alt="GCDC Logo" style="height:22px; width:auto; display:block;">
+            </div>
             <span>GCDC HSE Hub</span>
         </div>
         <select id="mobile-nav-select" class="mobile-nav-select" onchange="switchPage(this.value)">
@@ -1655,12 +1680,16 @@ def generate():
     <!-- SIDEBAR -->
     <aside id="sidebar">
         <div class="sidebar-brand">
-            <img src="https://img.icons8.com/fluency/96/shield.png" alt="Shield Logo">
+            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                <div class="sidebar-logo-card" style="flex: 1;">
+                    <img src="{gcdc_logo_b64}" alt="GCDC Official Logo">
+                </div>
+                <button class="sidebar-close-btn" onclick="closeSidebar()" aria-label="Close Sidebar" style="margin-left: 8px;">✕</button>
+            </div>
             <div>
                 <h3>GCDC HSE Hub</h3>
                 <p>Kharafi National / SBARC</p>
             </div>
-            <button class="sidebar-close-btn" onclick="closeSidebar()" aria-label="Close Sidebar">✕</button>
         </div>
 
         <div class="nav-section-title">📌 Navigation Pages</div>
@@ -1691,9 +1720,14 @@ def generate():
     <main id="main-area">
 
         <header class="main-header">
-            <div>
-                <h1>🛡️ GCDC HSE Performance Executive Dashboard</h1>
-                <p>Comprehensive Safety, Health & Environmental Metrics • Single Consolidated Sheet View</p>
+            <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
+                <div style="background:#ffffff; padding:4px 12px; border-radius:8px; display:inline-flex; align-items:center; justify-content:center; box-shadow:0 2px 6px rgba(0,0,0,0.25);">
+                    <img src="{gcdc_logo_b64}" alt="GCDC Logo" style="height:38px; width:auto; object-fit:contain; display:block;">
+                </div>
+                <div>
+                    <h1>GCDC HSE Performance Executive Dashboard</h1>
+                    <p>Comprehensive Safety, Health & Environmental Metrics • Single Consolidated Sheet View</p>
+                </div>
             </div>
             <div class="header-actions">
                 <button class="action-btn" onclick="toggleFullScreen()" title="Toggle Fullscreen Mode">⛶ Fullscreen</button>
