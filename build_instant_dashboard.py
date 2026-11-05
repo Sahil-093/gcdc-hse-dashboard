@@ -139,36 +139,42 @@ def generate():
     act_sb_chart_html = to_chart_html(fig_act_sb, "chart_act_sb")
 
     # --- DEDICATED MAIN PAGE CHARTS (Unique IDs & High Resolution) ---
-    fig_obs_page = go.Figure(data=[go.Pie(
-        labels=['Closed: 1,242', 'Open: 8'],
-        values=[1242, 8],
-        hole=0.68,
-        marker=dict(colors=['#15803d', '#dc2626'], line=dict(color='#ffffff', width=2.5)),
-        textinfo='none',
-        hoverinfo='label+value',
-        hovertemplate="<b>%{label}</b><br>Exact Count: <b>%{value:,} Observations</b><extra></extra>",
-        sort=False
-    )])
-    fig_obs_page.update_layout(
-        annotations=[
-            dict(
-                text='<span style="font-size:28px; font-weight:900; color:#002060;">1,250</span><br><span style="font-size:11px; font-weight:800; color:#64748b; letter-spacing:0.5px;">TOTAL LOGS</span><br><span style="font-size:11px; font-weight:700; color:#15803d;">1,242 Closed</span> &bull; <span style="font-size:11px; font-weight:700; color:#dc2626;">8 Open (OD)</span>',
-                x=0.5, y=0.5,
-                font_size=12,
-                showarrow=False,
-                align='center'
-            )
-        ],
-        height=340,
-        margin=dict(l=20, r=20, t=25, b=25),
-        legend=dict(
-            orientation='h',
-            yanchor='bottom',
-            y=-0.08,
-            xanchor='center',
-            x=0.5,
-            font=dict(size=12, color='#0f172a')
+    obs_cats = ['Overdue', 'Open', 'Closed']
+    obs_vals = [8, 8, 1242]
+    obs_colors = ['#dc2626', '#0284c7', '#15803d']
+
+    fig_obs_page = go.Figure(go.Bar(
+        x=obs_vals,
+        y=obs_cats,
+        orientation='h',
+        text=[f"<b>{v:,}</b>" for v in obs_vals],
+        textposition='outside',
+        textfont=dict(size=14, color=obs_colors, family="Segoe UI, Inter, sans-serif"),
+        marker=dict(
+            color=obs_colors,
+            line=dict(color='#0f172a', width=1.5)
         ),
+        width=0.45,
+        hovertemplate="<b>%{y}</b>: %{x:,} observations<extra></extra>"
+    ))
+    fig_obs_page.update_layout(
+        title=dict(
+            text="<b>Site Observations Count by Status</b>",
+            font=dict(size=18, color="#0d233a", family="Segoe UI, Inter, sans-serif"),
+            x=0.5,
+            xanchor="center"
+        ),
+        height=340,
+        xaxis=dict(
+            range=[0, 1420],
+            title="Number of Observations",
+            gridcolor="#f1f5f9",
+            zerolinecolor="#cbd5e1"
+        ),
+        yaxis=dict(
+            tickfont=dict(size=13, color="#0f172a", weight="bold")
+        ),
+        margin=dict(l=80, r=50, t=45, b=35),
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(0,0,0,0)'
     )
@@ -2010,7 +2016,7 @@ def generate():
                 </div>
 
                 <div class="section-card">
-                    <div class="section-title">📊 Site Observations Status Counts (Donut Chart)</div>
+                    <div class="section-title">📊 Site Observations Status Breakdown (Horizontal Bar Chart)</div>
                     {obs_page_chart_html}
                     
                     <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 12px; margin-top: 14px;">
