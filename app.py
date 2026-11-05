@@ -3602,23 +3602,50 @@ elif st.session_state.active_page == "Welfare":
     st.markdown('<div class="section-card"><div class="section-title">📈 Weekly Welfare Score Evolution vs 90% Target Benchmark</div>', unsafe_allow_html=True)
     df_w = pd.DataFrame(data['welfare']['weekly'])
     if not df_w.empty:
+        w_weeks = list(df_w['week'])
+        w_scores = [float(s) * 100 for s in df_w['score']]
+        def get_w_color(w_name, sc):
+            if w_name == 'W-37':
+                return '#0284c7'  # Active Latest
+            elif sc >= 80:
+                return '#15803d'  # Green
+            elif sc >= 60:
+                return '#b45309'  # Amber
+            else:
+                return '#dc2626'  # Red
+        w_colors = [get_w_color(w, sc) for w, sc in zip(w_weeks, w_scores)]
+
         fig_w = go.Figure()
+        for i in range(len(w_weeks) - 1):
+            fig_w.add_trace(go.Scatter(
+                x=[w_weeks[i], w_weeks[i+1]],
+                y=[w_scores[i], w_scores[i+1]],
+                mode="lines",
+                line=dict(color=w_colors[i+1], width=3.5),
+                legendgroup="welfare",
+                showlegend=False,
+                hoverinfo="skip"
+            ))
+
         fig_w.add_trace(go.Scatter(
-            x=df_w['week'],
-            y=df_w['score'] * 100,
-            name="Welfare Score",
-            mode="lines+markers",
-            line=dict(color="#06b6d4", width=3),
-            marker=dict(size=8, color="#0891b2"),
-            text=[f"{s*100:.0f}%" for s in df_w['score']],
-            textposition='top center'
+            x=w_weeks,
+            y=w_scores,
+            name="Welfare Score (Table Colors)",
+            legendgroup="welfare",
+            mode="markers+text",
+            marker=dict(size=13, color=w_colors, line=dict(color="#ffffff", width=2.5)),
+            text=[f"<b>{s:.0f}%</b>" for s in w_scores],
+            textposition="top center",
+            textfont=dict(size=12, color=w_colors, family="Segoe UI, Inter, sans-serif"),
+            hovertemplate="<b>%{x}</b><br>Score: <b>%{y:.1f}%</b><extra></extra>"
         ))
         fig_w.add_trace(go.Scatter(
-            x=df_w['week'],
-            y=df_w['target'] * 100,
+            x=w_weeks,
+            y=[90.0] * len(w_weeks),
             name="Target Benchmark (90%)",
             mode="lines",
-            line=dict(color="#ef4444", width=2, dash="dot")
+            line=dict(color="#ef4444", width=2, dash="dot"),
+            hovertemplate="<b>Target</b>: 90.0%<extra></extra>"
         ))
         fig_w.update_layout(
             height=340,

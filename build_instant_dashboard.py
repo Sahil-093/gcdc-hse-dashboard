@@ -609,16 +609,58 @@ def generate():
     train_gap_chart_html = to_chart_html(fig_gap, "chart_train_gap")
 
     df_w = pd.DataFrame(data['welfare']['weekly'])
+    w_weeks = list(df_w['week'])
+    w_scores = [float(s) * 100 for s in df_w['score']]
+    # Exact colors matching table below: Red for <60%, Green for >=80%, Amber for 60-79%, Blue for active latest
+    def get_w_color(w_name, sc):
+        if w_name == 'W-37':
+            return '#0284c7'  # Active Latest Audit
+        elif sc >= 80:
+            return '#15803d'  # Green / Near Target High
+        elif sc >= 60:
+            return '#b45309'  # Amber / Near Target Medium
+        else:
+            return '#dc2626'  # Red / Under Target
+
+    w_colors = [get_w_color(w, sc) for w, sc in zip(w_weeks, w_scores)]
+
     fig_w = go.Figure()
+    # Color-coded line segments matching table
+    for i in range(len(w_weeks) - 1):
+        fig_w.add_trace(go.Scatter(
+            x=[w_weeks[i], w_weeks[i+1]],
+            y=[w_scores[i], w_scores[i+1]],
+            mode="lines",
+            line=dict(color=w_colors[i+1], width=3.5),
+            legendgroup="welfare",
+            showlegend=False,
+            hoverinfo="skip"
+        ))
+
+    # Points with colored markers & colored text labels matching table
     fig_w.add_trace(go.Scatter(
-        x=df_w['week'], y=df_w['score'] * 100, name="Welfare Score",
-        mode="lines+markers", line=dict(color="#06b6d4", width=3), marker=dict(size=8, color="#0891b2"),
-        text=[f"{s*100:.1f}%" for s in df_w['score']], textposition='top center'
+        x=w_weeks,
+        y=w_scores,
+        name="Welfare Score (Table Colors)",
+        legendgroup="welfare",
+        mode="markers+text",
+        marker=dict(size=13, color=w_colors, line=dict(color="#ffffff", width=2.5)),
+        text=[f"<b>{s:.0f}%</b>" for s in w_scores],
+        textposition="top center",
+        textfont=dict(size=12, color=w_colors, family="Segoe UI, Inter, sans-serif"),
+        hovertemplate="<b>%{x}</b><br>Welfare Score: <b>%{y:.1f}%</b><extra></extra>"
     ))
+
+    # Benchmark target line (90%)
     fig_w.add_trace(go.Scatter(
-        x=df_w['week'], y=df_w['target'] * 100, name="Target Benchmark (90%)",
-        mode="lines", line=dict(color="#ef4444", width=2, dash="dot")
+        x=w_weeks,
+        y=[90.0] * len(w_weeks),
+        name="Target Benchmark (90%)",
+        mode="lines",
+        line=dict(color="#ef4444", width=2, dash="dot"),
+        hovertemplate="<b>Benchmark Target</b>: 90.0%<extra></extra>"
     ))
+
     fig_w.update_layout(
         height=340,
         yaxis=dict(range=[40, 105], title="Score (%)", gridcolor="#f1f5f9", ticksuffix="%"),
