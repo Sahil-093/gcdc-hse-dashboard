@@ -627,6 +627,39 @@ def generate():
     )
     welfare_chart_html = to_chart_html(fig_w, "chart_welfare_weekly")
 
+    # Welfare Pillars Bar Chart
+    w_pillars = [
+        "Sanitation & Ablution",
+        "Messing & Kitchen Hygiene",
+        "Camp Living Standards",
+        "Rest Shelters & Shading",
+        "Cold Drinking Water",
+        "Emergency Medical Clinic"
+    ]
+    w_pillar_scores = [62, 68, 74, 78, 88, 92]
+    w_pillar_colors = ["#dc2626", "#ea580c", "#f59e0b", "#f59e0b", "#16a34a", "#16a34a"]
+
+    fig_w_pillars = go.Figure(go.Bar(
+        x=w_pillar_scores,
+        y=w_pillars,
+        orientation='h',
+        text=[f"<b>{s}%</b>" for s in w_pillar_scores],
+        textposition='outside',
+        textfont=dict(size=12, color='#0f172a', weight='bold'),
+        marker=dict(color=w_pillar_colors, line=dict(color='#0f172a', width=1)),
+        width=0.55
+    ))
+    fig_w_pillars.update_layout(
+        title=dict(text="<b>Welfare Audit Pillars Breakdown (%)</b>", font=dict(size=16, color="#0d233a"), x=0.5, xanchor="center"),
+        height=320,
+        xaxis=dict(range=[0, 108], title="Compliance Score (%)", gridcolor="#f1f5f9", ticksuffix="%"),
+        yaxis=dict(tickfont=dict(size=12, color="#0f172a")),
+        margin=dict(l=175, r=40, t=45, b=25),
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)'
+    )
+    welfare_pillars_html = to_chart_html(fig_w_pillars, "chart_welfare_pillars")
+
     all_months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     active_m = [m for m in all_months if m in m_hours]
     active_v = [m_hours[m] for m in active_m]
@@ -2951,12 +2984,297 @@ def generate():
 
         <!-- PAGE 11: WELFARE -->
         <section id="page-Welfare" class="page-view">
-            <h2 style="font-size:20px; font-weight:800; color:#0f172a; margin-bottom:4px;">🤝 Welfare & Proactive Safety Initiatives</h2>
-            <p style="font-size:13px; color:#64748b; margin-bottom:18px;">Labor camp standards, site heat stress monitoring, and worker wellbeing index</p>
+            <h2 style="font-size:20px; font-weight:800; color:#0f172a; margin-bottom:4px;">🤝 Workforce Welfare & Proactive Safety Initiatives</h2>
+            <p style="font-size:13px; color:#64748b; margin-bottom:18px;">Labor camp living standards, site heat stress management, messing hygiene, and worker wellbeing governance</p>
 
-            <div class="section-card">
-                <div class="section-title">📈 Weekly Welfare Score Monitoring (Benchmark &ge; 90%)</div>
-                {welfare_chart_html}
+            <!-- 1. TOP 5 EXECUTIVE WELFARE CARDS -->
+            <div class="kpi-grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); margin-bottom: 20px;">
+                <div class="kpi-card">
+                    <div class="kpi-title">Latest Welfare Score</div>
+                    <div class="kpi-value" style="color:#b45309;">64.0%</div>
+                    <span class="kpi-badge badge-warning">Week 37 Audit</span>
+                    <div class="metric-sub">Deficit: -26% vs Target</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">YTD Average Score</div>
+                    <div class="kpi-value" style="color:#0284c7;">66.0%</div>
+                    <span class="kpi-badge badge-info">7 Weeks Logged</span>
+                    <div class="metric-sub">Benchmark: &ge; 90%</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">Peak Welfare Score</div>
+                    <div class="kpi-value" style="color:#15803d;">81.0%</div>
+                    <span class="kpi-badge badge-success">Week 16 High</span>
+                    <div class="metric-sub">Spring Campaign Peak</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">Proactive TBTs Logged</div>
+                    <div class="kpi-value" style="color:#0284c7;">114</div>
+                    <span class="kpi-badge badge-info">Toolbox Talks</span>
+                    <div class="metric-sub">Frontline Engagement</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">Formal HSE Inspections</div>
+                    <div class="kpi-value" style="color:#15803d;">6</div>
+                    <span class="kpi-badge badge-success">Walkthroughs</span>
+                    <div class="metric-sub">Camp & Site Audits</div>
+                </div>
+            </div>
+
+            <!-- 2. MAIN 2-COLUMN SECTION -->
+            <div class="grid-2" style="align-items:start;">
+                <!-- Left Column: Weekly Evolution Chart & Registry Table -->
+                <div class="section-card">
+                    <div class="section-title">📈 Weekly Welfare Score Evolution vs 90% Target</div>
+                    {welfare_chart_html}
+
+                    <div style="margin-top: 18px;">
+                        <div style="font-size: 13px; font-weight: 700; color: #0f172a; margin-bottom: 8px;">📋 Weekly Welfare Audit Registry Log</div>
+                        <div class="table-responsive">
+                            <table style="width:100%; border-collapse:collapse; font-family:'Segoe UI', Inter, -apple-system, sans-serif; font-size:12.5px; border:1px solid #e2e8f0; border-radius:6px; overflow:hidden;">
+                                <thead>
+                                    <tr style="background:#002060; color:#ffffff;">
+                                        <th style="padding:8px 12px; text-align:center;">Audit Week</th>
+                                        <th style="padding:8px 12px; text-align:center;">Welfare Score</th>
+                                        <th style="padding:8px 12px; text-align:center;">Target Benchmark</th>
+                                        <th style="padding:8px 12px; text-align:center;">Variance</th>
+                                        <th style="padding:8px 12px; text-align:center;">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="border-bottom:1px solid #f1f5f9;">
+                                        <td style="padding:7px 12px; text-align:center; font-weight:700;">W-7</td>
+                                        <td style="padding:7px 12px; text-align:center; font-weight:800; color:#dc2626;">53.0%</td>
+                                        <td style="padding:7px 12px; text-align:center;">90.0%</td>
+                                        <td style="padding:7px 12px; text-align:center; color:#dc2626; font-weight:600;">-37.0%</td>
+                                        <td style="padding:7px 12px; text-align:center;"><span class="kpi-badge badge-danger">Under Target</span></td>
+                                    </tr>
+                                    <tr style="border-bottom:1px solid #f1f5f9;">
+                                        <td style="padding:7px 12px; text-align:center; font-weight:700;">W-16</td>
+                                        <td style="padding:7px 12px; text-align:center; font-weight:800; color:#15803d;">81.0%</td>
+                                        <td style="padding:7px 12px; text-align:center;">90.0%</td>
+                                        <td style="padding:7px 12px; text-align:center; color:#15803d; font-weight:600;">-9.0%</td>
+                                        <td style="padding:7px 12px; text-align:center;"><span class="kpi-badge badge-warning">Near Target</span></td>
+                                    </tr>
+                                    <tr style="border-bottom:1px solid #f1f5f9;">
+                                        <td style="padding:7px 12px; text-align:center; font-weight:700;">W-32</td>
+                                        <td style="padding:7px 12px; text-align:center; font-weight:800; color:#b45309;">75.0%</td>
+                                        <td style="padding:7px 12px; text-align:center;">90.0%</td>
+                                        <td style="padding:7px 12px; text-align:center; color:#b45309; font-weight:600;">-15.0%</td>
+                                        <td style="padding:7px 12px; text-align:center;"><span class="kpi-badge badge-warning">Near Target</span></td>
+                                    </tr>
+                                    <tr style="border-bottom:1px solid #f1f5f9;">
+                                        <td style="padding:7px 12px; text-align:center; font-weight:700;">W-34</td>
+                                        <td style="padding:7px 12px; text-align:center; font-weight:800; color:#dc2626;">59.0%</td>
+                                        <td style="padding:7px 12px; text-align:center;">90.0%</td>
+                                        <td style="padding:7px 12px; text-align:center; color:#dc2626; font-weight:600;">-31.0%</td>
+                                        <td style="padding:7px 12px; text-align:center;"><span class="kpi-badge badge-danger">Under Target</span></td>
+                                    </tr>
+                                    <tr style="border-bottom:1px solid #f1f5f9;">
+                                        <td style="padding:7px 12px; text-align:center; font-weight:700;">W-35</td>
+                                        <td style="padding:7px 12px; text-align:center; font-weight:800; color:#b45309;">66.0%</td>
+                                        <td style="padding:7px 12px; text-align:center;">90.0%</td>
+                                        <td style="padding:7px 12px; text-align:center; color:#b45309; font-weight:600;">-24.0%</td>
+                                        <td style="padding:7px 12px; text-align:center;"><span class="kpi-badge badge-danger">Under Target</span></td>
+                                    </tr>
+                                    <tr style="border-bottom:1px solid #f1f5f9;">
+                                        <td style="padding:7px 12px; text-align:center; font-weight:700;">W-36</td>
+                                        <td style="padding:7px 12px; text-align:center; font-weight:800; color:#b45309;">64.0%</td>
+                                        <td style="padding:7px 12px; text-align:center;">90.0%</td>
+                                        <td style="padding:7px 12px; text-align:center; color:#b45309; font-weight:600;">-26.0%</td>
+                                        <td style="padding:7px 12px; text-align:center;"><span class="kpi-badge badge-danger">Under Target</span></td>
+                                    </tr>
+                                    <tr style="border-bottom:2px solid #002060; background:#f0f9ff;">
+                                        <td style="padding:7px 12px; text-align:center; font-weight:800; color:#0369a1;">W-37 (Latest)</td>
+                                        <td style="padding:7px 12px; text-align:center; font-weight:900; color:#0369a1;">64.0%</td>
+                                        <td style="padding:7px 12px; text-align:center; font-weight:700;">90.0%</td>
+                                        <td style="padding:7px 12px; text-align:center; color:#dc2626; font-weight:700;">-26.0%</td>
+                                        <td style="padding:7px 12px; text-align:center;"><span class="kpi-badge badge-warning">Active Audit</span></td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr style="background:#002060; color:#ffffff; font-weight:700;">
+                                        <td style="padding:8px 12px; text-align:center;">Overall YTD Average</td>
+                                        <td style="padding:8px 12px; text-align:center; font-size:14px; font-weight:900; color:#fbbf24;">66.0%</td>
+                                        <td style="padding:8px 12px; text-align:center;">90.0%</td>
+                                        <td style="padding:8px 12px; text-align:center; color:#fca5a5;">-24.0%</td>
+                                        <td style="padding:8px 12px; text-align:center;"><span class="kpi-badge" style="background:#b45309; color:white;">Action Required</span></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Audit Domains Breakdown & Heat Stress Protocol -->
+                <div class="section-card">
+                    <div class="section-title">🏥 Welfare Audit Pillars & Hygiene Compliance Breakdown</div>
+                    {welfare_pillars_html}
+
+                    <div style="margin-top: 18px; border-top: 1px dashed #cbd5e1; padding-top: 16px;">
+                        <div style="font-size: 13px; font-weight: 700; color: #0f172a; margin-bottom: 10px;">☀️ Site Heat Stress & Thermal Work Limit (TWL) Status</div>
+                        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap:10px;">
+                            <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px; text-align:center;">
+                                <div style="font-size:10px; font-weight:700; color:#166534; text-transform:uppercase;">Flag Condition</div>
+                                <div style="font-size:16px; font-weight:800; color:#15803d; margin:3px 0;">🟢 Green / Normal</div>
+                                <div style="font-size:10.5px; color:#475569;">TWL &ge; 140 W/m&sup2;</div>
+                            </div>
+                            <div style="background:#f0f9ff; border:1px solid #bae6fd; border-radius:8px; padding:10px; text-align:center;">
+                                <div style="font-size:10px; font-weight:700; color:#0369a1; text-transform:uppercase;">Chilled Water Stations</div>
+                                <div style="font-size:16px; font-weight:800; color:#0284c7; margin:3px 0;">100% Active</div>
+                                <div style="font-size:10.5px; color:#475569;">12 Coolers on site</div>
+                            </div>
+                            <div style="background:#fffbeb; border:1px solid #fde68a; border-radius:8px; padding:10px; text-align:center;">
+                                <div style="font-size:10px; font-weight:700; color:#92400e; text-transform:uppercase;">Electrolytes / ORS</div>
+                                <div style="font-size:16px; font-weight:800; color:#b45309; margin:3px 0;">Supplied Daily</div>
+                                <div style="font-size:10.5px; color:#475569;">Available at clusters</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. INTERACTIVE SECONDARY TABS: WELFARE STANDARDS & CAPA -->
+            <div class="section-card" style="margin-top:24px;">
+                <div class="tab-header-bar">
+                    <button type="button" id="welfare-btn-pillars" class="tab-link active" onclick="switchWelfareSubTab('pillars')">🏕️ Welfare Audit Domains & Criteria</button>
+                    <button type="button" id="welfare-btn-heat" class="tab-link" onclick="switchWelfareSubTab('heat')">☀️ Heat Stress & Wellbeing Protocol</button>
+                    <button type="button" id="welfare-btn-capa" class="tab-link" onclick="switchWelfareSubTab('capa')">📋 Welfare Corrective Action Plan (CAPA)</button>
+                </div>
+
+                <!-- Subtab 1: Welfare Audit Domains -->
+                <div id="welfare-subtab-pillars" class="welfare-tab-content" style="display:block;">
+                    <div class="section-title">Welfare Audit Inspection Matrix & Assessment Criteria</div>
+                    <div class="table-responsive" style="margin-top:12px;">
+                        <table style="width:100%; border-collapse:collapse; font-size:13px; border:1px solid #e2e8f0; border-radius:6px; overflow:hidden;">
+                            <thead>
+                                <tr style="background:#f8fafc; border-bottom:1px solid #cbd5e1; color:#475569;">
+                                    <th style="padding:10px 14px; text-align:left;">Audit Pillar</th>
+                                    <th style="padding:10px 14px; text-align:left;">Inspection Scope & Standards</th>
+                                    <th style="padding:10px 14px; text-align:center;">Frequency</th>
+                                    <th style="padding:10px 14px; text-align:center;">Score</th>
+                                    <th style="padding:10px 14px; text-align:center;">Target</th>
+                                    <th style="padding:10px 14px; text-align:center;">Priority</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom:1px solid #f1f5f9;">
+                                    <td style="padding:10px 14px; font-weight:700; color:#0f172a;">Sanitation & Ablution</td>
+                                    <td style="padding:10px 14px; color:#475569;">Daily cleaning of chemical toilets, site hand-washing stations, and sewage disposal.</td>
+                                    <td style="padding:10px 14px; text-align:center;">Daily / Weekly</td>
+                                    <td style="padding:10px 14px; text-align:center; font-weight:800; color:#dc2626;">62%</td>
+                                    <td style="padding:10px 14px; text-align:center;">90%</td>
+                                    <td style="padding:10px 14px; text-align:center;"><span class="kpi-badge badge-danger">High Priority</span></td>
+                                </tr>
+                                <tr style="border-bottom:1px solid #f1f5f9;">
+                                    <td style="padding:10px 14px; font-weight:700; color:#0f172a;">Messing & Kitchen Hygiene</td>
+                                    <td style="padding:10px 14px; color:#475569;">Camp dining hall fly-proofing, pest control contracts, food storage temperature & waste removal.</td>
+                                    <td style="padding:10px 14px; text-align:center;">Weekly</td>
+                                    <td style="padding:10px 14px; text-align:center; font-weight:800; color:#ea580c;">68%</td>
+                                    <td style="padding:10px 14px; text-align:center;">90%</td>
+                                    <td style="padding:10px 14px; text-align:center;"><span class="kpi-badge badge-danger">High Priority</span></td>
+                                </tr>
+                                <tr style="border-bottom:1px solid #f1f5f9;">
+                                    <td style="padding:10px 14px; font-weight:700; color:#0f172a;">Camp Living Standards</td>
+                                    <td style="padding:10px 14px; color:#475569;">Room occupancy limits (&le; 4 persons/room), air conditioning maintenance, bedding hygiene.</td>
+                                    <td style="padding:10px 14px; text-align:center;">Bi-Weekly</td>
+                                    <td style="padding:10px 14px; text-align:center; font-weight:800; color:#b45309;">74%</td>
+                                    <td style="padding:10px 14px; text-align:center;">90%</td>
+                                    <td style="padding:10px 14px; text-align:center;"><span class="kpi-badge badge-warning">Medium</span></td>
+                                </tr>
+                                <tr style="border-bottom:1px solid #f1f5f9;">
+                                    <td style="padding:10px 14px; font-weight:700; color:#0f172a;">Rest Shelters & Shading</td>
+                                    <td style="padding:10px 14px; color:#475569;">Adequate covered rest areas on frontline construction zones with benches and misting fans.</td>
+                                    <td style="padding:10px 14px; text-align:center;">Weekly</td>
+                                    <td style="padding:10px 14px; text-align:center; font-weight:800; color:#b45309;">78%</td>
+                                    <td style="padding:10px 14px; text-align:center;">90%</td>
+                                    <td style="padding:10px 14px; text-align:center;"><span class="kpi-badge badge-warning">Medium</span></td>
+                                </tr>
+                                <tr style="border-bottom:1px solid #f1f5f9;">
+                                    <td style="padding:10px 14px; font-weight:700; color:#0f172a;">Cold Drinking Water</td>
+                                    <td style="padding:10px 14px; color:#475569;">Bacteriological testing of water dispensers, ice-making capacity, electrolyte sachets distribution.</td>
+                                    <td style="padding:10px 14px; text-align:center;">Daily</td>
+                                    <td style="padding:10px 14px; text-align:center; font-weight:800; color:#15803d;">88%</td>
+                                    <td style="padding:10px 14px; text-align:center;">90%</td>
+                                    <td style="padding:10px 14px; text-align:center;"><span class="kpi-badge badge-success">Good</span></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:10px 14px; font-weight:700; color:#0f172a;">Emergency Medical Clinic</td>
+                                    <td style="padding:10px 14px; color:#475569;">Site paramedic availability, emergency ambulance readiness, heat exhaustion treatment bay.</td>
+                                    <td style="padding:10px 14px; text-align:center;">Continuous</td>
+                                    <td style="padding:10px 14px; text-align:center; font-weight:800; color:#15803d;">92%</td>
+                                    <td style="padding:10px 14px; text-align:center;">90%</td>
+                                    <td style="padding:10px 14px; text-align:center;"><span class="kpi-badge badge-success">World-Class</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Subtab 2: Heat Stress Protocol -->
+                <div id="welfare-subtab-heat" class="welfare-tab-content" style="display:none;">
+                    <div class="section-title">GCDC Site Heat Stress Management Protocol</div>
+                    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:16px; margin-top:14px;">
+                        <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:16px;">
+                            <h4 style="margin:0 0 8px 0; color:#166534; font-size:14px;">💧 Mandatory Hydration Regimes</h4>
+                            <p style="margin:0; font-size:12.5px; color:#475569; line-height:1.6;">
+                                Workers must consume at least <b>1 liter of water every hour</b> during peak shifts. Oral Rehydration Salts (ORS) are issued daily at designated cooling stations.
+                            </p>
+                        </div>
+                        <div style="background:#f0f9ff; border:1px solid #bae6fd; border-radius:8px; padding:16px;">
+                            <h4 style="margin:0 0 8px 0; color:#0369a1; font-size:14px;">⏱️ Work-to-Rest Cycles (TWL Triggered)</h4>
+                            <p style="margin:0; font-size:12.5px; color:#475569; line-height:1.6;">
+                                Thermal Work Limit monitors provide live readings. Amber alert triggers <b>45 min work / 15 min shade rest</b>; Red alert triggers emergency cessation of direct sun exposure.
+                            </p>
+                        </div>
+                        <div style="background:#fffbeb; border:1px solid #fde68a; border-radius:8px; padding:16px;">
+                            <h4 style="margin:0 0 8px 0; color:#92400e; font-size:14px;">🚑 Medical Heat Illness Response</h4>
+                            <p style="margin:0; font-size:12.5px; color:#475569; line-height:1.6;">
+                                Site clinic maintains dedicated heat stress bays equipped with IV hydration fluids, ice water baths, and 24/7 dedicated ambulance evacuation protocol.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Subtab 3: Welfare CAPA -->
+                <div id="welfare-subtab-capa" class="welfare-tab-content" style="display:none;">
+                    <div class="section-title">Welfare Corrective & Preventive Action Plan (CAPA)</div>
+                    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:16px; margin-top:14px;">
+                        <div style="background:#fef2f2; border:1px solid #fecaca; border-radius:8px; padding:16px;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                                <span style="font-size:11px; font-weight:700; color:#991b1b; text-transform:uppercase;">Priority 1: Sanitation</span>
+                                <span class="kpi-badge badge-danger">Immediate Closeout</span>
+                            </div>
+                            <h4 style="margin:0 0 8px 0; color:#0f172a; font-size:14px;">Ablution Blocks Deep Cleaning & Pressure Pump</h4>
+                            <p style="margin:0; font-size:12.5px; color:#475569; line-height:1.5;">
+                                Replace malfunctioning water booster pump at camp cluster B. Implement 3-times-daily sanitization log with supervisor verification sign-off.
+                            </p>
+                            <div style="margin-top:10px; font-size:11.5px; color:#64748b;">Target Date: <b>7 Days</b> • Owner: Camp Admin</div>
+                        </div>
+                        <div style="background:#fffbeb; border:1px solid #fde68a; border-radius:8px; padding:16px;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                                <span style="font-size:11px; font-weight:700; color:#92400e; text-transform:uppercase;">Priority 2: Messing</span>
+                                <span class="kpi-badge badge-warning">Target: 85%</span>
+                            </div>
+                            <h4 style="margin:0 0 8px 0; color:#0f172a; font-size:14px;">Dining Hall Air Conditioning & Insect Curtains</h4>
+                            <p style="margin:0; font-size:12.5px; color:#475569; line-height:1.5;">
+                                Install heavy-duty air curtains at dining hall entrances to eliminate flies. Service commercial refrigeration units to maintain &lt; 4&deg;C food storage.
+                            </p>
+                            <div style="margin-top:10px; font-size:11.5px; color:#64748b;">Target Date: <b>14 Days</b> • Owner: Catering Contractor</div>
+                        </div>
+                        <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:16px;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                                <span style="font-size:11px; font-weight:700; color:#166534; text-transform:uppercase;">Priority 3: Living Camp</span>
+                                <span class="kpi-badge badge-success">Target: &ge; 90%</span>
+                            </div>
+                            <h4 style="margin:0 0 8px 0; color:#0f172a; font-size:14px;">Subcontractor Camp De-densification Audits</h4>
+                            <p style="margin:0; font-size:12.5px; color:#475569; line-height:1.5;">
+                                Enforce maximum 4 beds per accommodation room standard across all 2nd-tier subcontractors. Issue Non-Conformance Notices for non-compliant dormitories.
+                            </p>
+                            <div style="margin-top:10px; font-size:11.5px; color:#64748b;">Target Date: <b>Ongoing</b> • Owner: HSE Field Inspection Team</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -2968,7 +3286,28 @@ def generate():
     </main>
 
     <script>
-                function switchTrainSubTab(tabName) {{
+                function switchWelfareSubTab(tabName) {{
+            var tabs = ['pillars', 'heat', 'capa'];
+            tabs.forEach(function(t) {{
+                var el = document.getElementById('welfare-subtab-' + t);
+                var btn = document.getElementById('welfare-btn-' + t);
+                if (t === tabName) {{
+                    if (el) el.style.display = 'block';
+                    if (btn) btn.classList.add('active');
+                }} else {{
+                    if (el) el.style.display = 'none';
+                    if (btn) btn.classList.remove('active');
+                }}
+            }});
+            setTimeout(function() {{
+                document.querySelectorAll('#welfare-subtab-' + tabName + ' .js-plotly-plot').forEach(function(plot) {{
+                    Plotly.relayout(plot, {{ autosize: true }});
+                    Plotly.Plots.resize(plot);
+                }});
+            }}, 50);
+        }}
+
+        function switchTrainSubTab(tabName) {{
             var tabs = ['att', 'gap', 'plan'];
             tabs.forEach(function(t) {{
                 var el = document.getElementById('train-subtab-' + t);

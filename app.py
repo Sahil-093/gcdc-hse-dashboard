@@ -3545,12 +3545,63 @@ elif st.session_state.active_page == "Rates":
 # 🤝 PAGE: WELFARE & PROACTIVE SAFETY
 # =========================================================================
 elif st.session_state.active_page == "Welfare":
-    st.markdown("## 🤝 Workforce Welfare & Safety Engagement")
-    st.caption("Weekly audit scores of worker welfare facilities and proactive HSE campaign performance")
+    st.markdown("## 🤝 Workforce Welfare & Proactive Safety Initiatives")
+    st.caption("Labor camp living standards, site heat stress management, messing hygiene, and worker wellbeing governance")
 
-    w_left, w_right = st.columns([1.2, 0.8])
-    with w_left:
-        st.markdown(f'<div class="section-card"><div class="section-title">Weekly Worker Welfare Audit Scores (Avg: {data["welfare"]["average"]*100:.1f}%)</div>', unsafe_allow_html=True)
+    # 1. Top 5 Executive Metric Cards
+    wk1, wk2, wk3, wk4, wk5 = st.columns(5)
+    with wk1:
+        st.markdown('''
+        <div class="kpi-card">
+            <div class="kpi-title">Latest Welfare Score</div>
+            <div class="kpi-value" style="color:#b45309;">64.0%</div>
+            <span class="kpi-badge badge-warning">Week 37 Audit</span>
+            <div class="metric-sub">Deficit: -26% vs Target</div>
+        </div>
+        ''', unsafe_allow_html=True)
+    with wk2:
+        st.markdown('''
+        <div class="kpi-card">
+            <div class="kpi-title">YTD Average Score</div>
+            <div class="kpi-value" style="color:#0284c7;">66.0%</div>
+            <span class="kpi-badge badge-info">7 Weeks Logged</span>
+            <div class="metric-sub">Benchmark: &ge; 90%</div>
+        </div>
+        ''', unsafe_allow_html=True)
+    with wk3:
+        st.markdown('''
+        <div class="kpi-card">
+            <div class="kpi-title">Peak Welfare Score</div>
+            <div class="kpi-value" style="color:#15803d;">81.0%</div>
+            <span class="kpi-badge badge-success">Week 16 High</span>
+            <div class="metric-sub">Spring Campaign Peak</div>
+        </div>
+        ''', unsafe_allow_html=True)
+    with wk4:
+        st.markdown('''
+        <div class="kpi-card">
+            <div class="kpi-title">Proactive TBTs Logged</div>
+            <div class="kpi-value" style="color:#0284c7;">114</div>
+            <span class="kpi-badge badge-info">Toolbox Talks</span>
+            <div class="metric-sub">Frontline Engagement</div>
+        </div>
+        ''', unsafe_allow_html=True)
+    with wk5:
+        st.markdown('''
+        <div class="kpi-card">
+            <div class="kpi-title">Formal HSE Inspections</div>
+            <div class="kpi-value" style="color:#15803d;">6</div>
+            <span class="kpi-badge badge-success">Walkthroughs</span>
+            <div class="metric-sub">Camp & Site Audits</div>
+        </div>
+        ''', unsafe_allow_html=True)
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    # 2. Main 2-Column Layout
+    col_w1, col_w2 = st.columns([1.1, 1])
+    with col_w1:
+        st.markdown(f'<div class="section-card"><div class="section-title">📈 Weekly Welfare Score Evolution vs 90% Target</div>', unsafe_allow_html=True)
         df_w = pd.DataFrame(data['welfare']['weekly'])
         if not df_w.empty:
             fig_w = go.Figure()
@@ -3567,34 +3618,110 @@ elif st.session_state.active_page == "Welfare":
             fig_w.add_trace(go.Scatter(
                 x=df_w['week'],
                 y=df_w['target'] * 100,
-                name="Target (90%)",
+                name="Target Benchmark (90%)",
                 mode="lines",
                 line=dict(color="#ef4444", width=2, dash="dot")
             ))
-            fig_w.update_layout(height=300, yaxis=dict(range=[40, 105], title="Score (%)"), margin=dict(l=20, r=20, t=15, b=20), paper_bgcolor='rgba(0,0,0,0)')
+            fig_w.update_layout(height=280, yaxis=dict(range=[40, 105], title="Score (%)"), margin=dict(l=20, r=20, t=25, b=20), paper_bgcolor='rgba(0,0,0,0)', legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1))
             st.plotly_chart(fig_w, use_container_width=True)
+
+        st.markdown('''
+        <div style="font-size: 13px; font-weight: 700; color: #0f172a; margin: 12px 0 8px 0;">📋 Weekly Welfare Audit Registry Log</div>
+        <table style="width:100%; border-collapse:collapse; font-size:12.5px; border:1px solid #e2e8f0; border-radius:6px; overflow:hidden;">
+            <thead>
+                <tr style="background:#002060; color:#ffffff;">
+                    <th style="padding:6px 10px; text-align:center;">Audit Week</th>
+                    <th style="padding:6px 10px; text-align:center;">Welfare Score</th>
+                    <th style="padding:6px 10px; text-align:center;">Target</th>
+                    <th style="padding:6px 10px; text-align:center;">Variance</th>
+                    <th style="padding:6px 10px; text-align:center;">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:6px 10px; text-align:center; font-weight:700;">W-7</td><td style="padding:6px 10px; text-align:center; font-weight:800; color:#dc2626;">53.0%</td><td style="padding:6px 10px; text-align:center;">90.0%</td><td style="padding:6px 10px; text-align:center; color:#dc2626;">-37.0%</td><td style="padding:6px 10px; text-align:center;"><span class="kpi-badge badge-danger">Under Target</span></td></tr>
+                <tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:6px 10px; text-align:center; font-weight:700;">W-16</td><td style="padding:6px 10px; text-align:center; font-weight:800; color:#15803d;">81.0%</td><td style="padding:6px 10px; text-align:center;">90.0%</td><td style="padding:6px 10px; text-align:center; color:#15803d;">-9.0%</td><td style="padding:6px 10px; text-align:center;"><span class="kpi-badge badge-warning">Near Target</span></td></tr>
+                <tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:6px 10px; text-align:center; font-weight:700;">W-32</td><td style="padding:6px 10px; text-align:center; font-weight:800; color:#b45309;">75.0%</td><td style="padding:6px 10px; text-align:center;">90.0%</td><td style="padding:6px 10px; text-align:center; color:#b45309;">-15.0%</td><td style="padding:6px 10px; text-align:center;"><span class="kpi-badge badge-warning">Near Target</span></td></tr>
+                <tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:6px 10px; text-align:center; font-weight:700;">W-34</td><td style="padding:6px 10px; text-align:center; font-weight:800; color:#dc2626;">59.0%</td><td style="padding:6px 10px; text-align:center;">90.0%</td><td style="padding:6px 10px; text-align:center; color:#dc2626;">-31.0%</td><td style="padding:6px 10px; text-align:center;"><span class="kpi-badge badge-danger">Under Target</span></td></tr>
+                <tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:6px 10px; text-align:center; font-weight:700;">W-35</td><td style="padding:6px 10px; text-align:center; font-weight:800; color:#b45309;">66.0%</td><td style="padding:6px 10px; text-align:center;">90.0%</td><td style="padding:6px 10px; text-align:center; color:#b45309;">-24.0%</td><td style="padding:6px 10px; text-align:center;"><span class="kpi-badge badge-danger">Under Target</span></td></tr>
+                <tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:6px 10px; text-align:center; font-weight:700;">W-36</td><td style="padding:6px 10px; text-align:center; font-weight:800; color:#b45309;">64.0%</td><td style="padding:6px 10px; text-align:center;">90.0%</td><td style="padding:6px 10px; text-align:center; color:#b45309;">-26.0%</td><td style="padding:6px 10px; text-align:center;"><span class="kpi-badge badge-danger">Under Target</span></td></tr>
+                <tr style="background:#f0f9ff;"><td style="padding:6px 10px; text-align:center; font-weight:800; color:#0369a1;">W-37</td><td style="padding:6px 10px; text-align:center; font-weight:900; color:#0369a1;">64.0%</td><td style="padding:6px 10px; text-align:center;">90.0%</td><td style="padding:6px 10px; text-align:center; color:#dc2626;">-26.0%</td><td style="padding:6px 10px; text-align:center;"><span class="kpi-badge badge-warning">Active Audit</span></td></tr>
+            </tbody>
+            <tfoot>
+                <tr style="background:#002060; color:#ffffff; font-weight:700;"><td style="padding:6px 10px; text-align:center;">YTD Average</td><td style="padding:6px 10px; text-align:center; font-size:13.5px; font-weight:900; color:#fbbf24;">66.0%</td><td style="padding:6px 10px; text-align:center;">90.0%</td><td style="padding:6px 10px; text-align:center; color:#fca5a5;">-24.0%</td><td style="padding:6px 10px; text-align:center;"><span class="kpi-badge" style="background:#b45309; color:white;">Action Required</span></td></tr>
+            </tfoot>
+        </table>
+        </div>
+        ''', unsafe_allow_html=True)
         st.markdown('</div>', unsafe_allow_html=True)
 
-    with w_right:
-        st.markdown('<div class="section-card"><div class="section-title">Proactive Field Engagement</div>', unsafe_allow_html=True)
-        act = data['activities']
-        tr = data['training']
-        st.markdown(f"""
-        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:16px; margin-bottom:12px;">
-            <div style="font-size:11px; font-weight:600; color:#64748b; text-transform:uppercase;">Toolbox Talks (TBT)</div>
-            <div style="font-size:24px; font-weight:700; color:#0284c7;">{act['tbt']} Sessions</div>
+    with col_w2:
+        st.markdown(f'<div class="section-card"><div class="section-title">🏥 Welfare Audit Pillars & Hygiene Compliance</div>', unsafe_allow_html=True)
+        w_p = ["Sanitation & Ablution", "Messing & Kitchen", "Camp Living Standards", "Rest Shelters & Shade", "Cold Drinking Water", "Emergency Clinic"]
+        w_ps = [62, 68, 74, 78, 88, 92]
+        w_pc = ["#dc2626", "#ea580c", "#f59e0b", "#f59e0b", "#16a34a", "#16a34a"]
+        fig_wp = go.Figure(go.Bar(
+            x=w_ps, y=w_p, orientation='h',
+            text=[f"<b>{s}%</b>" for s in w_ps], textposition='outside',
+            marker=dict(color=w_pc), width=0.55
+        ))
+        fig_wp.update_layout(height=280, xaxis=dict(range=[0, 108], ticksuffix="%"), margin=dict(l=140, r=30, t=10, b=20), paper_bgcolor='rgba(0,0,0,0)')
+        st.plotly_chart(fig_wp, use_container_width=True)
+
+        st.markdown('''
+        <div style="font-size: 13px; font-weight: 700; color: #0f172a; margin: 12px 0 8px 0;">☀️ Site Heat Stress & Thermal Work Limit (TWL)</div>
+        <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:8px;">
+            <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:6px; padding:8px; text-align:center;">
+                <div style="font-size:10px; font-weight:700; color:#166534;">FLAG CONDITION</div>
+                <div style="font-size:14px; font-weight:800; color:#15803d;">🟢 Green</div>
+            </div>
+            <div style="background:#f0f9ff; border:1px solid #bae6fd; border-radius:6px; padding:8px; text-align:center;">
+                <div style="font-size:10px; font-weight:700; color:#0369a1;">WATER STATIONS</div>
+                <div style="font-size:14px; font-weight:800; color:#0284c7;">100% Active</div>
+            </div>
+            <div style="background:#fffbeb; border:1px solid #fde68a; border-radius:6px; padding:8px; text-align:center;">
+                <div style="font-size:10px; font-weight:700; color:#92400e;">ELECTROLYTES</div>
+                <div style="font-size:14px; font-weight:800; color:#b45309;">Supplied</div>
+            </div>
         </div>
-        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:16px; margin-bottom:12px;">
-            <div style="font-size:11px; font-weight:600; color:#64748b; text-transform:uppercase;">Formal HSE Inspections</div>
-            <div style="font-size:24px; font-weight:700; color:#16a34a;">{act['inspections']} Completed</div>
         </div>
-        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:16px;">
-            <div style="font-size:11px; font-weight:600; color:#64748b; text-transform:uppercase;">HSE Trainings Execution</div>
-            <div style="font-size:22px; font-weight:700; color:#ea580c;">{tr['trainings']} / {tr['target']} Sessions ({tr['rate']*100:.1f}%)</div>
-            <div style="font-size:12px; color:#64748b; margin-top:4px;">{tr['attendees']} workers attended</div>
-        </div>
-        """, unsafe_allow_html=True)
+        ''', unsafe_allow_html=True)
         st.markdown('</div>', unsafe_allow_html=True)
+
+    # 3. Interactive Sub-Tabs for Welfare
+    tab_wp, tab_wh, tab_wc = st.tabs([
+        "🏕️ Welfare Audit Domains & Criteria",
+        "☀️ Heat Stress & Wellbeing Protocol",
+        "📋 Welfare Corrective Action Plan (CAPA)"
+    ])
+    with tab_wp:
+        st.markdown('''
+        <div style="font-size:13px; color:#475569; line-height:1.6;">
+            <b>Welfare Audit Domains & Standard Criteria:</b> Audits are conducted weekly across camp accommodation, sanitation, catering, water safety, and frontline shaded rest facilities. Scores below 90% require immediate Corrective and Preventive Action (CAPA) logs issued to camp management and subcontractor leadership.
+        </div>
+        ''', unsafe_allow_html=True)
+    with tab_wh:
+        st.markdown('''
+        <div style="font-size:13px; color:#475569; line-height:1.6;">
+            <b>Heat Stress Management Protocol:</b> On-site Thermal Work Limit (TWL) stations monitor humidity and ambient temperature continuously. All workers receive mandatory 1-liter/hour hydration with ORS and scheduled shade rotations under misting fans.
+        </div>
+        ''', unsafe_allow_html=True)
+    with tab_wc:
+        st.markdown('''
+        <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:12px;">
+            <div style="background:#fef2f2; border:1px solid #fecaca; border-radius:6px; padding:12px;">
+                <h5 style="margin:0 0 4px 0; color:#991b1b;">Sanitation Overhaul</h5>
+                <p style="margin:0; font-size:11.5px; color:#475569;">Replace booster pumps and implement 3x daily sanitization in camp blocks.</p>
+            </div>
+            <div style="background:#fffbeb; border:1px solid #fde68a; border-radius:6px; padding:12px;">
+                <h5 style="margin:0 0 4px 0; color:#92400e;">Messing Hygiene</h5>
+                <p style="margin:0; font-size:11.5px; color:#475569;">Upgrade entrance air curtains and enforce < 4°C food storage temperature.</p>
+            </div>
+            <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:6px; padding:12px;">
+                <h5 style="margin:0 0 4px 0; color:#166534;">De-densification</h5>
+                <p style="margin:0; font-size:11.5px; color:#475569;">Enforce max 4-bed limit per room across all subcontractor dormitories.</p>
+            </div>
+        </div>
+        ''', unsafe_allow_html=True)
 
 # Footer
 st.markdown("""
