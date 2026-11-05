@@ -1489,21 +1489,21 @@ elif st.session_state.active_page == "Observations":
         """, unsafe_allow_html=True)
 
     with col_obs_c:
-        st.markdown('<div class="section-title">🍩 Site Observations Resolution Distribution (Donut Chart)</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-title">📊 Site Observations Status Counts (Donut Chart)</div>', unsafe_allow_html=True)
         fig_obs_main = go.Figure(data=[go.Pie(
-            labels=['Closed Observations', 'Open / Under Action'],
+            labels=['Closed: 1,242', 'Open: 8'],
             values=[1242, 8],
             hole=0.68,
             marker=dict(colors=['#15803d', '#dc2626'], line=dict(color='#ffffff', width=2.5)),
             textinfo='none',
-            hoverinfo='label+value+percent',
-            hovertemplate="<b>%{label}</b><br>Count: <b>%{value:,}</b><br>Proportion: <b>%{percent}</b><extra></extra>",
+            hoverinfo='label+value',
+            hovertemplate="<b>%{label}</b><br>Exact Count: <b>%{value:,} Observations</b><extra></extra>",
             sort=False
         )])
         fig_obs_main.update_layout(
             annotations=[
                 dict(
-                    text='<span style="font-size:26px; font-weight:900; color:#15803d;">99.4%</span><br><span style="font-size:11.5px; font-weight:700; color:#64748b;">CLOSED</span><br><span style="font-size:10px; color:#94a3b8;">1,242 / 1,250</span>',
+                    text='<span style="font-size:28px; font-weight:900; color:#002060;">1,250</span><br><span style="font-size:11px; font-weight:800; color:#64748b; letter-spacing:0.5px;">TOTAL LOGS</span><br><span style="font-size:11px; font-weight:700; color:#15803d;">1,242 Closed</span> &bull; <span style="font-size:11px; font-weight:700; color:#dc2626;">8 Open (OD)</span>',
                     x=0.5, y=0.5,
                     font_size=12,
                     showarrow=False,

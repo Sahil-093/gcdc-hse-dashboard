@@ -140,19 +140,19 @@ def generate():
 
     # --- DEDICATED MAIN PAGE CHARTS (Unique IDs & High Resolution) ---
     fig_obs_page = go.Figure(data=[go.Pie(
-        labels=['Closed Observations', 'Open / Under Action'],
+        labels=['Closed: 1,242', 'Open: 8'],
         values=[1242, 8],
         hole=0.68,
         marker=dict(colors=['#15803d', '#dc2626'], line=dict(color='#ffffff', width=2.5)),
         textinfo='none',
-        hoverinfo='label+value+percent',
-        hovertemplate="<b>%{label}</b><br>Count: <b>%{value:,}</b><br>Proportion: <b>%{percent}</b><extra></extra>",
+        hoverinfo='label+value',
+        hovertemplate="<b>%{label}</b><br>Exact Count: <b>%{value:,} Observations</b><extra></extra>",
         sort=False
     )])
     fig_obs_page.update_layout(
         annotations=[
             dict(
-                text='<span style="font-size:26px; font-weight:900; color:#15803d;">99.4%</span><br><span style="font-size:11.5px; font-weight:700; color:#64748b;">CLOSED</span><br><span style="font-size:10px; color:#94a3b8;">1,242 / 1,250</span>',
+                text='<span style="font-size:28px; font-weight:900; color:#002060;">1,250</span><br><span style="font-size:11px; font-weight:800; color:#64748b; letter-spacing:0.5px;">TOTAL LOGS</span><br><span style="font-size:11px; font-weight:700; color:#15803d;">1,242 Closed</span> &bull; <span style="font-size:11px; font-weight:700; color:#dc2626;">8 Open (OD)</span>',
                 x=0.5, y=0.5,
                 font_size=12,
                 showarrow=False,
@@ -2010,12 +2010,12 @@ def generate():
                 </div>
 
                 <div class="section-card">
-                    <div class="section-title">🍩 Site Observations Resolution Distribution (Donut Chart)</div>
+                    <div class="section-title">📊 Site Observations Status Counts (Donut Chart)</div>
                     {obs_page_chart_html}
                     
                     <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 12px; margin-top: 14px;">
                         <span style="color: #166534; font-weight: 700; font-size: 13px;">🏆 Outstanding Proactive Safety:</span>
-                        <span style="color: #15803d; font-size: 12.5px;"> Exceptional field engagement with 1,242 out of 1,250 proactive observations resolved, achieving a stellar 99% closure velocity.</span>
+                        <span style="color: #15803d; font-size: 12.5px;"> Total Logs: <b>1,250</b> | Closed: <b>1,242</b> | Open: <b>8</b> | Overdue: <b>8</b> (100% Excel Registry Counts).</span>
                     </div>
                 </div>
             </div>
