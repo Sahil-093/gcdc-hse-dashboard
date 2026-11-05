@@ -1405,15 +1405,95 @@ def generate():
         }}
 
         @media print {{
-            #sidebar, #mobile-topbar, .header-actions, .filter-bar, .sub-info-badge {{
+            @page {{
+                size: auto;
+                margin: 10mm 12mm 10mm 12mm;
+            }}
+            body {{
+                background: #ffffff !important;
+                color: #0f172a !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }}
+            #sidebar, #mobile-topbar, #sidebar-overlay, .header-actions, .filter-bar, .sub-info-badge, .kpi-tap-hint, .action-btn, #mobile-nav-select, .tab-header-bar {{
                 display: none !important;
             }}
             #main-area {{
-                max-width: 100% !important;
+                margin: 0 !important;
                 padding: 0 !important;
+                max-width: 100% !important;
+                width: 100% !important;
             }}
+            .app-header {{
+                padding: 10px 14px !important;
+                margin-bottom: 14px !important;
+                background: #0f1e36 !important;
+                color: #ffffff !important;
+                border-radius: 6px !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }}
+            .app-header h1 {{
+                font-size: 18px !important;
+                color: #ffffff !important;
+            }}
+            .app-header p {{
+                font-size: 11px !important;
+                color: #94a3b8 !important;
+            }}
+
+            /* CRITICAL: ONLY PRINT THE SINGLE ACTIVE PAGE (NO 18 BLANK PAGES) */
             .page-view {{
+                display: none !important;
+            }}
+            .page-view.active {{
                 display: block !important;
+            }}
+
+            .section-card {{
+                box-shadow: none !important;
+                border: 1px solid #cbd5e1 !important;
+                break-inside: avoid;
+                page-break-inside: avoid;
+                margin-bottom: 14px !important;
+                padding: 14px !important;
+                background: #ffffff !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }}
+            .kpi-card {{
+                break-inside: avoid;
+                page-break-inside: avoid;
+                box-shadow: none !important;
+                border: 1px solid #cbd5e1 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }}
+            .table-responsive {{
+                overflow: visible !important;
+            }}
+            table {{
+                width: 100% !important;
+                page-break-inside: auto;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }}
+            tr {{
+                page-break-inside: avoid;
+                page-break-after: auto;
+            }}
+            .js-plotly-plot, .plotly {{
+                max-width: 100% !important;
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }}
+            .app-footer {{
+                margin-top: 15px !important;
+                padding-top: 10px !important;
+                border-top: 1px solid #e2e8f0 !important;
+                page-break-inside: avoid;
             }}
         }}
     </style>
@@ -1493,7 +1573,7 @@ def generate():
             </div>
             <div class="header-actions">
                 <button class="action-btn" onclick="toggleFullScreen()" title="Toggle Fullscreen Mode">⛶ Fullscreen</button>
-                <button class="action-btn" onclick="window.print()" title="Print / Save PDF Report">🖨️ Print / PDF</button>
+                <button class="action-btn" onclick="printReport()" title="Print / Save PDF Report">🖨️ Print / PDF</button>
                 <span class="live-badge">🟢 Instant Live CDN</span>
             </div>
         </header>
@@ -3025,6 +3105,19 @@ def generate():
             if (sb) sb.classList.remove('open');
             if (ov) ov.classList.remove('active');
             document.body.style.overflow = '';
+        }}
+
+        function printReport() {{
+            var activePage = document.querySelector('.page-view.active');
+            if (activePage) {{
+                var plots = activePage.querySelectorAll('.js-plotly-plot');
+                plots.forEach(function(plot) {{
+                    Plotly.Plots.resize(plot);
+                }});
+            }}
+            setTimeout(function() {{
+                window.print();
+            }}, 150);
         }}
 
         function toggleFullScreen() {{
