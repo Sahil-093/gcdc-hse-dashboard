@@ -180,18 +180,44 @@ def generate():
     )
     obs_page_chart_html = to_chart_html(fig_obs_page, "chart_obs_page")
 
+    ncr_cats = ['Overdue', 'Open', 'Closed']
+    ncr_vals = [2, 2, 52]
+    ncr_colors = ['#dc2626', '#0284c7', '#15803d']
+
     fig_ncr_page = go.Figure(go.Bar(
-        x=['Open', 'Closed', 'Overdue'], y=[2, 52, 2],
-        text=['2', '52', '2'], textposition='outside',
-        textfont=dict(size=15, color='#0d2640', weight='bold'),
-        marker=dict(color='#0e5374', line=dict(color='#09384f', width=2)),
-        width=0.42
+        x=ncr_vals,
+        y=ncr_cats,
+        orientation='h',
+        text=[f"<b>{v:,}</b>" for v in ncr_vals],
+        textposition='outside',
+        textfont=dict(size=14, color=ncr_colors, family="Segoe UI, Inter, sans-serif"),
+        marker=dict(
+            color=ncr_colors,
+            line=dict(color='#0f172a', width=1.5)
+        ),
+        width=0.45,
+        hovertemplate="<b>%{y}</b>: %{x:,} NCRs<extra></extra>"
     ))
     fig_ncr_page.update_layout(
-        title=dict(text='<b>NCRs</b>', font=dict(size=22, color='#0d2640', family='Segoe UI, Inter, sans-serif'), x=0.5, xanchor='center'),
-        yaxis=dict(title=dict(text='Num. of NCRs', font=dict(size=12, color='#0d2640')), range=[0, 65], tickvals=[0, 15, 30, 45, 60], gridcolor='#e2e8f0'),
-        xaxis=dict(tickfont=dict(size=14, color='#0d2640', weight='bold')),
-        height=340, margin=dict(l=40, r=20, t=45, b=35), paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)'
+        title=dict(
+            text="<b>NCRs Count by Status</b>",
+            font=dict(size=18, color="#0d233a", family="Segoe UI, Inter, sans-serif"),
+            x=0.5,
+            xanchor="center"
+        ),
+        height=340,
+        xaxis=dict(
+            range=[0, 62],
+            title="Number of NCRs",
+            gridcolor="#f1f5f9",
+            zerolinecolor="#cbd5e1"
+        ),
+        yaxis=dict(
+            tickfont=dict(size=13, color="#0f172a", weight="bold")
+        ),
+        margin=dict(l=80, r=40, t=45, b=35),
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)'
     )
     ncr_page_chart_html = to_chart_html(fig_ncr_page, "chart_ncr_page")
 
@@ -2201,12 +2227,69 @@ def generate():
                 </div>
 
                 <div class="section-card">
-                    <div class="section-title">📊 Excel NCRs Visual Trajectory</div>
+                    <div class="section-title">📊 NCRs Status Breakdown (Horizontal Bar Chart)</div>
                     {ncr_page_chart_html}
                     
                     <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 12px; margin-top: 14px;">
-                        <span style="color: #166534; font-weight: 700; font-size: 13px;">🏆 High Quality Resolution:</span>
-                        <span style="color: #15803d; font-size: 12.5px;"> Exceptional closure velocity with 52 out of 54 NCRs formally resolved, demonstrating rigorous compliance.</span>
+                        <span style="color: #166534; font-weight: 700; font-size: 13px;">🏆 Quality & Safety Compliance:</span>
+                        <span style="color: #15803d; font-size: 12.5px;"> Total Issued: <b>54</b> | Closed: <b>52</b> | Open: <b>2</b> | Overdue: <b>2</b> (100% Excel Registry Counts).</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EXECUTIVE 3-PILLAR STATUS CARDS WIDGET (NCRS) -->
+            <div class="section-card" style="margin-top: 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
+                    <div>
+                        <div class="section-title" style="margin-bottom: 2px;">📌 Executive Status Distribution & Resolution Tracker</div>
+                        <div style="font-size: 12.5px; color: #64748b;">Direct count breakdown from Excel NCR Register (Zero distortion representation)</div>
+                    </div>
+                    <div style="background: #002060; color: #ffffff; padding: 6px 14px; border-radius: 6px; font-weight: 700; font-size: 13px; letter-spacing: 0.3px;">
+                        Total Registered NCRs: 54
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
+                    <!-- Card 1: Closed -->
+                    <div style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 10px; padding: 18px 20px; box-shadow: 0 2px 6px rgba(22, 101, 52, 0.06); position: relative; overflow: hidden;">
+                        <div style="position: absolute; right: -10px; top: -10px; font-size: 60px; opacity: 0.12; color: #16a34a; user-select: none;">✅</div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                            <span style="font-size: 14px;">🟢</span>
+                            <span style="font-size: 12px; font-weight: 800; color: #166534; text-transform: uppercase; letter-spacing: 0.5px;">Closed NCRs</span>
+                        </div>
+                        <div style="font-size: 34px; font-weight: 900; color: #15803d; line-height: 1.1; margin: 4px 0 8px 0;">52</div>
+                        <div style="display: inline-flex; align-items: center; gap: 5px; background: #dcfce7; color: #166534; padding: 3px 9px; border-radius: 4px; font-size: 12px; font-weight: 700;">
+                            Action Resolved ✅
+                        </div>
+                        <div style="font-size: 11.5px; color: #475569; margin-top: 8px;">96.3% closure rate achieved (Target &ge; 90% satisfied)</div>
+                    </div>
+
+                    <!-- Card 2: Open -->
+                    <div style="background: #f0f9ff; border: 1.5px solid #7dd3fc; border-radius: 10px; padding: 18px 20px; box-shadow: 0 2px 6px rgba(2, 132, 199, 0.06); position: relative; overflow: hidden;">
+                        <div style="position: absolute; right: -10px; top: -10px; font-size: 60px; opacity: 0.12; color: #0284c7; user-select: none;">🔄</div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                            <span style="font-size: 14px;">🔵</span>
+                            <span style="font-size: 12px; font-weight: 800; color: #0369a1; text-transform: uppercase; letter-spacing: 0.5px;">Active Open NCRs</span>
+                        </div>
+                        <div style="font-size: 34px; font-weight: 900; color: #0284c7; line-height: 1.1; margin: 4px 0 8px 0;">2</div>
+                        <div style="display: inline-flex; align-items: center; gap: 5px; background: #e0f2fe; color: #0369a1; padding: 3px 9px; border-radius: 4px; font-size: 12px; font-weight: 700;">
+                            Field Actions in Progress 🔄
+                        </div>
+                        <div style="font-size: 11.5px; color: #475569; margin-top: 8px;">Under formal engineering and quality closeout review</div>
+                    </div>
+
+                    <!-- Card 3: Overdue -->
+                    <div style="background: #fef2f2; border: 1.5px solid #fca5a5; border-radius: 10px; padding: 18px 20px; box-shadow: 0 2px 6px rgba(220, 38, 38, 0.06); position: relative; overflow: hidden;">
+                        <div style="position: absolute; right: -10px; top: -10px; font-size: 60px; opacity: 0.12; color: #dc2626; user-select: none;">⚠️</div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                            <span style="font-size: 14px;">🔴</span>
+                            <span style="font-size: 12px; font-weight: 800; color: #991b1b; text-transform: uppercase; letter-spacing: 0.5px;">Overdue (OD) NCRs</span>
+                        </div>
+                        <div style="font-size: 34px; font-weight: 900; color: #dc2626; line-height: 1.1; margin: 4px 0 8px 0;">2</div>
+                        <div style="display: inline-flex; align-items: center; gap: 5px; background: #fee2e2; color: #991b1b; padding: 3px 9px; border-radius: 4px; font-size: 12px; font-weight: 700;">
+                            Action Required ⚠️
+                        </div>
+                        <div style="font-size: 11.5px; color: #475569; margin-top: 8px;">Low risk profile maintained (Actual OD rate: 3.7%)</div>
                     </div>
                 </div>
             </div>
