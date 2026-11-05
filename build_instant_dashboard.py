@@ -139,18 +139,38 @@ def generate():
     act_sb_chart_html = to_chart_html(fig_act_sb, "chart_act_sb")
 
     # --- DEDICATED MAIN PAGE CHARTS (Unique IDs & High Resolution) ---
-    fig_obs_page = go.Figure(go.Bar(
-        x=['Open', 'Closed', 'Overdue'], y=[8, 1242, 8],
-        text=['8', '1242', '8'], textposition='outside',
-        textfont=dict(size=15, color='#0d2640', weight='bold'),
-        marker=dict(color='#0e5374', line=dict(color='#09384f', width=2)),
-        width=0.42
-    ))
+    fig_obs_page = go.Figure(data=[go.Pie(
+        labels=['Closed Observations', 'Open / Under Action'],
+        values=[1242, 8],
+        hole=0.68,
+        marker=dict(colors=['#15803d', '#dc2626'], line=dict(color='#ffffff', width=2.5)),
+        textinfo='none',
+        hoverinfo='label+value+percent',
+        hovertemplate="<b>%{label}</b><br>Count: <b>%{value:,}</b><br>Proportion: <b>%{percent}</b><extra></extra>",
+        sort=False
+    )])
     fig_obs_page.update_layout(
-        title=dict(text='<b>Site Observations</b>', font=dict(size=22, color='#0d2640', family='Segoe UI, Inter, sans-serif'), x=0.5, xanchor='center'),
-        yaxis=dict(range=[0, 1500], tickvals=[0, 200, 400, 600, 800, 1000, 1200, 1400], gridcolor='#e2e8f0', zerolinecolor='#cbd5e1'),
-        xaxis=dict(tickfont=dict(size=14, color='#0d2640', weight='bold')),
-        height=340, margin=dict(l=40, r=20, t=45, b=35), paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)'
+        annotations=[
+            dict(
+                text='<span style="font-size:26px; font-weight:900; color:#15803d;">99.4%</span><br><span style="font-size:11.5px; font-weight:700; color:#64748b;">CLOSED</span><br><span style="font-size:10px; color:#94a3b8;">1,242 / 1,250</span>',
+                x=0.5, y=0.5,
+                font_size=12,
+                showarrow=False,
+                align='center'
+            )
+        ],
+        height=340,
+        margin=dict(l=20, r=20, t=25, b=25),
+        legend=dict(
+            orientation='h',
+            yanchor='bottom',
+            y=-0.08,
+            xanchor='center',
+            x=0.5,
+            font=dict(size=12, color='#0f172a')
+        ),
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)'
     )
     obs_page_chart_html = to_chart_html(fig_obs_page, "chart_obs_page")
 
@@ -1990,7 +2010,7 @@ def generate():
                 </div>
 
                 <div class="section-card">
-                    <div class="section-title">📊 Excel Site Observations Visual Distribution (Image 3)</div>
+                    <div class="section-title">🍩 Site Observations Resolution Distribution (Donut Chart)</div>
                     {obs_page_chart_html}
                     
                     <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 12px; margin-top: 14px;">
