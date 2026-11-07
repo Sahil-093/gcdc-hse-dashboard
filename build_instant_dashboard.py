@@ -97,43 +97,102 @@ def generate():
         return svg
 
     # --- SIDEBAR CHARTS ---
+    # Extract dynamic metrics from parsed dataset
+    inc = data["incidents"]
+    safe_mh = data["safe_man_hours"]
+    manp = data["manpower"]
+    rates = data["rates"]
+    comp = data["compliance"]
+    obs = data["site_obs_metrics"]
+    ncr = data["ncr_metrics"]
+    staff = data["staffing"]
+    act = data["hse_activities"]
+    train = data["training"]
+
+    # Dynamic formatted display strings for HTML templates
+    d_obs_closed = f"{obs['closed']:,}"
+    d_obs_open = f"{obs['open']:,}"
+    d_obs_overdue = f"{obs['overdue']:,}"
+    d_obs_total = f"{obs['total']:,}"
+    d_obs_rate = f"{obs['closure_rate'] * 100:.1f}%"
+    d_obs_od_rate = f"{obs['od_rate'] * 100:.1f}%"
+    d_obs_otc_rate = f"{obs['otc_rate'] * 100:.1f}%"
+    d_obs_total_od = f"{obs['total_od']:,}"
+    d_obs_otc = f"{obs['closed_on_time']:,}"
+
+    d_ncr_closed = f"{ncr['closed']:,}"
+    d_ncr_open = f"{ncr['open']:,}"
+    d_ncr_overdue = f"{ncr['overdue']:,}"
+    d_ncr_total = f"{ncr['total']:,}"
+    d_ncr_rate = f"{ncr['closure_rate'] * 100:.1f}%"
+    d_ncr_od_rate = f"{ncr['od_rate'] * 100:.1f}%"
+    d_ncr_otc_rate = f"{ncr['otc_rate'] * 100:.1f}%"
+    d_ncr_total_od = f"{ncr['total_od']:,}"
+    d_ncr_otc = f"{ncr['closed_on_time']:,}"
+
+    d_act_tbt = f"{act['tbt']:,}"
+    d_act_inspections = f"{act['inspections']:,}"
+    d_act_campaigns = f"{act['campaigns']:,}"
+    d_act_total = f"{act['total']:,}"
+
+    d_staff_act = f"{int(staff['actual'])}"
+    d_staff_req = f"{int(round(staff['required']))}"
+    d_staff_gap = f"{int(round(staff['gap']))}"
+    d_staff_rate = f"{staff['compliance_rate'] * 100:.1f}%"
+
+    # Status info for header
+    status_file = os.path.join(os.path.dirname(__file__), "sync_status.json")
+    sync_time_str = "Auto-Synced"
+    sync_filename = "HSE Dashboard.xlsx"
+    if os.path.exists(status_file):
+        try:
+            with open(status_file, "r", encoding="utf-8") as f_st:
+                st_data = json.load(f_st)
+                sync_time_str = st_data.get("synced_at", "Auto-Synced")
+                sync_filename = st_data.get("filename", "HSE Dashboard.xlsx")
+        except Exception:
+            pass
+
     fig_obs_sb = go.Figure(go.Bar(
-        x=['Open', 'Closed', 'Overdue'], y=[8, 1242, 8],
-        text=['8', '1242', '8'], textposition='outside',
+        x=['Open', 'Closed', 'Overdue'], y=[obs['open'], obs['closed'], obs['overdue']],
+        text=[str(obs['open']), str(obs['closed']), str(obs['overdue'])], textposition='outside',
         textfont=dict(size=12, color='#0d2640', weight='bold'),
         marker=dict(color='#0e5374', line=dict(color='#09384f', width=1.5)), width=0.45
     ))
+    obs_max_y = max(1500, int(obs['total'] * 1.15))
     fig_obs_sb.update_layout(
         title=dict(text='<b>Site Observations</b>', font=dict(size=16, color='#0d2640'), x=0.5, xanchor='center'),
-        yaxis=dict(range=[0, 1500], tickvals=[0, 300, 600, 900, 1200, 1500], gridcolor='#e2e8f0'),
+        yaxis=dict(range=[0, obs_max_y], gridcolor='#e2e8f0'),
         xaxis=dict(tickfont=dict(size=11, color='#0d2640', weight='bold')),
         height=220, margin=dict(l=35, r=15, t=35, b=25), paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)'
     )
     obs_sb_chart_html = to_chart_html(fig_obs_sb, "chart_obs_sb")
 
     fig_ncr_sb = go.Figure(go.Bar(
-        x=['Open', 'Closed', 'Overdue'], y=[2, 52, 2],
-        text=['2', '52', '2'], textposition='outside',
+        x=['Open', 'Closed', 'Overdue'], y=[ncr['open'], ncr['closed'], ncr['overdue']],
+        text=[str(ncr['open']), str(ncr['closed']), str(ncr['overdue'])], textposition='outside',
         textfont=dict(size=12, color='#0d2640', weight='bold'),
         marker=dict(color='#0e5374', line=dict(color='#09384f', width=1.5)), width=0.45
     ))
+    ncr_max_y = max(65, int(ncr['total'] * 1.2))
     fig_ncr_sb.update_layout(
         title=dict(text='<b>NCRs</b>', font=dict(size=16, color='#0d2640'), x=0.5, xanchor='center'),
-        yaxis=dict(title=dict(text='Num. of NCRs', font=dict(size=10, color='#0d2640')), range=[0, 65], tickvals=[0, 15, 30, 45, 60], gridcolor='#e2e8f0'),
+        yaxis=dict(title=dict(text='Num. of NCRs', font=dict(size=10, color='#0d2640')), range=[0, ncr_max_y], gridcolor='#e2e8f0'),
         xaxis=dict(tickfont=dict(size=11, color='#0d2640', weight='bold')),
         height=220, margin=dict(l=35, r=15, t=35, b=25), paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)'
     )
     ncr_sb_chart_html = to_chart_html(fig_ncr_sb, "chart_ncr_sb")
 
     fig_act_sb = go.Figure(go.Bar(
-        x=['TBT', 'inspections', 'Campaigns'], y=[114, 6, 1],
-        text=['114', '6', '1'], textposition='outside',
+        x=['TBT', 'inspections', 'Campaigns'], y=[act['tbt'], act['inspections'], act['campaigns']],
+        text=[str(act['tbt']), str(act['inspections']), str(act['campaigns'])], textposition='outside',
         textfont=dict(size=12, color='#0d2640', weight='bold'),
         marker=dict(color='#0e5374', line=dict(color='#09384f', width=1.5)), width=0.45
     ))
+    act_max_y = max(130, int(act['total'] * 1.15))
     fig_act_sb.update_layout(
         title=dict(text='<b>HSE Activities</b>', font=dict(size=16, color='#0d2640'), x=0.5, xanchor='center'),
-        yaxis=dict(range=[0, 130], tickvals=[0, 30, 60, 90, 120], gridcolor='#e2e8f0'),
+        yaxis=dict(range=[0, act_max_y], gridcolor='#e2e8f0'),
         xaxis=dict(tickfont=dict(size=11, color='#0d2640', weight='bold')),
         height=220, margin=dict(l=35, r=15, t=35, b=25), paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)'
     )
@@ -141,7 +200,7 @@ def generate():
 
     # --- DEDICATED MAIN PAGE CHARTS (Unique IDs & High Resolution) ---
     obs_cats = ['Overdue', 'Open', 'Closed']
-    obs_vals = [8, 8, 1242]
+    obs_vals = [obs['overdue'], obs['open'], obs['closed']]
     obs_colors = ['#dc2626', '#0284c7', '#15803d']
 
     fig_obs_page = go.Figure(go.Bar(
@@ -182,7 +241,7 @@ def generate():
     obs_page_chart_html = to_chart_html(fig_obs_page, "chart_obs_page")
 
     ncr_cats = ['Overdue', 'Open', 'Closed']
-    ncr_vals = [2, 2, 52]
+    ncr_vals = [ncr['overdue'], ncr['open'], ncr['closed']]
     ncr_colors = ['#dc2626', '#0284c7', '#15803d']
 
     fig_ncr_page = go.Figure(go.Bar(
@@ -223,7 +282,7 @@ def generate():
     ncr_page_chart_html = to_chart_html(fig_ncr_page, "chart_ncr_page")
 
     act_cats = ['Campaigns', 'Site Inspections', 'Toolbox Talks (TBT)']
-    act_vals = [1, 6, 114]
+    act_vals = [act['campaigns'], act['inspections'], act['tbt']]
     act_colors = ['#d97706', '#15803d', '#0284c7']
 
     fig_act_page = go.Figure(go.Bar(
@@ -1732,7 +1791,7 @@ def generate():
             <div class="header-actions">
                 <button class="action-btn" onclick="toggleFullScreen()" title="Toggle Fullscreen Mode">⛶ Fullscreen</button>
                 <button class="action-btn" onclick="printReport()" title="Print / Save PDF Report">🖨️ Print / PDF</button>
-                <span class="live-badge">🟢 Instant Live CDN</span>
+                <span class="live-badge" title="Excel: {sync_filename}">🟢 Live CDN • Synced: {sync_time_str}</span>
             </div>
         </header>
 
@@ -1855,7 +1914,7 @@ def generate():
                 <div class="grid-3">
                     <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:12px;">
                         <div style="font-size:11px; color:#64748b; font-weight:700; text-transform:uppercase;">Toolbox Talks (TBT)</div>
-                        <div style="font-size:20px; font-weight:800; color:#0f172a; margin:3px 0;">114 Sessions</div>
+                        <div style="font-size:20px; font-weight:800; color:#0f172a; margin:3px 0;">{d_act_tbt} Sessions</div>
                         <div style="font-size:11px; color:#0284c7; font-weight:600;">Frontline Briefings</div>
                     </div>
                     <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:12px;">
@@ -1901,7 +1960,7 @@ def generate():
                             <span style="background:#15803d; color:white; font-weight:700; font-size:12px; padding:2px 8px; border-radius:4px;">99%</span>
                         </div>
                         <div style="font-size:12px; color:#374151; margin-bottom:10px;">
-                            <b>1,242</b> Closed &nbsp;|&nbsp; <b>8</b> Open &nbsp;|&nbsp; <b>1,250</b> Total
+                            <b>{d_obs_closed}</b> Closed &nbsp;|&nbsp; <b>8</b> Open &nbsp;|&nbsp; <b>1,250</b> Total
                         </div>
                         <div style="background:#dcfce7; border-radius:6px; height:8px; overflow:hidden;">
                             <div style="background:#15803d; width:99.4%; height:100%;"></div>
@@ -1913,7 +1972,7 @@ def generate():
                             <span style="background:#15803d; color:white; font-weight:700; font-size:12px; padding:2px 8px; border-radius:4px;">96%</span>
                         </div>
                         <div style="font-size:12px; color:#374151; margin-bottom:10px;">
-                            <b>52</b> Closed &nbsp;|&nbsp; <b>2</b> Open &nbsp;|&nbsp; <b>54</b> Total
+                            <b>{d_ncr_closed}</b> Closed &nbsp;|&nbsp; <b>2</b> Open &nbsp;|&nbsp; <b>54</b> Total
                         </div>
                         <div style="background:#dcfce7; border-radius:6px; height:8px; overflow:hidden;">
                             <div style="background:#15803d; width:96.3%; height:100%;"></div>
@@ -1949,7 +2008,7 @@ def generate():
                             <tr style="border-bottom:1px solid #f1f5f9;">
                                 <td style="padding:11px 16px; font-weight:500; color:#1e293b;">Observations</td>
                                 <td style="padding:11px 16px; text-align:right; color:#334155;">8</td>
-                                <td style="padding:11px 16px; text-align:right; color:#334155;">1,242</td>
+                                <td style="padding:11px 16px; text-align:right; color:#334155;">{d_obs_closed}</td>
                                 <td style="padding:11px 16px; text-align:right; color:#334155;">1,250</td>
                                 <td style="padding:11px 16px; color:#15803d; font-weight:600;">99%</td>
                             </tr>
@@ -1998,7 +2057,7 @@ def generate():
                 </div>
                 <div class="kpi-card">
                     <div class="kpi-title">CLOSED OBSERVATIONS</div>
-                    <div class="kpi-value" style="color:#15803d;">1,242</div>
+                    <div class="kpi-value" style="color:#15803d;">{d_obs_closed}</div>
                     <span class="kpi-badge badge-success">99% Closure Rate</span>
                     <div class="metric-sub">World-Class Resolution Rate</div>
                 </div>
@@ -2042,7 +2101,7 @@ def generate():
                                     </tr>
                                     <tr style="border-bottom: 1.5px solid #000000;">
                                         <td style="padding: 7px 10px; background-color: #8fa0b5; color: #002060; font-weight: 700; border-right: 2px solid #000000;">Closed</td>
-                                        <td style="padding: 7px 10px; background-color: #ffffff; color: #000000; font-weight: 700; text-align: center;">1242</td>
+                                        <td style="padding: 7px 10px; background-color: #ffffff; color: #000000; font-weight: 700; text-align: center;">{d_obs_closed}</td>
                                     </tr>
                                     <tr style="border-bottom: 1.5px solid #000000;">
                                         <td style="padding: 7px 10px; background-color: #8fa0b5; color: #002060; font-weight: 700; border-right: 2px solid #000000;">Overdue</td>
@@ -2107,7 +2166,7 @@ def generate():
                     
                     <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 12px; margin-top: 14px;">
                         <span style="color: #166534; font-weight: 700; font-size: 13px;">🏆 Outstanding Proactive Safety:</span>
-                        <span style="color: #15803d; font-size: 12.5px;"> Total Logs: <b>1,250</b> | Closed: <b>1,242</b> | Open: <b>8</b> | Overdue: <b>8</b> (100% Excel Registry Counts).</span>
+                        <span style="color: #15803d; font-size: 12.5px;"> Total Logs: <b>{d_obs_total}</b> | Closed: <b>{d_obs_closed}</b> | Open: <b>8</b> | Overdue: <b>8</b> (100% Excel Registry Counts).</span>
                     </div>
                 </div>
             </div>
@@ -2120,7 +2179,7 @@ def generate():
                         <div style="font-size: 12.5px; color: #64748b;">Direct count breakdown from Excel Observation Register (Zero distortion representation)</div>
                     </div>
                     <div style="background: #002060; color: #ffffff; padding: 6px 14px; border-radius: 6px; font-weight: 700; font-size: 13px; letter-spacing: 0.3px;">
-                        Total Registered Observations: 1,250
+                        Total Registered Observations: {d_obs_total}
                     </div>
                 </div>
 
@@ -2132,7 +2191,7 @@ def generate():
                             <span style="font-size: 14px;">🟢</span>
                             <span style="font-size: 12px; font-weight: 800; color: #166534; text-transform: uppercase; letter-spacing: 0.5px;">Closed Observations</span>
                         </div>
-                        <div style="font-size: 34px; font-weight: 900; color: #15803d; line-height: 1.1; margin: 4px 0 8px 0;">1,242</div>
+                        <div style="font-size: 34px; font-weight: 900; color: #15803d; line-height: 1.1; margin: 4px 0 8px 0;">{d_obs_closed}</div>
                         <div style="display: inline-flex; align-items: center; gap: 5px; background: #dcfce7; color: #166534; padding: 3px 9px; border-radius: 4px; font-size: 12px; font-weight: 700;">
                             Action Resolved ✅
                         </div>
@@ -2292,7 +2351,7 @@ def generate():
                     
                     <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 12px; margin-top: 14px;">
                         <span style="color: #166534; font-weight: 700; font-size: 13px;">🏆 Quality & Safety Compliance:</span>
-                        <span style="color: #15803d; font-size: 12.5px;"> Total Issued: <b>54</b> | Closed: <b>52</b> | Open: <b>2</b> | Overdue: <b>2</b> (100% Excel Registry Counts).</span>
+                        <span style="color: #15803d; font-size: 12.5px;"> Total Issued: <b>54</b> | Closed: <b>{d_ncr_closed}</b> | Open: <b>2</b> | Overdue: <b>2</b> (100% Excel Registry Counts).</span>
                     </div>
                 </div>
             </div>
@@ -2305,7 +2364,7 @@ def generate():
                         <div style="font-size: 12.5px; color: #64748b;">Direct count breakdown from Excel NCR Register (Zero distortion representation)</div>
                     </div>
                     <div style="background: #002060; color: #ffffff; padding: 6px 14px; border-radius: 6px; font-weight: 700; font-size: 13px; letter-spacing: 0.3px;">
-                        Total Registered NCRs: 54
+                        Total Registered NCRs: {d_ncr_total}
                     </div>
                 </div>
 
@@ -2439,7 +2498,7 @@ def generate():
                     
                     <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 12px; margin-top: 14px;">
                         <span style="color: #166534; font-weight: 700; font-size: 13px;">🏆 Proactive Field Engagement:</span>
-                        <span style="color: #15803d; font-size: 12.5px;"> Total Activities: <b>121</b> | TBTs: <b>114</b> | Inspections: <b>6</b> | Campaigns: <b>1</b> (100% Excel Registry Counts).</span>
+                        <span style="color: #15803d; font-size: 12.5px;"> Total Activities: <b>{d_act_total}</b> | TBTs: <b>114</b> | Inspections: <b>6</b> | Campaigns: <b>1</b> (100% Excel Registry Counts).</span>
                     </div>
                 </div>
             </div>
@@ -2452,7 +2511,7 @@ def generate():
                         <div style="font-size: 12.5px; color: #64748b;">Direct count breakdown from Excel HSE Activity Register (Zero distortion representation)</div>
                     </div>
                     <div style="background: #002060; color: #ffffff; padding: 6px 14px; border-radius: 6px; font-weight: 700; font-size: 13px; letter-spacing: 0.3px;">
-                        Total Executed Activities: 121
+                        Total Executed Activities: {d_act_total}
                     </div>
                 </div>
 

@@ -285,43 +285,14 @@ CSV_PATH = os.path.join(os.path.dirname(__file__), "single_sheet_data.csv")
 if not os.path.exists(CSV_PATH):
     CSV_PATH = "single_sheet_data.csv"
 
-def sync_excel_to_csv():
-    """Reads latest Excel file from D: drive and syncs to single_sheet_data.csv"""
-    if not os.path.exists(EXCEL_DIR):
-        return False, "Excel directory not found on D: drive."
-    
-    files = [f for f in glob.glob(os.path.join(EXCEL_DIR, "*.xlsx")) if not os.path.basename(f).startswith("~$")]
-    if not files:
-        return False, "No valid .xlsx files found in Excel directory."
-        
-    newest = max(files, key=os.path.getmtime)
+def sync_excel_to_csv(push_live=True):
+    """Reads latest Excel file from D: drive and syncs to single_sheet_data.csv & builds index.html"""
     try:
-        import openpyxl
-        wb = openpyxl.load_workbook(newest, data_only=True)
-        if "DASHBOARD" not in wb.sheetnames or "DATA" not in wb.sheetnames:
-            return False, f"Expected sheets 'DASHBOARD' and 'DATA' not in {os.path.basename(newest)}"
-            
-        ws_dash = wb["DASHBOARD"]
-        ws_data = wb["DATA"]
-        
-        # 33 rows of DASHBOARD + all rows of DATA
-        dash_rows = [[cell.value if cell.value is not None else "" for cell in row] for row in ws_dash.iter_rows(max_row=33, max_col=24)]
-        data_rows = [[cell.value if cell.value is not None else "" for cell in row] for row in ws_data.iter_rows(max_col=24)]
-        all_rows = dash_rows + data_rows
-        
-        target_csv = os.path.join(os.path.dirname(__file__), "single_sheet_data.csv")
-        with open(target_csv, "w", newline="", encoding="utf-8") as f:
-            writer = csv.writer(f)
-            writer.writerows(all_rows)
-            
-        # Also rebuild instant dashboard index.html
-        try:
-            import subprocess
-            subprocess.Popen([sys.executable, os.path.join(os.path.dirname(__file__), "build_instant_dashboard.py")])
-        except Exception:
-            pass
-            
-        return True, f"Synced with Excel: {os.path.basename(newest)}"
+        from sync_engine import execute_sync
+        res = execute_sync(push=push_live)
+        if res.get("success"):
+            return True, f"Synced with Excel: {res.get('filename')}"
+        return False, res.get("error", "Sync failed")
     except Exception as e:
         return False, f"Excel read error: {str(e)}"
 
@@ -649,15 +620,38 @@ with st.sidebar:
 
     st.markdown("---")
     st.markdown(f"**Current Page:** `{st.session_state.active_page}`")
-    if st.button("🔄 Refresh Data", use_container_width=True):
-        ok, msg = sync_excel_to_csv()
-        if ok:
-            st.toast(msg, icon="✅")
-            st.success(msg)
-        else:
-            st.warning(msg)
-        st.cache_data.clear()
-        st.rerun()
+    
+    # Live Excel Status & Sync Card
+    try:
+        from sync_engine import get_last_status, execute_sync
+        sync_st = get_last_status()
+        last_sync_time = sync_st.get("synced_at", "Never")
+        last_sync_file = sync_st.get("filename", "HSE Dashboard.xlsx")
+    except Exception:
+        last_sync_time = "Auto-Synced"
+        last_sync_file = "HSE Dashboard.xlsx"
+        
+    st.markdown(f"""
+    <div style="background:#f1f5f9; border:1.5px solid #cbd5e1; border-radius:8px; padding:10px; margin-bottom:8px; font-size:12px; color:#334155;">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:4px;">
+            <span style="font-weight:800; color:#0f2438;">📁 Active Excel:</span>
+            <span style="background:#dcfce7; color:#166534; padding:2px 6px; border-radius:4px; font-size:10px; font-weight:700;">🟢 Live Auto-Sync</span>
+        </div>
+        <div style="word-break:break-all; font-weight:700; color:#0369a1; font-size:11.5px;">{last_sync_file}</div>
+        <div style="color:#64748b; margin-top:4px; font-size:10.5px;">⏱️ Last Synced: {last_sync_time}</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    if st.button("🔄 Sync Excel Now (Push Live)", use_container_width=True, type="primary"):
+        with st.spinner("Syncing latest Excel & deploying live..."):
+            ok, msg = sync_excel_to_csv(push_live=True)
+            if ok:
+                st.toast(msg, icon="✅")
+                st.success(f"{msg} - Live Dashboard Updated!")
+            else:
+                st.warning(msg)
+            st.cache_data.clear()
+            st.rerun()
 
     # Dedicated Site Observations Section in Left Side Panel (Matching User's New Excel Images)
     st.markdown("---")
